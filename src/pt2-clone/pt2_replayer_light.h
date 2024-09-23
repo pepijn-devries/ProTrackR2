@@ -15,7 +15,6 @@ void initializeModuleChannels(module_t *m);
 module_t *createEmptyMod(void);
 void turnOffVoices(void);
 double ciaBpm2Hz(int32_t bpm);
-void modFree(void);
 void modFree2(module_t *my_song);
 void updatePaulaLoops(void);
 void modPlay(int16_t patt, int16_t pos, int8_t row);

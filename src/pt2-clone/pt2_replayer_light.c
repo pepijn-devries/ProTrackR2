@@ -6,16 +6,13 @@
 #endif
 
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "pt2_audio.h"
 #include "pt2_helpers.h"
 #include "pt2_tables.h"
 #include "pt2_config.h"
-// #include "pt2_visuals.h"
-// #include "pt2_scopes.h"
 #include "pt2_paula.h"
-// #include "pt2_visuals_sync.h"
-// #include "pt2_posed.h"
 
 static bool posJumpAssert, pBreakFlag, modRenderDone;
 static bool doStopSong; // from F00 (Set Speed)
@@ -106,25 +103,17 @@ module_t *createEmptyMod(void)
 
 void turnOffVoices(void)
 {
-  // const bool audioWasntLocked = !audio.locked;
-  // if (audioWasntLocked)
-  //   lockAudio();
-  
+
   paulaWriteWord(0xDFF096, 0x000F); // turn off all voice DMAs
-  // setVisualsDMACON(0x000F);
-  
+
   // clear all volumes
   for (int32_t i = 0; i < PAULA_VOICES; i++)
   {
     const uint32_t voiceAddr = 0xDFF0A0 + (i * 16);
     paulaWriteWord(voiceAddr + 8, 0);
     
-    // setVisualsVolume(i, 0);
   }
   
-  // if (audioWasntLocked)
-  //   unlockAudio();
-  // 
   editor.tuningToneFlag = false;
 }
 
@@ -137,34 +126,6 @@ double ciaBpm2Hz(int32_t bpm)
   return (double)CIA_PAL_CLK / (ciaPeriod+1); // +1, CIA triggers on underflow
 }
 
-void modFree(void)
-{
-  if (song == NULL)
-    return; // not allocated
-  
-  // const bool audioWasntLocked = !audio.locked;
-  // if (audioWasntLocked)
-  //   lockAudio();
-  
-  turnOffVoices();
-  
-  for (int32_t i = 0; i < MAX_PATTERNS; i++)
-  {
-    if (song->patterns[i] != NULL)
-      free(song->patterns[i]);
-  }
-  
-  if (song->sampleData != NULL)
-    free(song->sampleData);
-  
-  free(song);
-  song = NULL;
-  
-  // if (audioWasntLocked)
-  //   unlockAudio();
-}
-
-/* Edit PdV start */
 void modFree2(module_t *my_song)
 {
   if (my_song == NULL)
@@ -184,14 +145,10 @@ void modFree2(module_t *my_song)
   free(my_song);
 
 }
-/* Edit PdV end */
 
 void updatePaulaLoops(void) // used after manipulating sample loop points while Paula is live
 {
-  // const bool audioWasntLocked = !audio.locked;
-  // if (audioWasntLocked)
-  //   lockAudio();
-  
+
   for (int32_t i = 0; i < PAULA_VOICES; i++)
   {
     const moduleChannel_t *ch = &song->channels[i];
@@ -205,21 +162,14 @@ void updatePaulaLoops(void) // used after manipulating sample loop points while 
       paulaWritePtr(voiceAddr + 0, ch->n_start + s->loopStart);
       paulaWriteWord(voiceAddr + 4, (uint16_t)(s->loopLength >> 1));
       
-      // setVisualsDataPtr(i, ch->n_start + s->loopStart);
-      // setVisualsLength(i, (uint16_t)(s->loopLength >> 1));
     }
   }
   
-  // if (audioWasntLocked)
-  //   unlockAudio();
 }
 
 void doStopIt(bool resetPlayMode)
 {
-  // const bool audioWasntLocked = !audio.locked;
-  // if (audioWasntLocked)
-  //   lockAudio();
-  
+
   editor.songPlaying = false;
   
   pattDelTime = pattDelTime2 = 0;
@@ -229,8 +179,6 @@ void doStopIt(bool resetPlayMode)
     editor.playMode = PLAY_MODE_NORMAL;
     editor.currMode = MODE_IDLE;
     
-    // if (editor.stepPlayLastMode != MODE_IDLE)
-    //   pointerSetModeThreadSafe(POINTER_MODE_IDLE, true);
   }
   
   if (song != NULL)
@@ -247,16 +195,11 @@ void doStopIt(bool resetPlayMode)
   
   doStopSong = false; // just in case this flag was stuck from command F00 (stop song)
   
-  // if (audioWasntLocked)
-  //   unlockAudio();
 }
 
 void modPlay(int16_t patt, int16_t pos, int8_t row)
 {
-  // const bool audioWasntLocked = !audio.locked;
-  // if (audioWasntLocked)
-  //   lockAudio();
-  
+
   doStopIt(false);
   turnOffVoices();
   
@@ -311,16 +254,6 @@ void modPlay(int16_t patt, int16_t pos, int8_t row)
   audio.tickSampleCounter = 0; // zero tick sample counter so that it will instantly initiate a tick
   audio.tickSampleCounterFrac = 0;
   
-  // if (audioWasntLocked)
-  //   unlockAudio();
-  
-  // if (!editor.pat2SmpOngoing && !editor.mod2WavOngoing)
-  // {
-  //   ui.updateSongPos = true;
-  //   ui.updatePatternData = true;
-  //   ui.updateSongPattern = true;
-  //   ui.updateCurrPattText = true;
-  // }
 }
 
 void modStop(void)
@@ -338,28 +271,15 @@ void modSetTempo(int32_t bpm, bool doLockAudio)
   if (bpm < MIN_BPM || bpm > MAX_BPM)
     return;
   
-  // const bool audioWasntLocked = !audio.locked;
-  // if (doLockAudio && audioWasntLocked)
-  //   lockAudio();
-  
   modBPM = bpm;
   if (!editor.pat2SmpOngoing && !editor.mod2WavOngoing)
-  {
     song->currBPM = bpm;
-    // ui.updateSongBPM = true;
-  }
-  
+
   const int32_t i = bpm - MIN_BPM; // 32..255 -> 0..223
   
   audio.samplesPerTickInt = audio.samplesPerTickIntTab[i];
   audio.samplesPerTickFrac = audio.samplesPerTickFracTab[i];
   
-  // calculate tick time length for audio/video sync timestamp (visualizers)
-  // if (!editor.pat2SmpOngoing && !editor.mod2WavOngoing)
-  //   setSyncTickTimeLen(audio.tickTimeIntTab[i], audio.tickTimeFracTab[i]);
-  
-  // if (doLockAudio && audioWasntLocked)
-  //   unlockAudio();
 }
 
 void modSetSpeed(int32_t speed)
@@ -462,8 +382,6 @@ static void nextPosition(void)
         modPos = 0;
         modPattern = (int8_t)song->header.patternTable[modPos];
         song->row = 0;
-        
-        // updateUIPositions();
       }
       
       if (editor.mod2WavOngoing)
@@ -594,21 +512,6 @@ static void doRetrg(moduleChannel_t *ch)
   paulaWritePtr(voiceAddr + 0, ch->n_loopstart);
   paulaWriteWord(voiceAddr + 4, ch->n_replen);
   
-  // update tracker visuals
-  // setVisualsDMACON(ch->n_dmabit);
-  // setVisualsDataPtr(ch->n_chanindex, ch->n_start);
-  // setVisualsLength(ch->n_chanindex, ch->n_length);
-  // setVisualsPeriod(ch->n_chanindex, ch->n_period);
-  // setVisualsDMACON(0x8000 | ch->n_dmabit);
-  // setVisualsDataPtr(ch->n_chanindex, ch->n_loopstart);
-  // setVisualsLength(ch->n_chanindex, ch->n_replen);
-  
-  // set spectrum analyzer state for this channel
-  // ch->syncAnalyzerVolume = ch->n_volume;
-  // ch->syncAnalyzerPeriod = ch->n_period;
-  // ch->syncFlags |= UPDATE_SPECTRUM_ANALYZER;
-  
-  // setVUMeterHeight(ch);
 }
 
 static void retrigNote(moduleChannel_t *ch)
@@ -787,8 +690,6 @@ static void portaUp(moduleChannel_t *ch)
   // set voice period
   const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
   paulaWriteWord(voiceAddr + 6, ch->n_period & 0xFFF);
-  
-  // setVisualsPeriod(ch->n_chanindex, ch->n_period & 0xFFF);
 }
 
 static void portaDown(moduleChannel_t *ch)
@@ -802,8 +703,6 @@ static void portaDown(moduleChannel_t *ch)
   // set voice period
   const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
   paulaWriteWord(voiceAddr + 6, ch->n_period & 0xFFF);
-  
-  // setVisualsPeriod(ch->n_chanindex, ch->n_period & 0xFFF);
 }
 
 static void filterOnOff(moduleChannel_t *ch)
@@ -895,8 +794,6 @@ static void tonePortNoChange(moduleChannel_t *ch)
   {
     // set voice period
     paulaWriteWord(voiceAddr + 6, ch->n_period);
-    
-    // setVisualsPeriod(ch->n_chanindex, ch->n_period);
   }
   else
   {
@@ -919,7 +816,6 @@ static void tonePortNoChange(moduleChannel_t *ch)
     // set voice period
     paulaWriteWord(voiceAddr + 6, portaPointer[i]);
     
-    // setVisualsPeriod(ch->n_chanindex, portaPointer[i]);
   }
 }
 
@@ -967,8 +863,6 @@ static void vibrato2(moduleChannel_t *ch)
   // set voice period
   const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
   paulaWriteWord(voiceAddr + 6, vibratoData);
-  
-  // setVisualsPeriod(ch->n_chanindex, vibratoData);
   
   ch->n_vibratopos += (ch->n_vibratocmd >> 2) & 0x3C;
 }
@@ -1126,8 +1020,6 @@ static void checkMoreEffects(moduleChannel_t *ch)
   // set voice period
   const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
   paulaWriteWord(voiceAddr + 6, ch->n_period);
-  
-  // setVisualsPeriod(ch->n_chanindex, ch->n_period);
 }
 
 static void chkefx2(moduleChannel_t *ch)
@@ -1154,8 +1046,6 @@ static void chkefx2(moduleChannel_t *ch)
   // set voice period
   const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
   paulaWriteWord(voiceAddr + 6, ch->n_period);
-  
-  // setVisualsPeriod(ch->n_chanindex, ch->n_period);
   
   if (cmd == 0x7)
     tremolo(ch);
@@ -1203,16 +1093,11 @@ static void setDMA(void)
   moduleChannel_t *ch = song->channels;
   for (int32_t i = 0; i < PAULA_VOICES; i++, ch++)
   {
-    // if (DMACONtemp & ch->n_dmabit) // handle visuals on sample trigger
-    //   setVUMeterHeight(ch);
-    
     // set new voice data ptr and length (these take effect after the current DMA cycle is done)
     const uint32_t voiceAddr = 0xDFF0A0 + (i * 16);
     paulaWritePtr(voiceAddr + 0, ch->n_loopstart);
     paulaWriteWord(voiceAddr + 4, ch->n_replen);
     
-    // setVisualsDataPtr(i, ch->n_loopstart);
-    // setVisualsLength(i, ch->n_replen);
   }
 }
 
@@ -1284,26 +1169,6 @@ static void setPeriod(moduleChannel_t *ch)
     paulaWriteWord(voiceAddr + 6, ch->n_period);
     
     DMACONtemp |= ch->n_dmabit;
-    
-    // update tracker visuals
-    
-    // setVisualsDMACON(ch->n_dmabit);
-    // 
-    // setVisualsLength(ch->n_chanindex, ch->n_length);
-    // setVisualsDataPtr(ch->n_chanindex, ch->n_start);
-    // 
-    // if (ch->n_start == NULL)
-    //   setVisualsLength(ch->n_chanindex, 1);
-    // 
-    // setVisualsPeriod(ch->n_chanindex, ch->n_period);
-    
-    // set spectrum analyzer state for this channel
-    // if (!editor.muted[ch->n_chanindex])
-    // {
-    //   ch->syncAnalyzerVolume = ch->n_volume;
-    //   ch->syncAnalyzerPeriod = ch->n_period;
-    //   ch->syncFlags |= UPDATE_SPECTRUM_ANALYZER;
-    // }
   }
   
   checkMoreEffects(ch);
@@ -1317,12 +1182,9 @@ static void playVoice(moduleChannel_t *ch)
     const uint32_t voiceAddr = 0xDFF0A0 + (ch->n_chanindex * 16);
     paulaWriteWord(voiceAddr + 6, ch->n_period);
     
-    // setVisualsPeriod(ch->n_chanindex, ch->n_period);
   }
   
   note_t note = song->patterns[modPattern][(song->row * PAULA_VOICES) + ch->n_chanindex];
-  
-  // checkMetronome(ch, &note);
   
   ch->n_note = note.period;
   ch->n_cmd = (note.command << 8) | note.param;
@@ -1368,7 +1230,6 @@ static void playVoice(moduleChannel_t *ch)
       uint8_t cmd = (ch->n_cmd & 0x0F00) >> 8;
       if (cmd == 3 || cmd == 5)
       {
-        // setVUMeterHeight(ch);
         setTonePorta(ch);
         checkMoreEffects(ch);
       }
@@ -1442,8 +1303,7 @@ bool intMusic(void) // replayer ticker
       DMACONtemp = 0; // reset Paula DMA trigger states
       
       setCurrRowToVisited(); // for MOD2WAV
-      // updateUIPositions(); // update current song positions in UI
-      
+
       // read note data and trigger voices
       moduleChannel_t *ch = song->channels;
       for (int32_t i = 0; i < PAULA_VOICES; i++, ch++)
@@ -1454,7 +1314,6 @@ bool intMusic(void) // replayer ticker
         const uint32_t voiceAddr = 0xDFF0A0 + (i * 16);
         paulaWriteWord(voiceAddr + 8, ch->n_volume);
         
-        // setVisualsVolume(i, ch->n_volume);
       }
       
       setDMA();
@@ -1528,16 +1387,12 @@ bool intMusic(void) // replayer ticker
       editor.stepPlayEnabled = false;
       editor.stepPlayBackwards = false;
       
-      // ui.updatePatternData = true;
       return true;
     }
     
     if (song->row >= MOD_ROWS || posJumpAssert)
       nextPosition();
     
-    // for pattern block mark feature
-    // if (editor.blockMarkFlag)
-    //   ui.updateStatusText = true;
   }
   else // tick > 0 (handle effects)
   {
@@ -1558,7 +1413,6 @@ bool intMusic(void) // replayer ticker
     
     editor.playMode = PLAY_MODE_NORMAL;
     editor.currMode = MODE_IDLE;
-    // pointerSetModeThreadSafe(POINTER_MODE_IDLE, true);
   }
   
   return renderEndCheck(); // MOD2WAV/PAT2SMP listens to the return value (true = not done yet)

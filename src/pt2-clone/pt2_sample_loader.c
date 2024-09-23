@@ -1,3 +1,4 @@
+/*
 // for finding memory leaks in debug mode with Visual Studio 
 #if defined _DEBUG && defined _MSC_VER
 #include <crtdbg.h>
@@ -7,17 +8,12 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-// #include "pt2_textout.h"
 #include "pt2_sampler.h"
 #include "pt2_audio.h"
-// #include "pt2_visuals.h"
 #include "pt2_visuals_redundant.h"
 #include "pt2_helpers.h"
 #include "pt2_config.h"
-// #include "pt2_sampling.h"
 #include "pt2_downsample2x.h"
-// #include "pt2_askbox.h"
-// #include "pt2_replayer.h"
 #include "pt2_replayer_light.h"
 
 enum
@@ -33,7 +29,6 @@ bool loadRAWSample(FILE *f, uint32_t filesize, moduleSample_t *s);
 bool loadIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s);
 bool loadAIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s);
 bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s);
-//bool loadFLACSample(FILE *f, uint32_t filesize, moduleSample_t *s);
 
 static void setSampleTextFromFilename(moduleSample_t *s, char *entryName, const char *ext)
 {
@@ -55,17 +50,11 @@ static void setSampleTextFromFilename(moduleSample_t *s, char *entryName, const 
 bool loadSample(UNICHAR *fileName, char *entryName)
 {
 	if (editor.sampleZero)
-	{
-		// statusNotSampleZero();
 		return false;
-	}
 
 	FILE *f = UNICHAR_FOPEN(fileName, "rb");
 	if (f == NULL)
-	{
-		// displayErrorMsg("FILE I/O ERROR !");
 		return false;
-	}
 
 	uint32_t filesize;
 	fseek(f, 0, SEEK_END);
@@ -148,11 +137,6 @@ bool loadSample(UNICHAR *fileName, char *entryName)
 			result = loadWAVSample(f, filesize, s);
 		break;
 
-		// case SAMPLETYPE_FLAC:
-		// 	setSampleTextFromFilename(s, entryName, ".flac");
-		// 	result = loadFLACSample(f, filesize, s);
-		// break;
-
 		default: break;
 	}
 
@@ -181,15 +165,8 @@ bool loadSample(UNICHAR *fileName, char *entryName)
 		fixSampleBeep(s);
 		fillSampleRedoBuffer(editor.currSample);
 
-		// if (ui.samplingBoxShown)
-		// {
-		// 	removeSamplingBox();
-		// 	ui.samplingBoxShown = false;
-		// }
-
-		// updateCurrSample();
-		// updateWindowTitle(MOD_IS_MODIFIED);
 	}
 
 	return result;
 }
+*/
