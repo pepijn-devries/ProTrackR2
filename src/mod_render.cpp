@@ -1,4 +1,5 @@
 #include <cpp11.hpp>
+#include <vector>
 #include "get_mod.h"
 #include "pt2-clone/pt2_replayer_light.h"
 #include "pt2-clone/pt2_config.h"
@@ -39,7 +40,9 @@ SEXP render_mod_(SEXP mod, doubles render_duration) {
     }
     
     intMusic();
-    int16_t buffer[samplesToMix * 2] = {0};
+    std::vector<int16_t>buff(samplesToMix * 2);
+    int16_t * buffer = buff.data();
+    
     outputAudio(buffer, samplesToMix);
     uint32_t i;
     for (i = 0; i < samplesToMix*2; i++) {
