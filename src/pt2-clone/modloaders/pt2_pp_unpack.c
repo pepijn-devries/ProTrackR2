@@ -111,47 +111,6 @@ static bool decrunch(uint8_t *src, uint8_t *dst, uint8_t *offsetLens, uint32_t s
 	return true;
 }
 
-uint8_t *unpackPP(FILE *f, uint32_t *filesize)
-{
-	uint8_t *outBuffer, ppCrunchData[4], *ppBuffer;
-	uint32_t ppPackLen, ppUnpackLen;
-
-	ppPackLen = *filesize;
-	if ((ppPackLen & 3) != 0 || ppPackLen <= 12)
-		return NULL;
-
-	ppBuffer = (uint8_t *)malloc(ppPackLen);
-	if (ppBuffer == NULL)
-		return NULL;
-
-	fseek(f, ppPackLen-4, SEEK_SET);
-	fread(ppCrunchData, 1, 4, f);
-
-	ppUnpackLen = (ppCrunchData[0] << 16) | (ppCrunchData[1] << 8) | ppCrunchData[2];
-
-	outBuffer = (uint8_t *)malloc(ppUnpackLen);
-	if (outBuffer == NULL)
-	{
-		free(ppBuffer);
-		return NULL;
-	}
-
-	rewind(f);
-	fread(ppBuffer, 1, ppPackLen, f);
-	fclose(f);
-
-	if (!decrunch(ppBuffer+8, outBuffer, ppBuffer+4, ppPackLen-12, ppUnpackLen, ppCrunchData[3]))
-	{
-		free(ppBuffer);
-		return NULL;
-	}
-
-	free(ppBuffer);
-	*filesize = ppUnpackLen;
-
-	return outBuffer;
-}
-
 uint8_t *unpackPP2(uint8_t *data, uint32_t *data_size)
 {
 	uint8_t *outBuffer, ppCrunchData[4], *ppBuffer;

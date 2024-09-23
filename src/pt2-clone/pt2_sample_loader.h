@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-bool loadSample(UNICHAR *fileName, char *entryName);
+//bool loadSample(UNICHAR *fileName, char *entryName);
 
 #ifdef __cplusplus
 }
