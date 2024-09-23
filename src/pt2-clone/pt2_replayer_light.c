@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "pt2_audio.h"
 #include "pt2_helpers.h"
 #include "pt2_tables.h"
