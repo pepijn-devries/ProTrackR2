@@ -1,0 +1,15 @@
+#!/bin/sh
+# Find compiler
+CC=`${R_HOME}/bin/R CMD config CC`
+CFLAGS=`${R_HOME}/bin/R CMD config CFLAGS`
+CPPFLAGS=`${R_HOME}/bin/R CMD config CPPFLAGS`
+
+# Find source files
+PT_CFILES="$(cd src/ && ls pt2-clone/*.c pt2-clone/modloaders/*.c pt2-clone/smploaders/*.c | tr '\n' ' ')"
+PT_CPPFILES="$(cd src/ && ls *.cpp | tr '\n' ' ')"
+
+# Write to Makevars
+sed -e "s|@PT_CFILES@|$PT_CFILES|" -e "s|@PT_CPPFILES@|$PT_CPPFILES|" src/Makevars.in > src/Makevars
+
+# Success
+exit 0

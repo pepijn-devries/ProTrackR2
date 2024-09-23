@@ -1,0 +1,11 @@
+CFILES = @PT_CFILES@
+CPPFILES = @PT_CPPFILES@
+
+SOURCES = $(CFILES) $(CPPFILES)
+
+OBJECTS = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+
+PKG_CFLAGS = -Ipt2-clone
+PKG_CXXFLAGS = -Ipt2-clone
+
+all: $(SHLIB)

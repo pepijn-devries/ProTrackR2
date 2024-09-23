@@ -1,0 +1,10 @@
+^LICENSE\.md$
+^CODE_OF_CONDUCT\.md$
+^README\.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$
+^.*\.a$
+^.*\.o$
+^.*\.so$
+^.*\.dll$
+^data-raw$

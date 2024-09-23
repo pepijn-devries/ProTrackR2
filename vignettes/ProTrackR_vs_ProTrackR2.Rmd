@@ -1,0 +1,41 @@
+---
+title: "ProTrackR vs ProTrackR2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ProTrackR vs ProTrackR2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## ProTracker2 and its predecessor
+
+The predecessor to this package ([ProTrackR](https://pepijn-devries.github.io/ProTrackR/)) was
+entirely programmed in R. Although technically possible, it was challenging and slow with recursive algorithms.
+The new version is a complete overhaul in C/C++, based on Olav S&oslash;rensen's
+[Protracker clone](https://16-bits.org/pt2.php). With it, came some design changes which are worth mentioning
+here.
+
+## Overview of differences
+
+The table below summarises the differences between ProTrackR2 and its predecessor.
+<!-- TODO explain each of these differences in more detail -->
+
+```{r tab-dif, echo=FALSE, message=FALSE, warning=FALSE}
+library(kableExtra)
+data.frame(
+  Feature    = c("Effect commands", "Infrastructure", "File readers",
+                 "Audio output", "OpenMPT test cases"),
+  ProTrackR  = c("Limited set implemented", "R script", "Optimized for format preservation",
+                 "tuneR S4 Wave class", "Passes 6 out of 12 selected tests"),
+  ProTrackR2 = c("All PT2.3d effects implemented", "Compiled C/C++", "Optimized for PT2.3d compatibility",
+                 "audio S3 audioSample class", "Not tested yet")
+) |>
+  kbl()
+```
