@@ -40,3 +40,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://pepijn-devries.github.io/ProTrackR2/
