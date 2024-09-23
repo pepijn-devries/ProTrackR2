@@ -21,6 +21,7 @@
 #define PT2_PATH_MAX MAX_PATH
 #else
 #define DIR_DELIMITER '/'
+#define PT2_PATH_MAX PATH_MAX
 #define _stricmp strcasecmp
 #define _strnicmp strncasecmp
 #endif
