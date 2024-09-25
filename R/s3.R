@@ -25,7 +25,7 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
       fmt_efft <- getOption("pt2_effect_format")
       fmt_padd <- getOption("pt2_padding_format")
       if (is.null(fmt_note)) fmt_note <- c(cli::col_blue("%s"), cli::col_silver("%s"))
-      if (is.null(fmt_inst)) fmt_inst <- crayon::cyan("%02i")
+      if (is.null(fmt_inst)) fmt_inst <- cli::col_cyan("%02i")
       if (is.null(fmt_efft)) fmt_efft <- c(cli::col_green("%X%02X"), cli::col_silver("%X%02X"))
       if (is.null(fmt_padd)) fmt_padd <- cli::col_silver("%s")
       fmt <- list(note = fmt_note, padding = fmt_padd, instrument = fmt_inst, effect = fmt_efft)

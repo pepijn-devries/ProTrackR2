@@ -10,7 +10,9 @@
 \arguments{
 \item{x}{Object to be played.}
 
-\item{duration}{Duration in seconds to play.}
+\item{duration}{Duration of the rendered output in seconds.}
+
+\item{options}{TODO}
 
 \item{...}{Arguments passed to \code{\link[=pt2_render]{pt2_render()}}.}
 }

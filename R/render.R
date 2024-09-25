@@ -36,7 +36,7 @@ NULL
 #' Renders a Protracker module as [`audio::audioSample()`] and plays it.
 #'
 #' @param x Object to be played.
-#' @param duration Duration in seconds to play.
+#' @inheritParams pt2_render
 #' @param ... Arguments passed to [`pt2_render()`].
 #' @returns Returns an `[audio::`$.audioInstance`]` object which
 #' allows you to control the playback (pause, resume, rewind).
@@ -58,7 +58,17 @@ play.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) 
   audio::play.audioSample(x, rate = rate)
 }
 
+#' Retrieve options for rendering
+#' 
+#' Retrieve options for rendering Protracker modules. See also
+#' [`pt2_render()`].
+#'
+#' @param ... Specify custom options.
+#' @author Pepijn de Vries
 #' @export
+#' @examples
+#' pt2_render_options(stereo_separation = 100)
+#' @method export
 pt2_render_options <- function(...) {
   result <- getOption("pt2_render")
   if (is.null(result)) result <- list()

@@ -39,7 +39,6 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   writable::integers result((R_xlen_t)(total_samples));
   uint64_t samplesToMixFrac = 0;
   
-  // TODO led filter seems to be reset somewhere else...
   setLEDFilter(logicals(render_options["led_filter"]).at(0));
   while (n_rendered < total_samples) {
     uint32_t samplesToMix = audio.samplesPerTickInt;
