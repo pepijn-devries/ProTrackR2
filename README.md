@@ -3,6 +3,8 @@
 
 <!-- badges: start -->
 
+[![ProTrackR2 status
+badge](https://pepijn-devries.r-universe.dev/badges/ProTrackR2)](https://pepijn-devries.r-universe.dev/ProTrackR2)
 [![R-CMD-check](https://github.com/pepijn-devries/ProTrackR2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pepijn-devries/ProTrackR2/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 

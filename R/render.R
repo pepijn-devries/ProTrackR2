@@ -4,6 +4,7 @@
 #' The rendered format can be played on a modern machine.
 #' @param x The object to be rendered
 #' @param duration Duration of the rendered output in seconds.
+#' @param options TODO
 #' @param ... Ignored
 #' @returns Rendered audio inheriting the [`audio::audioSample()`] class.
 #' @examples
@@ -11,17 +12,17 @@
 #' aud <- pt2_render(mod)
 #' @author Pepijn de Vries
 #' @export
-pt2_render <- function(x, duration = 120, ...) {
+pt2_render <- function(x, duration = 120, options = pt2_render_options(), ...) {
   UseMethod("pt2_render", x)
 }
 
 #' @rdname pt2_render
 #' @name pt2_render
 #' @export
-pt2_render.pt2mod <- function(x, duration = 120, ...) {
-  render_mod_(x, duration) |>
+pt2_render.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) {
+  render_mod_(x, duration, options) |>
     matrix(nrow = 2, byrow = FALSE) |>
-    audio::audioSample(rate = 48000)
+    audio::audioSample(rate = options$sample_rate)
 }
 
 #' @importFrom audio play
@@ -51,8 +52,28 @@ NULL
 #' ctrl <- play(mod)
 #' }
 #' @method play pt2mod
-play.pt2mod <- function(x, duration = 120, ...) {
-  x <- pt2_render(x, duration = duration, ...)
+play.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) {
+  x <- pt2_render(x, duration = duration, options = options, ...)
   rate <- attributes(x)$rate
   audio::play.audioSample(x, rate = rate)
+}
+
+#' @export
+pt2_render_options <- function(...) {
+  result <- getOption("pt2_render")
+  if (is.null(result)) result <- list()
+  defaults <- list(
+    sample_rate = 44100L,
+    stereo_separation = 20L,
+    amiga_filter = "A500",
+    led_filter = FALSE
+  )
+  for (i in names(defaults)) {
+    if (is.null(result[[i]])) result[[i]] <- defaults[[i]]
+  }
+  repl <- list(...)
+  for (i in names(repl)) {
+    result[[i]] <- repl[[i]]
+  }
+  return (result)
 }

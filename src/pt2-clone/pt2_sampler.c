@@ -12,14 +12,12 @@
 #include "pt2_helpers.h"
 #include "pt2_audio.h"
 #include "pt2_tables.h"
-#include "pt2_visuals_redundant.h"
 #include "pt2_sampler.h"
 #include "pt2_config.h"
 #include "pt2_rcfilters.h"
 #include "pt2_replayer_light.h"
 
 sampler_t sampler; // globalized
-
 
 void killSample(void)
 {
@@ -153,17 +151,17 @@ void fillSampleFilterUndoBuffer(void)
 	}
 }
 
-static int8_t getScaledSample(int32_t index)
-{
-	if (sampler.samLength <= 0 || index < 0 || index > sampler.samLength)
-		return 0;
-
-	const int8_t *ptr8 = sampler.samStart;
-	if (ptr8 == NULL)
-		return 0;
-
-	return ptr8[index] >> 2;
-}
+// static int8_t getScaledSample(int32_t index)
+// {
+// 	if (sampler.samLength <= 0 || index < 0 || index > sampler.samLength)
+// 		return 0;
+// 
+// 	const int8_t *ptr8 = sampler.samStart;
+// 	if (ptr8 == NULL)
+// 		return 0;
+// 
+// 	return ptr8[index] >> 2;
+// }
 
 void highPassSample(int32_t cutOff)
 {
@@ -600,101 +598,31 @@ void samplerResample(void)
 }
 
 // reads two hex chars from pointer and converts them to one byte
-static uint8_t hexToInteger2(char *ptr)
-{
-	char hi = ptr[0];
-	char lo = ptr[1];
-
-	if (hi >= '0' && hi <= '9')
-		hi -= '0';
-	else if (hi >= 'A' && hi <= 'F')
-		hi -= 'A'-10;
-	else if (hi >= 'a' && hi <= 'f')
-		hi -= 'a'-10;
-	else
-		hi = 0;
-
-	if (lo >= '0' && lo <= '9')
-		lo -= '0';
-	else if (lo >= 'A' && lo <= 'F')
-		lo -= 'A'-10;
-	else if (lo >= 'a' && lo <= 'f')
-		lo -= 'a'-10;
-	else
-		lo = 0;
-
-	return (hi << 4) | lo;
-}
-
-void doMix(void)
-{
-	int8_t *fromPtr1, *fromPtr2;
-	int32_t mixLength;
-
-	uint8_t smpFrom1 = hexToInteger2(&editor.mixText[4]);
-	uint8_t smpFrom2 = hexToInteger2(&editor.mixText[7]);
-	uint8_t smpTo = hexToInteger2(&editor.mixText[13]);
-
-	if (smpFrom1 == 0 || smpFrom1 > 0x1F || smpFrom2 == 0 || smpFrom2 > 0x1F || smpTo == 0 || smpTo > 0x1F)
-		return;
-
-	smpFrom1--;
-	smpFrom2--;
-	smpTo--;
-
-	moduleSample_t *s1 = &song->samples[smpFrom1];
-	moduleSample_t *s2 = &song->samples[smpFrom2];
-	moduleSample_t *s3 = &song->samples[smpTo];
-
-	if (s1->length == 0 || s2->length == 0)
-		return;
-
-	if (s1->length > s2->length)
-	{
-		fromPtr1 = &song->sampleData[s1->offset];
-		fromPtr2 = &song->sampleData[s2->offset];
-		mixLength = s1->length;
-	}
-	else
-	{
-		fromPtr1 = &song->sampleData[s2->offset];
-		fromPtr2 = &song->sampleData[s1->offset];
-		mixLength = s2->length;
-	}
-
-	int8_t *mixPtr = (int8_t *)malloc(mixLength);
-	if (mixPtr == NULL)
-		return;
-
-	turnOffVoices();
-
-	for (int32_t i = 0; i < mixLength; i++)
-	{
-		int16_t tmp16 = (i < s2->length) ? (fromPtr1[i] + fromPtr2[i]) : fromPtr1[i];
-		if (editor.halfClipFlag == 0)
-			tmp16 >>= 1;
-
-		CLAMP8(tmp16);
-		mixPtr[i] = (int8_t)tmp16;
-	}
-
-	memcpy(&song->sampleData[s3->offset], mixPtr, mixLength);
-	if (mixLength < config.maxSampleLength)
-		memset(&song->sampleData[s3->offset + mixLength], 0, config.maxSampleLength - mixLength);
-
-	free(mixPtr);
-
-	s3->length = mixLength;
-	s3->volume = 64;
-	s3->fineTune = 0;
-	s3->loopStart = 0;
-	s3->loopLength = 2;
-
-	editor.currSample = smpTo;
-	editor.samplePos = 0;
-
-	fixSampleBeep(s3);
-}
+// static uint8_t hexToInteger2(char *ptr)
+// {
+// 	char hi = ptr[0];
+// 	char lo = ptr[1];
+// 
+// 	if (hi >= '0' && hi <= '9')
+// 		hi -= '0';
+// 	else if (hi >= 'A' && hi <= 'F')
+// 		hi -= 'A'-10;
+// 	else if (hi >= 'a' && hi <= 'f')
+// 		hi -= 'a'-10;
+// 	else
+// 		hi = 0;
+// 
+// 	if (lo >= '0' && lo <= '9')
+// 		lo -= '0';
+// 	else if (lo >= 'A' && lo <= 'F')
+// 		lo -= 'A'-10;
+// 	else if (lo >= 'a' && lo <= 'f')
+// 		lo -= 'a'-10;
+// 	else
+// 		lo = 0;
+// 
+// 	return (hi << 4) | lo;
+// }
 
 // this is actually treble increase
 void boostSample(int32_t sample, bool ignoreMark)
@@ -817,164 +745,6 @@ void samplerSamCopy(void)
 	memcpy(sampler.copyBuf, &song->sampleData[s->offset+editor.markStartOfs], sampler.copyBufSize);
 }
 
-void samplerSamDelete(uint8_t cut)
-{
-	if (editor.sampleZero)
-		return;
-
-	if (editor.markStartOfs == -1)
-		return;
-
-	if (editor.markEndOfs-editor.markStartOfs <= 0)
-		return;
-
-	if (cut)
-		samplerSamCopy();
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-	moduleSample_t *s = &song->samples[editor.currSample];
-
-	int32_t sampleLength = s->length;
-	if (sampleLength == 0)
-		return;
-
-	turnOffVoices();
-
-	// if whole sample is marked, wipe it
-	if (editor.markEndOfs-editor.markStartOfs >= sampleLength)
-	{
-		memset(&song->sampleData[s->offset], 0, config.maxSampleLength);
-
-		editor.markStartOfs = -1;
-
-		sampler.samStart = sampler.blankSample;
-		sampler.samDisplay = SAMPLE_AREA_WIDTH;
-		sampler.samLength = SAMPLE_AREA_WIDTH;
-
-		s->length = 0;
-		s->loopStart = 0;
-		s->loopLength = 2;
-		s->volume = 0;
-		s->fineTune = 0;
-
-		editor.samplePos = 0;
-		return;
-	}
-
-	int32_t markEnd = (editor.markEndOfs > sampleLength) ? sampleLength : editor.markEndOfs;
-	int32_t markStart = editor.markStartOfs;
-
-	int32_t copyLength = (editor.markStartOfs + sampleLength) - markEnd;
-	if (copyLength < 2 || copyLength > config.maxSampleLength)
-		return;
-
-	int8_t *tmpBuf = (int8_t *)malloc(copyLength);
-	if (tmpBuf == NULL)
-		return;
-
-	// copy start part
-	memcpy(tmpBuf, &song->sampleData[s->offset], editor.markStartOfs);
-
-	// copy end part
-	if (sampleLength-markEnd > 0)
-		memcpy(&tmpBuf[editor.markStartOfs], &song->sampleData[s->offset+markEnd], sampleLength - markEnd);
-
-	// wipe sample data and copy over the result
-	memcpy(&song->sampleData[s->offset], tmpBuf, copyLength);
-
-	if (copyLength < config.maxSampleLength)
-		memset(&song->sampleData[s->offset+copyLength], 0, config.maxSampleLength - copyLength);
-
-	free(tmpBuf);
-
-	sampler.samLength = copyLength;
-	if (sampler.samOffset+sampler.samDisplay >= sampler.samLength)
-	{
-		if (sampler.samDisplay < sampler.samLength)
-		{
-			if (sampler.samLength-sampler.samDisplay < 0)
-			{
-				sampler.samOffset = 0;
-				sampler.samDisplay = sampler.samLength;
-			}
-			else
-			{
-				sampler.samOffset = sampler.samLength - sampler.samDisplay;
-			}
-		}
-		else
-		{
-			sampler.samOffset = 0;
-			sampler.samDisplay = sampler.samLength;
-		}
-
-	}
-
-	if (s->loopStart+s->loopLength > 2) // loop enabled?
-	{
-		if (markEnd > s->loopStart)
-		{
-			if (markStart < s->loopStart+s->loopLength)
-			{
-				// we cut data inside the loop, increase loop length
-				int32_t val32 = (s->loopLength - (markEnd - markStart)) & ~1;
-				if (val32 < 2)
-					val32 = 2;
-
-				s->loopLength = val32;
-			}
-
-			// we cut data after the loop, don't modify loop points
-		}
-		else
-		{
-			// we cut data before the loop, adjust loop start point
-			int32_t val32 = (s->loopStart - (markEnd - markStart)) & ~1;
-			if (val32 < 0)
-			{
-				s->loopStart = 0;
-				s->loopLength = 2;
-			}
-			else
-			{
-				s->loopStart = val32;
-			}
-		}
-	}
-
-	s->length = copyLength & ~1;
-
-	// disable loop if invalid
-	if (s->loopStart+s->loopLength > s->length)
-	{
-		s->loopStart = 0;
-		s->loopLength = 2;
-	}
-
-	if (sampler.samDisplay <= 2)
-	{
-		sampler.samStart = sampler.blankSample;
-		sampler.samLength = SAMPLE_AREA_WIDTH;
-		sampler.samDisplay = SAMPLE_AREA_WIDTH;
-	}
-
-	// invertRange();
-	if (sampler.samDisplay == 0)
-	{
-		editor.markStartOfs = -1; // clear marking
-	}
-	else
-	{
-		if (editor.markStartOfs >= s->length)
-			editor.markStartOfs = s->length - 1;
-
-		editor.markEndOfs = editor.markStartOfs;
-	}
-
-	editor.samplePos = editor.markStartOfs;
-	fixSampleBeep(s);
-}
-
 void samplerSamPaste(void)
 {
 	if (editor.sampleZero)
@@ -1087,62 +857,62 @@ void samplerSamPaste(void)
 	fixSampleBeep(s);
 }
 
-static void playCurrSample(uint8_t chn, int32_t startOffset, int32_t endOffset, bool playWaveformFlag)
-{
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-	assert(chn < PAULA_VOICES);
-	assert(editor.currPlayNote <= 35);
-
-	moduleSample_t *s = &song->samples[editor.currSample];
-	moduleChannel_t *ch = &song->channels[chn];
-
-	ch->n_samplenum = editor.currSample;
-	ch->n_volume = s->volume;
-	ch->n_period = periodTable[(37 * (s->fineTune & 0xF)) + editor.currPlayNote];
-	
-	if (playWaveformFlag)
-	{
-		ch->n_start = &song->sampleData[s->offset];
-		ch->n_length = (uint16_t)((s->loopStart > 0) ? (s->loopStart + s->loopLength) >> 1 : s->length >> 1);
-		ch->n_loopstart = &song->sampleData[s->offset + s->loopStart];
-		ch->n_replen = (uint16_t)(s->loopLength >> 1);
-	}
-	else
-	{
-		ch->n_start = &song->sampleData[s->offset + startOffset];
-		ch->n_length = (uint16_t)((uint32_t)(endOffset - startOffset) >> 1);
-		ch->n_loopstart = &song->sampleData[s->offset];
-		ch->n_replen = 1;
-	}
-
-	if (ch->n_length == 0)
-		ch->n_length = 1;
-
-	const uint32_t voiceAddr = 0xDFF0A0 + (chn * 16);
-
-	paulaWriteWord(voiceAddr + 8, ch->n_volume);
-	paulaWriteWord(voiceAddr + 6, ch->n_period);
-	paulaWritePtr(voiceAddr + 0, ch->n_start);
-	paulaWriteWord(voiceAddr + 4, ch->n_length);
-
-	if (!editor.muted[chn])
-		paulaWriteWord(0xDFF096, 0x8000 | ch->n_dmabit); // voice DMA on
-	else
-		paulaWriteWord(0xDFF096, ch->n_dmabit); // voice DMA off
-
-	// these take effect after the current DMA cycle is done
-	if (playWaveformFlag)
-	{
-		paulaWritePtr(voiceAddr + 0, ch->n_loopstart);
-		paulaWriteWord(voiceAddr + 4, ch->n_replen);
-	}
-	else
-	{
-		paulaWritePtr(voiceAddr + 0, NULL); // data
-		paulaWriteWord(voiceAddr + 4, 1); // length
-	}
-
-}
+// static void playCurrSample(uint8_t chn, int32_t startOffset, int32_t endOffset, bool playWaveformFlag)
+// {
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 	assert(chn < PAULA_VOICES);
+// 	assert(editor.currPlayNote <= 35);
+// 
+// 	moduleSample_t *s = &song->samples[editor.currSample];
+// 	moduleChannel_t *ch = &song->channels[chn];
+// 
+// 	ch->n_samplenum = editor.currSample;
+// 	ch->n_volume = s->volume;
+// 	ch->n_period = periodTable[(37 * (s->fineTune & 0xF)) + editor.currPlayNote];
+// 	
+// 	if (playWaveformFlag)
+// 	{
+// 		ch->n_start = &song->sampleData[s->offset];
+// 		ch->n_length = (uint16_t)((s->loopStart > 0) ? (s->loopStart + s->loopLength) >> 1 : s->length >> 1);
+// 		ch->n_loopstart = &song->sampleData[s->offset + s->loopStart];
+// 		ch->n_replen = (uint16_t)(s->loopLength >> 1);
+// 	}
+// 	else
+// 	{
+// 		ch->n_start = &song->sampleData[s->offset + startOffset];
+// 		ch->n_length = (uint16_t)((uint32_t)(endOffset - startOffset) >> 1);
+// 		ch->n_loopstart = &song->sampleData[s->offset];
+// 		ch->n_replen = 1;
+// 	}
+// 
+// 	if (ch->n_length == 0)
+// 		ch->n_length = 1;
+// 
+// 	const uint32_t voiceAddr = 0xDFF0A0 + (chn * 16);
+// 
+// 	paulaWriteWord(voiceAddr + 8, ch->n_volume);
+// 	paulaWriteWord(voiceAddr + 6, ch->n_period);
+// 	paulaWritePtr(voiceAddr + 0, ch->n_start);
+// 	paulaWriteWord(voiceAddr + 4, ch->n_length);
+// 
+// 	if (!editor.muted[chn])
+// 		paulaWriteWord(0xDFF096, 0x8000 | ch->n_dmabit); // voice DMA on
+// 	else
+// 		paulaWriteWord(0xDFF096, ch->n_dmabit); // voice DMA off
+// 
+// 	// these take effect after the current DMA cycle is done
+// 	if (playWaveformFlag)
+// 	{
+// 		paulaWritePtr(voiceAddr + 0, ch->n_loopstart);
+// 		paulaWriteWord(voiceAddr + 4, ch->n_replen);
+// 	}
+// 	else
+// 	{
+// 		paulaWritePtr(voiceAddr + 0, NULL); // data
+// 		paulaWriteWord(voiceAddr + 4, 1); // length
+// 	}
+// 
+// }
 
 void samplerLoopToggle(void)
 {

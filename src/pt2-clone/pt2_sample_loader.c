@@ -11,7 +11,6 @@
 #include <string.h>
 #include "pt2_sampler.h"
 #include "pt2_audio.h"
-#include "pt2_visuals_redundant.h"
 #include "pt2_helpers.h"
 #include "pt2_config.h"
 #include "pt2_downsample2x.h"
@@ -103,7 +102,6 @@ bool loadSample(UNICHAR *fileName, char *entryName)
 			else if (ID == 0x43464941) // "AIFC" (compressed AIFF)
 			{
 				fclose(f);
-				// displayErrorMsg("UNSUPPORTED AIFF!");
 				return false;
 			}
 		}

@@ -20,7 +20,6 @@
 #include "pt2_replayer_light.h"
 #include "pt2_audio.h"
 #include "pt2_helpers.h"
-#include "pt2_visuals_redundant.h"
 #include "pt2_sample_loader.h"
 #include "pt2_config.h"
 #include "modloaders/pt2_load_mod15.h"
@@ -50,25 +49,18 @@ module_t *modLoad2(uint8_t *data, uint32_t *data_size)
   {
     modBuffer = unpackPP2(data, data_size);
     if (modBuffer == NULL)
-    {
       goto loadError2; // error msg is set in unpackPPModule()
-    }
   }
   else
   {
     if (detectXPK2(data, *data_size))
     {
       if (!unpackXPK2(data, data_size, &modBuffer))
-      {
         goto loadError2;
-      }
-      
+
       if (modBuffer == NULL)
-      {
-        // statusOutOfMemory();
         goto loadError2;
-      }
-      
+
     }
     else
     {
@@ -92,11 +84,8 @@ module_t *modLoad2(uint8_t *data, uint32_t *data_size)
   modBuffer = NULL;
   
   if (newMod == NULL)
-  {
-    // error message is shown in the mod loader
     goto loadError2;
-  }
-  
+
   // module is loaded, do some sanitation...
   
   newMod->header.name[20] = '\0';
@@ -209,14 +198,6 @@ void setupLoadedMod(void)
 	modSetPos(0, 0);
 	modSetPattern(0); // set pattern to 00 instead of first order's pattern
 
-	// posEdClearNames();
-
-	// setup GUI text pointers
-	editor.currEditPatternDisp = &song->currPattern;
-	editor.currPosDisp = &song->currPos;
-	editor.currPatternDisp = &song->header.patternTable[0];
-	editor.currPosEdPattDisp = &song->header.patternTable[0];
-	editor.currLengthDisp = &song->header.songLength;
 
 	// calculate MOD size
 	// ui.updateSongSize = true;
@@ -240,7 +221,6 @@ void setupLoadedMod(void)
 	// disable LED filter after module load (real PT doesn't do this)
 	setLEDFilter(false);
 
-	// updateWindowTitle(MOD_NOT_MODIFIED);
 
 	editor.timingMode = TEMPO_MODE_CIA;
 	updateReplayerTimingMode();
@@ -248,8 +228,6 @@ void setupLoadedMod(void)
 	modSetSpeed(6);
 	modSetTempo(song->header.initialTempo, false); // 125 for normal MODs, custom value for certain STK/UST MODs
 
-	// updateCurrSample();
 	editor.samplePos = 0;
-	// updateSamplePos();
 }
 

@@ -1,3 +1,0 @@
-void statusOutOfMemory(void) {
-  return;
-}

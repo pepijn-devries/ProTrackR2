@@ -12,11 +12,7 @@
 #include "../pt2_header.h"
 #include "../pt2_config.h"
 #include "../pt2_structs.h"
-//#include "../pt2_replayer.h"
 #include "../pt2_replayer_light.h"
-//#include "../pt2_textout.h"
-//#include "../pt2_visuals.h"
-#include "../pt2_visuals_redundant.h"
 
 static int32_t realSampleLengths[15];
 
@@ -26,10 +22,7 @@ module_t *loadMod15(uint8_t *buffer, uint32_t filesize)
 
 	module_t *m = createEmptyMod();
 	if (m == NULL)
-	{
-		statusOutOfMemory();
 		goto loadError;
-	}
 
 	bool veryLateSTKVerFlag = false; // "DFJ SoundTracker III" and later
 	bool lateSTKVerFlag = false; // "TJC SoundTracker II" and later

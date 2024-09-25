@@ -5,7 +5,7 @@
 \alias{play.pt2mod}
 \title{Play a Protracker module}
 \usage{
-\method{play}{pt2mod}(x, duration = 120, ...)
+\method{play}{pt2mod}(x, duration = 120, options = pt2_render_options(), ...)
 }
 \arguments{
 \item{x}{Object to be played.}
