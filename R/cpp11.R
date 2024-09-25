@@ -48,12 +48,12 @@ pt_cell_ <- function(mod, pattern, channel, row) {
   .Call(`_ProTrackR2_pt_cell_`, mod, pattern, channel, row)
 }
 
-pt_cell_as_char_ <- function(mod, pattern, channel, row) {
-  .Call(`_ProTrackR2_pt_cell_as_char_`, mod, pattern, channel, row)
+pt_cell_as_char_ <- function(mod, pattern, channel, row, padding, empty_char, sformat) {
+  .Call(`_ProTrackR2_pt_cell_as_char_`, mod, pattern, channel, row, padding, empty_char, sformat)
 }
 
-pt_rawcell_as_char_ <- function(pattern) {
-  .Call(`_ProTrackR2_pt_rawcell_as_char_`, pattern)
+pt_rawcell_as_char_ <- function(pattern, padding, empty_char, sformat) {
+  .Call(`_ProTrackR2_pt_rawcell_as_char_`, pattern, padding, empty_char, sformat)
 }
 
 pt_cleanup_ <- function() {
