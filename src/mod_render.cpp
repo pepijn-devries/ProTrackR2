@@ -8,20 +8,29 @@
 using namespace cpp11;
 
 [[cpp11::register]]
-SEXP render_mod_(SEXP mod, doubles render_duration) {
+SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   module_t *my_song = get_mod(mod);
   if (render_duration.size() != 1)
     Rf_error("Arguments should have length 1");
   
+  config.mod2WavOutputFreq = integers(render_options["sample_rate"]).at(0);
+  config.stereoSeparation = integers(render_options["stereo_separation"]).at(0);
+  config.amigaModel = MODEL_A500;
+  if (strings(render_options["amiga_filter"]).at(0) == r_string("A1200"))
+    config.amigaModel = MODEL_A1200;
+  
+  setAmigaFilterModel(config.amigaModel);
+  audioSetStereoSeparation(config.stereoSeparation);
   paulaSetup(config.mod2WavOutputFreq * 2, audio.amigaModel);
+  
   song = my_song;
   restartSong();
   clearMixerDownsamplerStates();
   editor.mod2WavOngoing = false; // must be set before calling resetAudio()
-  audio.oversamplingFlag = (audio.outputRate < 96000);
-  const int32_t paulaMixFrequency = audio.oversamplingFlag ? audio.outputRate*2 : audio.outputRate;
+  audio.oversamplingFlag = (config.mod2WavOutputFreq < 96000);
+  const int32_t paulaMixFrequency = audio.oversamplingFlag ? config.mod2WavOutputFreq*2 : config.mod2WavOutputFreq;
   paulaSetup(paulaMixFrequency, audio.amigaModel);
-  generateBpmTable(audio.outputRate, editor.timingMode == TEMPO_MODE_VBLANK);
+  generateBpmTable(config.mod2WavOutputFreq, editor.timingMode == TEMPO_MODE_VBLANK);
   clearMixerDownsamplerStates();
   modSetTempo(song->currBPM, true); // update BPM (samples per tick) with the tracker's audio frequency
   
@@ -30,6 +39,8 @@ SEXP render_mod_(SEXP mod, doubles render_duration) {
   writable::integers result((R_xlen_t)(total_samples));
   uint64_t samplesToMixFrac = 0;
   
+  // TODO led filter seems to be reset somewhere else...
+  setLEDFilter(logicals(render_options["led_filter"]).at(0));
   while (n_rendered < total_samples) {
     uint32_t samplesToMix = audio.samplesPerTickInt;
     

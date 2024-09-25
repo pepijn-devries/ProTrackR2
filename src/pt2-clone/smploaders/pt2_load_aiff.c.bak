@@ -6,13 +6,8 @@
 #include "../pt2_header.h"
 #include "../pt2_config.h"
 #include "../pt2_structs.h"
-//#include "../pt2_textout.h"
-//#include "../pt2_visuals.h"
-#include "../pt2_visuals_redundant.h"
 #include "../pt2_helpers.h"
-//#include "../pt2_replayer.h"
 #include "../pt2_replayer_light.h"
-// #include "../pt2_askbox.h"
 #include "../pt2_downsample2x.h"
 #include "../pt2_audio.h"
 
@@ -165,10 +160,7 @@ bool loadAIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int8_t *audioDataS8 = (int8_t *)malloc(sampleLength * sizeof (int8_t));
 		if (audioDataS8 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataS8, 1, sampleLength, f) != (size_t)sampleLength)
@@ -216,10 +208,7 @@ bool loadAIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int16_t *audioDataS16 = (int16_t *)malloc(sampleLength * sizeof (int16_t));
 		if (audioDataS16 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataS16, 2, sampleLength, f) != (size_t)sampleLength)
@@ -281,10 +270,7 @@ bool loadAIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int32_t *audioDataS32 = (int32_t *)malloc(sampleLength * sizeof (int32_t));
 		if (audioDataS32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(&audioDataS32[sampleLength >> 2], 3, sampleLength, f) != (size_t)sampleLength)
@@ -352,10 +338,7 @@ bool loadAIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int32_t *audioDataS32 = (int32_t *)malloc(sampleLength * sizeof (int32_t));
 		if (audioDataS32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataS32, 4, sampleLength, f) != (size_t)sampleLength)

@@ -1,6 +1,5 @@
 #pragma once
 
-// #include <SDL2/SDL.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -12,7 +11,6 @@
 #endif
 #include <stdint.h>
 #include "pt2_unicode.h"
-// #include "pt2_palette.h"
 
 #define PROG_VER_STR "1.70"
 
@@ -25,12 +23,6 @@
 #define _stricmp strcasecmp
 #define _strnicmp strncasecmp
 #endif
-
-#define SAMPLE_VIEW_HEIGHT 64
-#define SAMPLE_AREA_WIDTH 314
-
-#define SCREEN_W 320
-#define SCREEN_H 255
 
 #define MIN_AUDIO_FREQUENCY 44100
 #define MAX_AUDIO_FREQUENCY 192000
@@ -48,27 +40,10 @@
 */
 #define VBLANK_HZ 60
 
-/* Scopes are clocked at 64Hz instead of 60Hz to prevent the small +/- Hz
-** interference from monitors not being exactly 60Hz (and unstable non-vsync mode).
-** Sadly, the scopes might mildly flicker from this in some cases.
-*/
-#define SCOPE_HZ 64
-
-#define FONT_CHAR_W 8 // actual data length is 7, includes right spacing (1px column)
-#define FONT_CHAR_H 5
-
 #define MOD_ROWS 64
 #define MOD_SAMPLES 31
 #define MAX_PATTERNS 100
 
-#define SCOPE_WIDTH 40
-#define SCOPE_HEIGHT 33
-#define SPECTRUM_BAR_NUM 23
-#define SPECTRUM_BAR_HEIGHT 36
-#define SPECTRUM_BAR_WIDTH 6
-
-// Amount of video frames. 14 (PT on Amiga) -> 17 (converted from 49.92Hz to 60Hz)
-#define KEYB_REPEAT_DELAY 17
 
 #ifdef __cplusplus
 extern "C" {
@@ -122,16 +97,6 @@ enum
 	DONT_DOWNSAMPLE = 0,
 	DO_DOWNSAMPLE = 1,
 
-	SCREEN_ALL = 0,
-	SCREEN_MAINSCREEN = 1,
-	SCREEN_DISKOP = 2,
-	SCREEN_SAMPLER = 4,
-	SCREEN_QUIT = 8,
-	SCREEN_CLEAR = 16,
-
-	VISUAL_QUADRASCOPE = 0,
-	VISUAL_SPECTRUM = 1,
-
 	MODE_IDLE = 0,
 	MODE_EDIT = 1,
 	MODE_PLAY = 2,
@@ -139,13 +104,6 @@ enum
 
 	RECORD_PATT = 0,
 	RECORD_SONG = 1,
-
-	CURSOR_NOTE = 0,
-	CURSOR_SAMPLE1 = 1,
-	CURSOR_SAMPLE2 = 2,
-	CURSOR_CMD = 3,
-	CURSOR_PARAM1 = 4,
-	CURSOR_PARAM2 = 5,
 
 	PLAY_MODE_NORMAL = 0,
 	PLAY_MODE_PATTERN = 1,
@@ -163,9 +121,6 @@ enum
 	TEMPO_MODE_CIA = 0,
 	TEMPO_MODE_VBLANK = 1,
 
-	TEXT_EDIT_STRING = 0,
-	TEXT_EDIT_DECIMAL = 1,
-	TEXT_EDIT_HEX = 2
 };
 
 #ifdef __cplusplus

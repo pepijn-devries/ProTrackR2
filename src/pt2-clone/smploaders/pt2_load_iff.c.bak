@@ -7,13 +7,8 @@
 #include "../pt2_header.h"
 #include "../pt2_config.h"
 #include "../pt2_structs.h"
-// #include "../pt2_textout.h"
-// #include "../pt2_visuals.h"
-#include "../pt2_visuals_redundant.h"
 #include "../pt2_helpers.h"
-//#include "../pt2_replayer.h"
 #include "../pt2_replayer_light.h"
-// #include "../pt2_askbox.h"
 #include "../pt2_downsample2x.h"
 #include "../pt2_audio.h"
 
@@ -136,10 +131,7 @@ bool loadIFFSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 	int8_t *sampleData = (int8_t *)malloc(sampleLength);
 	if (sampleData == NULL)
-	{
-		statusOutOfMemory();
 		return false;
-	}
 
 	if (is16Bit)
 	{

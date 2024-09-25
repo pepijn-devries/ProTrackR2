@@ -6,13 +6,8 @@
 #include "../pt2_header.h"
 #include "../pt2_config.h"
 #include "../pt2_structs.h"
-// #include "../pt2_textout.h"
-// #include "../pt2_visuals.h"
-#include "../pt2_visuals_redundant.h"
 #include "../pt2_helpers.h"
-// #include "../pt2_replayer.h"
 #include "../pt2_replayer_light.h"
-// #include "../pt2_askbox.h"
 #include "../pt2_downsample2x.h"
 #include "../pt2_audio.h"
 
@@ -117,10 +112,7 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 	// we need at least "fmt " and "data" - check if we found them sanely
 	if (fmtPtr == 0 || fmtLen < 16 || dataPtr == 0 || dataLen == 0)
-	{
-		// displayErrorMsg("NOT A WAV !");
 		return false;
-	}
 
 	// ---- READ "fmt " CHUNK ----
 	fseek(f, fmtPtr, SEEK_SET);
@@ -133,41 +125,21 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 	// ---------------------------
 
 	if (sampleRate == 0 || sampleLength == 0 || sampleLength >= (int32_t)filesize*(bitsPerSample/8))
-	{
-		// displayErrorMsg("WAV CORRUPT !");
 		return false;
-	}
 
 	if (audioFormat != WAV_FORMAT_PCM && audioFormat != WAV_FORMAT_IEEE_FLOAT)
-	{
-		// displayErrorMsg("WAV UNSUPPORTED !");
 		return false;
-	}
 
 	if (numChannels == 0 || numChannels > 2)
-	{
-		// displayErrorMsg("WAV UNSUPPORTED !");
 		return false;
-	}
 
 	if (audioFormat == WAV_FORMAT_IEEE_FLOAT && bitsPerSample != 32 && bitsPerSample != 64)
-	{
-		// displayErrorMsg("WAV UNSUPPORTED !");
 		return false;
-	}
 
 	if (bitsPerSample != 8 && bitsPerSample != 16 && bitsPerSample != 24 && bitsPerSample != 32 && bitsPerSample != 64)
-	{
-		// displayErrorMsg("WAV UNSUPPORTED !");
 		return false;
-	}
 
 	bool downSample = false;
-	// if (sampleRate > 22050 && !config.noDownsampleOnSmpLoad)
-	// {
-	// 	if (askBox(ASKBOX_DOWNSAMPLE, "DOWNSAMPLE ?"))
-	// 		downSample = true;
-	// }
 
 	// ---- READ SAMPLE DATA ----
 	fseek(f, dataPtr, SEEK_SET);
@@ -181,16 +153,12 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		uint8_t *audioDataU8 = (uint8_t *)malloc(sampleLength * sizeof (uint8_t));
 		if (audioDataU8 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataU8, 1, sampleLength, f) != (size_t)sampleLength)
 		{
 			free(audioDataU8);
-			// displayErrorMsg("I/O ERROR !");
 			return false;
 		}
 
@@ -230,16 +198,12 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int16_t *audioDataS16 = (int16_t *)malloc(sampleLength * sizeof (int16_t));
 		if (audioDataS16 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataS16, 2, sampleLength, f) != (size_t)sampleLength)
 		{
 			free(audioDataS16);
-			// displayErrorMsg("I/O ERROR !");
 			return false;
 		}
 
@@ -291,10 +255,7 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int32_t *audioDataS32 = (int32_t *)malloc(sampleLength * sizeof (int32_t));
 		if (audioDataS32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		uint8_t *audioDataU8 = (uint8_t *)audioDataS32;
@@ -356,16 +317,12 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		int32_t *audioDataS32 = (int32_t *)malloc(sampleLength * sizeof (int32_t));
 		if (audioDataS32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataS32, 4, sampleLength, f) != (size_t)sampleLength)
 		{
 			free(audioDataS32);
-			// displayErrorMsg("I/O ERROR !");
 			return false;
 		}
 
@@ -420,16 +377,12 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		uint32_t *audioDataU32 = (uint32_t *)malloc(sampleLength * sizeof (uint32_t));
 		if (audioDataU32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataU32, 4, sampleLength, f) != (size_t)sampleLength)
 		{
 			free(audioDataU32);
-			// displayErrorMsg("I/O ERROR !");
 			return false;
 		}
 
@@ -476,16 +429,12 @@ bool loadWAVSample(FILE *f, uint32_t filesize, moduleSample_t *s)
 
 		uint32_t *audioDataU32 = (uint32_t *)malloc(sampleLength * (sizeof (uint32_t) * 2));
 		if (audioDataU32 == NULL)
-		{
-			statusOutOfMemory();
 			return false;
-		}
 
 		// read sample data
 		if (fread(audioDataU32, 8, sampleLength, f) != (size_t)sampleLength)
 		{
 			free(audioDataU32);
-			// displayErrorMsg("I/O ERROR !");
 			return false;
 		}
 

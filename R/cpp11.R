@@ -28,8 +28,8 @@ new_mod_ <- function(name) {
   .Call(`_ProTrackR2_new_mod_`, name)
 }
 
-render_mod_ <- function(mod, render_duration) {
-  .Call(`_ProTrackR2_render_mod_`, mod, render_duration)
+render_mod_ <- function(mod, render_duration, render_options) {
+  .Call(`_ProTrackR2_render_mod_`, mod, render_duration, render_options)
 }
 
 mod_sample_info_ <- function(mod, idx) {

@@ -14,11 +14,7 @@
 #include "../pt2_paula.h" // PAULA_VOICES
 #include "../pt2_config.h"
 #include "../pt2_structs.h"
-//#include "../pt2_replayer.h"
 #include "../pt2_replayer_light.h"
-//#include "../pt2_textout.h"
-//#include "../pt2_visuals.h"
-#include "../pt2_visuals_redundant.h"
 
 enum // 31-sample .MOD types
 {
@@ -40,18 +36,12 @@ module_t *loadMod31(uint8_t *buffer, uint32_t filesize)
 {
 	module_t *m = createEmptyMod();
 	if (m == NULL)
-	{
-		statusOutOfMemory();
 		goto loadError;
-	}
 
 	uint8_t numChannels;
 	uint8_t modFormat = getMod31Type(buffer, filesize, &numChannels);
 	if (modFormat == FORMAT_UNKNOWN || numChannels > PAULA_VOICES)
-	{
-		// displayErrorMsg("UNSUPPORTED MOD !");
 		goto loadError;
-	}
 
 	uint8_t *p = buffer;
 
@@ -103,10 +93,7 @@ module_t *loadMod31(uint8_t *buffer, uint32_t filesize)
 	numPatterns++;
 
 	if (numPatterns > MAX_PATTERNS)
-	{
-		// displayErrorMsg("UNSUPPORTED MOD !");
 		goto loadError;
-	}
 
 	p += 4; // skip magic ID (already handled)
 

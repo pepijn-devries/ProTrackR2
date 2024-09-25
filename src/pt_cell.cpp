@@ -44,7 +44,8 @@ SEXP pt_cell_as_char_internal(
   note_t * cell2 = cell + offset;
   std::string notestr = (std::string)r_string(noteNames1[periodToNote(cell2->period)]);
   const char * empt = ((std::string)empty.at(0)).c_str();
-  std::replace(notestr.begin(), notestr.end(), '-', empt[0]);
+  if (notestr.c_str()[0] == '-')
+    std::replace(notestr.begin(), notestr.end(), '-', empt[0]);
   
   auto sprf = package("base")["sprintf"];
   if (strings(sformat["note"]).size() < 1 || strings(sformat["padding"]).size() < 1 ||

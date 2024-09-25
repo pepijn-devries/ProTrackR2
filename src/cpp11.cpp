@@ -55,10 +55,10 @@ extern "C" SEXP _ProTrackR2_new_mod_(SEXP name) {
   END_CPP11
 }
 // mod_render.cpp
-SEXP render_mod_(SEXP mod, doubles render_duration);
-extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration) {
+SEXP render_mod_(SEXP mod, doubles render_duration, list render_options);
+extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration, SEXP render_options) {
   BEGIN_CPP11
-    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration)));
+    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options)));
   END_CPP11
 }
 // mod_samples.cpp
@@ -134,7 +134,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_pt_cleanup_",         (DL_FUNC) &_ProTrackR2_pt_cleanup_,         0},
     {"_ProTrackR2_pt_init_",            (DL_FUNC) &_ProTrackR2_pt_init_,            0},
     {"_ProTrackR2_pt_rawcell_as_char_", (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_, 4},
-    {"_ProTrackR2_render_mod_",         (DL_FUNC) &_ProTrackR2_render_mod_,         2},
+    {"_ProTrackR2_render_mod_",         (DL_FUNC) &_ProTrackR2_render_mod_,         3},
     {"_ProTrackR2_test",                (DL_FUNC) &_ProTrackR2_test,                1},
     {NULL, NULL, 0}
 };

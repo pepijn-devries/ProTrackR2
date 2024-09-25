@@ -5,14 +5,16 @@
 \alias{pt2_render.pt2mod}
 \title{Render Protracker modules to a playable format}
 \usage{
-pt2_render(x, duration = 120, ...)
+pt2_render(x, duration = 120, options = pt2_render_options(), ...)
 
-\method{pt2_render}{pt2mod}(x, duration = 120, ...)
+\method{pt2_render}{pt2mod}(x, duration = 120, options = pt2_render_options(), ...)
 }
 \arguments{
 \item{x}{The object to be rendered}
 
 \item{duration}{Duration of the rendered output in seconds.}
+
+\item{options}{TODO}
 
 \item{...}{Ignored}
 }

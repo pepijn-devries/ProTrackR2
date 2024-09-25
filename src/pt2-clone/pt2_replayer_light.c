@@ -17,11 +17,11 @@
 
 static bool posJumpAssert, pBreakFlag, modRenderDone;
 static bool doStopSong; // from F00 (Set Speed)
-static int8_t pBreakPosition, oldRow, modPattern;
+static int8_t pBreakPosition, modPattern;
 static uint8_t pattDelTime, lowMask = 0xFF, pattDelTime2;
-static int16_t modPos, oldPattern, oldPos;
+static int16_t modPos;
 static uint16_t DMACONtemp;
-static int32_t modBPM, oldBPM, oldSpeed, ciaSetBPM;
+static int32_t modBPM, ciaSetBPM;
 
 static const uint8_t funkTable[16] = // EFx (FunkRepeat/InvertLoop)
   {
@@ -68,12 +68,6 @@ module_t *createEmptyMod(void)
   moduleSample_t *s = m->samples;
   for (int32_t i = 0; i < MOD_SAMPLES; i++, s++)
   {
-    // setup GUI text pointers
-    s->volumeDisp = &s->volume;
-    s->lengthDisp = &s->length;
-    s->loopStartDisp = &s->loopStart;
-    s->loopLengthDisp = &s->loopLength;
-    
     s->loopLength = 2;
     
     // sample data offsets (sample data = one huge buffer to rule them all)
@@ -234,9 +228,6 @@ void modPlay(int16_t patt, int16_t pos, int8_t row)
     song->currPattern = modPattern = (int8_t)patt;
   else
     song->currPattern = modPattern = (int8_t)song->header.patternTable[modPos];
-  
-  editor.currPatternDisp = &song->header.patternTable[modPos];
-  editor.currPosEdPattDisp = &song->header.patternTable[modPos];
   
   song->tick = song->speed-1;
   ciaSetBPM = -1; // fix possibly stuck "set BPM" flag
