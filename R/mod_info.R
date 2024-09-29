@@ -10,6 +10,7 @@
 #' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 #' 
 #' pt2_n_pattern(mod)
+#' pt2_n_sample(mod)
 #' pt2_pattern_table(mod)
 #' pt2_name(mod)
 #' @rdname mod_info
@@ -49,11 +50,4 @@ pt2_name <- function(x, ...) {
 pt2_name.pt2mod <- function(x, ...) {
   .check_mod(x)
   mod_name_(x)
-}
-
-#' @rdname mod_info
-#' @name pt2_name
-#' @export
-pt2_name.pt2samp <- function(x, ...) {
-  mod_sample_info_(x$mod, as.integer(x$i))$text
 }

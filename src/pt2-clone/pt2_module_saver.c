@@ -13,6 +13,16 @@ bool checkSaveTarget(uint8_t * target, uint8_t * origin, uint32_t increment, uin
   return (data_pos + increment) <= max_size;
 }
 
+void cellCompacter(note_t * source, uint8_t * destination, uint32_t number_of_notes) {
+  for (uint32_t i = 0; i < number_of_notes; i++, source++, destination += 4) {
+    destination[0] = (source->sample & 0xF0) | (source->period >> 8);
+    destination[1] = source->period & 0xFF;
+    destination[2] = ((source->sample << 4) & 0xF0) | (source->command & 0x0F);
+    destination[3] = source->param;
+  }
+  return;
+}
+
 uint32_t modSave2(module_t * my_song, uint8_t *target, uint32_t target_size)
 {
   uint8_t * start = &(*target);
@@ -92,16 +102,9 @@ uint32_t modSave2(module_t * my_song, uint8_t *target, uint32_t target_size)
 
   for (int32_t i = 0; i < numPatterns; i++)
   {
-    note_t *note = my_song->patterns[i];
-    for (int32_t j = 0; j < MOD_ROWS * PAULA_VOICES; j++, note++)
-    {
-      if (!checkSaveTarget(target, start, 4, target_size)) return -1;
-      target[0] = (note->sample & 0xF0) | (note->period >> 8);
-      target[1] = note->period & 0xFF;
-      target[2] = ((note->sample << 4) & 0xF0) | (note->command & 0x0F);
-      target[3] = note->param;
-      target += 4;
-    }
+    if (!checkSaveTarget(target, start, 4*MOD_ROWS * PAULA_VOICES, target_size)) return -1;
+    cellCompacter(my_song->patterns[i], target, MOD_ROWS * PAULA_VOICES);
+    target += 4*MOD_ROWS * PAULA_VOICES;
   }
   
   for (int32_t i = 0; i < MOD_SAMPLES; i++)

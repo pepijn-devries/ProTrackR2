@@ -55,9 +55,7 @@ module_t *modLoad2(uint8_t *data, uint32_t *data_size)
   {
     if (detectXPK2(data, *data_size))
     {
-      if (!unpackXPK2(data, data_size, &modBuffer))
-        goto loadError2;
-
+      modBuffer = unpackXPK2(data, data_size);
       if (modBuffer == NULL)
         goto loadError2;
 

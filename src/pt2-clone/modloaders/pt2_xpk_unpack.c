@@ -86,7 +86,6 @@ static inline uint8_t XPK_ReadTable(int32_t index)
 
 static bool XPK_DoUnpack(const uint8_t *src_, uint32_t srcLen, int32_t len, uint8_t **out)
 {
-	*out = NULL;
 	if (len <= 0)
 		return false;
 
@@ -339,98 +338,45 @@ static bool ValidateHeader(XPKFILEHEADER *header)
 	return true;
 }
 
-bool ReadHeader(FILE *f, XPKFILEHEADER *header)
+void ReadHeader2(uint8_t *data, XPKFILEHEADER *header)
 {
-	if (f == NULL || fread(header, sizeof (XPKFILEHEADER), 1, f) != 1)
-		return false;
+  memcpy(header, data, sizeof(XPKFILEHEADER));
 
-	header->SrcLen = SWAP32(header->SrcLen);
-	header->DstLen = SWAP32(header->DstLen);
-	
-	return true;
-}
-
-bool detectXPK(FILE *f)
-{
-	XPKFILEHEADER header;
-
-	uint32_t OldPos = ftell(f);
-	rewind(f);
-	bool result = ReadHeader(f, &header);
-	fseek(f, OldPos, SEEK_SET);
-
-	if (result == false)
-		return false;
-
-	return ValidateHeader(&header);
-}
-
-bool unpackXPK(FILE *f, uint32_t *filesize, uint8_t **out)
-{
-	XPKFILEHEADER header;
-
-	*filesize = 0;
-	*out = NULL;
-
-	if (f == NULL)
-		return false;
-
-	uint32_t oldPos = ftell(f);
-
-	rewind(f);
-
-	if (!ReadHeader(f, &header))
-	{
-		fseek(f, oldPos, SEEK_SET);
-		return false;
-	}
-
-	if (!ValidateHeader(&header))
-	{
-		fseek(f, oldPos, SEEK_SET);
-		return false;
-	}
-
-	fseek(f, 0, SEEK_END);
-	uint32_t inputfilesize = ftell(f) - sizeof (XPKFILEHEADER);
-	fseek(f, sizeof (XPKFILEHEADER), SEEK_SET);
-
-	uint8_t *packedData = (uint8_t *)malloc(inputfilesize);
-	if (packedData == NULL)
-	{
-		fseek(f, oldPos, SEEK_SET);
-		return false;
-	}
-
-	if (fread(packedData, 1, inputfilesize, f) != inputfilesize)
-	{
-		free(packedData);
-		fseek(f, oldPos, SEEK_SET);
-		return false;
-	}
-
-	uint8_t *unpackedData = NULL;
-	bool result = XPK_DoUnpack(packedData, header.SrcLen - (sizeof (XPKFILEHEADER) - 8), header.DstLen, &unpackedData);
-	free(packedData);
-
-	if (result == true)
-	{
-		*filesize = header.DstLen;
-		*out = unpackedData;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+  header->SrcLen = SWAP32(header->SrcLen);
+  header->DstLen = SWAP32(header->DstLen);
+  
+  return;
 }
 
 bool detectXPK2(uint8_t *data, uint32_t data_size)
 {
-  return false; //TODO implement
+  XPKFILEHEADER header;
+  ReadHeader2(data, &header);
+  return ValidateHeader(&header);
 }
 
-bool unpackXPK2(uint8_t *data, uint32_t *data_size, uint8_t **out)
+uint8_t * unpackXPK2(uint8_t *data, uint32_t *out_size)
 {
-  return false; //TODO implement
+  XPKFILEHEADER header;
+  uint32_t inputfilesize = *out_size - 8;
+  
+  ReadHeader2(data, &header);
+
+  if (!ValidateHeader(&header))
+    return NULL;
+
+  data += sizeof (XPKFILEHEADER);
+
+  if (header.SrcLen != inputfilesize)
+    return NULL;
+  
+  uint8_t *unpackedData = NULL;
+  bool result = XPK_DoUnpack(data, header.SrcLen - (sizeof (XPKFILEHEADER) - 8), header.DstLen, &unpackedData);
+
+  if (result == true)
+  {
+    *out_size = header.DstLen;
+    return unpackedData;
+  }
+  return NULL;
 }

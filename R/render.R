@@ -4,7 +4,8 @@
 #' The rendered format can be played on a modern machine.
 #' @param x The object to be rendered
 #' @param duration Duration of the rendered output in seconds.
-#' @param options TODO
+#' @param options A list of options used for rendering the audio. Use
+#' [`pt2_render_options()`] to obtain default options, or modify them.
 #' @param ... Ignored
 #' @returns Rendered audio inheriting the [`audio::audioSample()`] class.
 #' @examples
@@ -65,10 +66,9 @@ play.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) 
 #'
 #' @param ... Specify custom options.
 #' @author Pepijn de Vries
-#' @export
 #' @examples
 #' pt2_render_options(stereo_separation = 100)
-#' @method export
+#' @export
 pt2_render_options <- function(...) {
   result <- getOption("pt2_render")
   if (is.null(result)) result <- list()

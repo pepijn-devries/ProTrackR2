@@ -2,9 +2,11 @@
 #include <sstream>
 #include <iomanip>
 #include "get_mod.h"
+#include "pt2-clone/pt2_structs.h"
 #include "pt2-clone/pt2_replayer_light.h"
 #include "pt2-clone/pt2_pattern_viewer.h"
 #include "pt2-clone/pt2_tables.h"
+#include "pt2-clone/pt2_module_saver.h"
 using namespace cpp11;
 
 note_t * pt_cell_internal(SEXP mod, integers pattern, integers channel, integers row) {
@@ -92,4 +94,38 @@ SEXP pt_rawcell_as_char_(raws pattern, strings padding, strings empty_char, list
     result[i] = strings(pt_cell_as_char_internal(cell, i, padding, empty_char, sformat)).at(0);
   }
   return result;
+}
+
+[[cpp11::register]]
+SEXP pt_decode_compact_cell(raws source) {
+  int n_notes = (int)(source.size()/4);
+  writable::raws celldat((R_xlen_t)(n_notes * sizeof(note_t)));
+  uint8_t * src = (uint8_t *)RAW(as_sexp(source));
+  note_t * dest = (note_t *)RAW(as_sexp(celldat));
+  
+  for(int i = 0; i < n_notes; i++, dest++, src += 4){
+    dest->period = ((src[0] & 0x0F) << 8) | src[1];
+    dest->sample = ((src[0] & 0xF0) | (src[2] >> 4)) & 31;
+    dest->command = src[2] & 0x0F;
+    dest->param = src[3];
+  }
+
+  return celldat;
+}
+
+[[cpp11::register]]
+SEXP pt_encode_compact_cell(raws source){
+  int n_notes = (int)(source.size()/sizeof(note_t));
+  note_t * src  = (note_t *)RAW(as_sexp(source));
+  writable::raws celldat((R_xlen_t)(n_notes * 4));
+  uint8_t * dest = (uint8_t *)RAW(as_sexp(celldat));
+  
+  cellCompacter(src, dest, n_notes);
+  
+  return celldat;
+}
+
+void pt_encode_compact_cell_internal(note_t * source, uint8_t * dest, uint32_t n_notes) {
+  cellCompacter(source, dest, n_notes);
+  return;
 }

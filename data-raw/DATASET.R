@@ -1,3 +1,4 @@
+## Benchmark rendering by ProTrackR and ProTrackR2 packages
 if (!requireNamespace("ProTrackR")) {
   stop("Install required packages first and retry")
 } else {
