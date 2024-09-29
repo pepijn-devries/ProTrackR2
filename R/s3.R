@@ -1,13 +1,15 @@
 #' @method format pt2mod
 #' @export
 format.pt2mod <- function(x, ...) {
-  pt2_name(x)
+  sprintf("pt2mod '%s' len %i patt %i samp %i",
+          pt2_name(x), pt2_length(x), pt2_n_pattern(x), pt2_n_sample(x))
+  
 }
 
 #' @method print pt2mod
 #' @export
 print.pt2mod <- function(x, ...) {
-  format(x, ...) |> print()
+  format(x, ...) |> paste0("\n") |> cat()
 }
 
 #' @method format pt2pat
@@ -18,7 +20,6 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
                 padding    = "%s",
                 instrument = "%02i",
                 effect     = "%X%02X")
-    # TODO rewrite C++ to handle list
     if (requireNamespace("cli", quietly = TRUE)) {
       fmt_note <- getOption("pt2_note_format")
       fmt_inst <- getOption("pt2_instr_format")
@@ -31,7 +32,7 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
       fmt <- list(note = fmt_note, padding = fmt_padd, instrument = fmt_inst, effect = fmt_efft)
     }
   }
-  pattern_as_raw_(x$mod, as.integer(x$i)) |>
+  as.raw.pt2pat(x, compact = FALSE) |>
     pt_rawcell_as_char_(
       as.character(padding),
       as.character(empty_char),
@@ -59,10 +60,51 @@ print.pt2pat <- function(x, sep = "  ", show_header = TRUE, show_row = TRUE, ...
     cat()
 }
 
+#' @method as.character pt2pat
+#' @export
+as.character.pt2pat <- function(x, ...) {
+  x <- format(x, ...)
+  if (requireNamespace("cli", quietly = TRUE))
+    x <- apply(x, 2, cli::ansi_strip, simplify = TRUE)
+  x
+}
+
+#' @method as.raw pt2pat
+#' @export
+as.raw.pt2pat <- function(x, ...) {
+  compact <- list(...)$compact
+  if (is.null(compact)) compact <- TRUE
+  UseMethod("as.raw.pt2pat", compact)
+}
+
+#' @method as.raw.pt2pat logical
+#' @name as.raw
+#' @export
+as.raw.pt2pat.logical <- function(x, compact = TRUE, ...) {
+  if (typeof(x) == "raw") {
+    cur_notation <- attributes(x)$compact_notation
+    if (cur_notation == compact) return (x)
+    if (cur_notation) {
+      x <- pt_decode_compact_cell(x)
+    } else {
+      x <- pt_encode_compact_cell(x)
+    }
+    class(x) <- "pt2pat"
+    attributes(x)$compact_notation <- !cur_notation
+    x
+  } else {
+    pattern_as_raw_(x$mod, as.integer(x$i), compact)
+  }
+}
+
 #' @method format pt2samp
 #' @export
 format.pt2samp <- function(x, ...) {
-  si <- mod_sample_info_(x$mod, as.integer(x$i))
+  si <- if (typeof(x) == "raw") {
+    attributes(x)$sample_info
+  } else {
+    mod_sample_info_(x$mod, as.integer(x$i))
+  }
   sprintf("PT2 Sample '%s' (%i)", si$text, si$length)
 }
 
@@ -70,4 +112,33 @@ format.pt2samp <- function(x, ...) {
 #' @export
 print.pt2samp <- function(x, ...) {
   format(x, ...) |> print()
+}
+
+#' @method as.raw pt2mod
+#' @export
+as.raw.pt2mod <- function(x, ...) {
+  mod_as_raw_(x)
+}
+
+#' @method as.raw pt2samp
+#' @export
+as.raw.pt2samp <- function(x, ...) {
+  if (typeof(x) == "raw") return (x)
+  mod_sample_as_raw_(x$mod, x$i)
+}
+
+#' @method as.integer pt2samp
+#' @export
+as.integer.pt2samp <- function(x, ...) {
+  if (typeof(x) == "raw") {
+    a <- attributes(x)
+    x <-
+      unclass(x) |>
+      as.integer()
+    x[x > 127L] <- x[x > 127L] - 256L
+    attributes(x) <- a
+    x
+  } else {
+    mod_sample_as_int_(x$mod, x$i)
+  }
 }

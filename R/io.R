@@ -46,3 +46,17 @@ pt2_write_mod <- function(mod, file, ...) {
   close(file)
   return (invisible(NULL))
 }
+
+#' Create a new (empty) Protracker module
+#' 
+#' Creates an empty Protracker module, it is returned as a `pt2mod` class object.
+#' @param name Name for the new module. It will be truncated if longer than 20 characters.
+#' @param ... Ignored
+#' @returns Returns a `pt2mod` class object.
+#' @examples
+#' mod <- pt2_new_mod("my_song")
+#' @author Pepijn de Vries
+#' @export
+pt2_new_mod <- function(name, ...) {
+  new_mod_(name)
+}

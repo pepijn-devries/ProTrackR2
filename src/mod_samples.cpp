@@ -25,6 +25,29 @@ SEXP mod_sample_info_internal(module_t * my_song, integers idx) {
   return attr;
 }
 
+SEXP mod_sample_as_raw_internal(module_t * my_song, integers idx) {
+  moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
+  int8_t *sampleData = &my_song->sampleData[samp->offset];
+  uint32_t len = samp->length;
+  writable::raws sampledata((R_xlen_t)len);
+  uint8_t * sampdest = (uint8_t *)RAW(as_sexp(sampledata));
+  
+  memcpy(sampdest, sampleData, len);
+
+  SEXP attr = mod_sample_info_internal(my_song, idx);
+  sexp result = as_sexp(sampledata);
+  result.attr("class") = "pt2samp";
+  result.attr("sample_info") = attr;
+  return result;
+}
+
+[[cpp11::register]]
+SEXP mod_sample_as_raw_(SEXP mod, integers idx) {
+  if (idx.size() != 1) Rf_error("This function only accepts a single index.");
+  module_t *my_song = get_mod(mod);
+  return mod_sample_as_raw_internal(my_song, idx);
+}
+
 SEXP mod_sample_as_int_internal(module_t * my_song, integers idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];

@@ -12,7 +12,8 @@
 
 \item{duration}{Duration of the rendered output in seconds.}
 
-\item{options}{TODO}
+\item{options}{A list of options used for rendering the audio. Use
+\code{\link[=pt2_render_options]{pt2_render_options()}} to obtain default options, or modify them.}
 
 \item{...}{Arguments passed to \code{\link[=pt2_render]{pt2_render()}}.}
 }

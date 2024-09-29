@@ -20,3 +20,24 @@ pt2_sample <- function(mod, i, ...) {
     class = "pt2samp"
   )
 }
+
+#' @rdname mod_info
+#' @name pt2_name
+#' @include mod_info.R
+#' @export
+pt2_name.pt2samp <- function(x, ...) {
+  if (typeof(x) == "raw")
+    attributes(x)$text else
+      mod_sample_info_(x$mod, as.integer(x$i))$text
+}
+
+#' @rdname mod_info
+#' @name pt2_name
+#' @export
+pt2_n_sample <- function(mod, ...) {
+  count = 0
+  for (i in 0L:30L) {
+    if (mod_sample_info_(mod, i)$length > 0) count = count + 1
+  }
+  count
+}

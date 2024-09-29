@@ -43,7 +43,7 @@ scripts and in batches. If you wish to use the the GUI I suggest to
 visit one of the links above and check out the work of Olav Sørensen.
 
 The work by Olav Sørensen is gratefully acknowledged here, without which
-this package would have not been feasible.
+this package would have not been possible.
 
 ## Example
 

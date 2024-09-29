@@ -51,7 +51,7 @@ If you wish to use the
 the GUI I suggest to visit one of the links above and check out the work of Olav S&oslash;rensen.
 
 The work by Olav S&oslash;rensen is gratefully acknowledged here, without which this package would
-have not been feasible.
+have not been possible.
 
 ## Example
 
