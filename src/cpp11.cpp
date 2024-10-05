@@ -54,27 +54,6 @@ extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration, SEXP ren
     return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options)));
   END_CPP11
 }
-// mod_samples.cpp
-SEXP mod_sample_as_raw_(SEXP mod, integers idx);
-extern "C" SEXP _ProTrackR2_mod_sample_as_raw_(SEXP mod, SEXP idx) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
-  END_CPP11
-}
-// mod_samples.cpp
-SEXP mod_sample_info_(SEXP mod, integers idx);
-extern "C" SEXP _ProTrackR2_mod_sample_info_(SEXP mod, SEXP idx) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_info_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
-  END_CPP11
-}
-// mod_samples.cpp
-SEXP mod_sample_as_int_(SEXP mod, integers idx);
-extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
-  END_CPP11
-}
 // patterns.cpp
 SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact);
 extern "C" SEXP _ProTrackR2_pattern_as_raw_(SEXP mod, SEXP pattern, SEXP compact) {
@@ -131,6 +110,41 @@ extern "C" SEXP _ProTrackR2_pt_init_() {
     return cpp11::as_sexp(pt_init_());
   END_CPP11
 }
+// samp_io.cpp
+SEXP open_samp_(raws data);
+extern "C" SEXP _ProTrackR2_open_samp_(SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(open_samp_(cpp11::as_cpp<cpp11::decay_t<raws>>(data)));
+  END_CPP11
+}
+// samp_io.cpp
+SEXP sample_file_format_(SEXP input, strings file_type);
+extern "C" SEXP _ProTrackR2_sample_file_format_(SEXP input, SEXP file_type) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sample_file_format_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(input), cpp11::as_cpp<cpp11::decay_t<strings>>(file_type)));
+  END_CPP11
+}
+// samples.cpp
+SEXP mod_sample_as_raw_(SEXP mod, integers idx);
+extern "C" SEXP _ProTrackR2_mod_sample_as_raw_(SEXP mod, SEXP idx) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(mod_sample_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+  END_CPP11
+}
+// samples.cpp
+SEXP mod_sample_info_(SEXP mod, integers idx);
+extern "C" SEXP _ProTrackR2_mod_sample_info_(SEXP mod, SEXP idx) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(mod_sample_info_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+  END_CPP11
+}
+// samples.cpp
+SEXP mod_sample_as_int_(SEXP mod, integers idx);
+extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+  END_CPP11
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
@@ -143,6 +157,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_mod_sample_info_",       (DL_FUNC) &_ProTrackR2_mod_sample_info_,       2},
     {"_ProTrackR2_new_mod_",               (DL_FUNC) &_ProTrackR2_new_mod_,               1},
     {"_ProTrackR2_open_mod_",              (DL_FUNC) &_ProTrackR2_open_mod_,              1},
+    {"_ProTrackR2_open_samp_",             (DL_FUNC) &_ProTrackR2_open_samp_,             1},
     {"_ProTrackR2_pattern_as_raw_",        (DL_FUNC) &_ProTrackR2_pattern_as_raw_,        3},
     {"_ProTrackR2_pt_cell_",               (DL_FUNC) &_ProTrackR2_pt_cell_,               4},
     {"_ProTrackR2_pt_cell_as_char_",       (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,       7},
@@ -152,6 +167,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_pt_init_",               (DL_FUNC) &_ProTrackR2_pt_init_,               0},
     {"_ProTrackR2_pt_rawcell_as_char_",    (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,    4},
     {"_ProTrackR2_render_mod_",            (DL_FUNC) &_ProTrackR2_render_mod_,            3},
+    {"_ProTrackR2_sample_file_format_",    (DL_FUNC) &_ProTrackR2_sample_file_format_,    2},
     {NULL, NULL, 0}
 };
 }

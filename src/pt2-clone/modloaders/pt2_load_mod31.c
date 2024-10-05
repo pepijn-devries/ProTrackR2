@@ -51,7 +51,7 @@ module_t *loadMod31(uint8_t *buffer, uint32_t filesize)
 	moduleSample_t *s = m->samples;
 	for (int32_t i = 0; i < MOD_SAMPLES; i++, s++)
 	{
-		memcpy(s->text, p, 22); p += 22;
+		memcpy(s->text, p, 21); p += 22;
 
 		realSampleLengths[i] = ((p[0] << 8) | p[1]) * 2; p += 2;
 		s->length = (realSampleLengths[i] > config.maxSampleLength) ? config.maxSampleLength : realSampleLengths[i];

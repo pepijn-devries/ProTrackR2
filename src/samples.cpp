@@ -11,9 +11,8 @@ moduleSample_t * get_mod_sampinf_internal(module_t * my_song, integers idx) {
   return &my_song->samples[i];
 }
 
-SEXP mod_sample_info_internal(module_t * my_song, integers idx) {
-  moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
-  
+SEXP mod_sample_info_internal2(moduleSample_t * samp) {
+
   writable::list attr({
     "length"_nm       = (int)samp->length,
       "loopStart"_nm  = (int)samp->loopStart,
@@ -23,6 +22,11 @@ SEXP mod_sample_info_internal(module_t * my_song, integers idx) {
       "text"_nm       = r_string(samp->text)
   });
   return attr;
+}
+
+SEXP mod_sample_info_internal(module_t * my_song, integers idx) {
+  moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
+  return mod_sample_info_internal2(samp);
 }
 
 SEXP mod_sample_as_raw_internal(module_t * my_song, integers idx) {
