@@ -12,7 +12,7 @@ pt2_new_mod(name, ...)
 \item{...}{Ignored}
 }
 \value{
-Returns a \code{pt2mod} class object.
+A \code{pt2mod} class module, with no samples and one empty pattern.
 }
 \description{
 Creates an empty Protracker module, it is returned as a \code{pt2mod} class object.

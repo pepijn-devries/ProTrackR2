@@ -116,13 +116,18 @@ void downSample(void)
 	fixSampleBeep(s);
 }
 
-void fixSampleBeep(moduleSample_t *s)
+void fixSampleBeep2(moduleSample_t *s, int8_t * sampleData)
 {
 	if (s->length >= 2 && s->loopStart+s->loopLength <= 2)
 	{
-		song->sampleData[s->offset+0] = 0;
-		song->sampleData[s->offset+1] = 0;
+		sampleData[s->offset+0] = 0;
+		sampleData[s->offset+1] = 0;
 	}
+}
+
+void fixSampleBeep(moduleSample_t *s)
+{
+  fixSampleBeep2(s, song->sampleData);
 }
 
 void updateSamplePos(void)

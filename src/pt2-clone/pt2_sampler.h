@@ -28,6 +28,7 @@ void upSample(void);
 // void createSampleMarkTable(void);
 int32_t smpPos2Scr(int32_t pos);
 int32_t scr2SmpPos(int32_t x);
+void fixSampleBeep2(moduleSample_t *s, int8_t * sampleData);
 void fixSampleBeep(moduleSample_t *s);
 void highPassSample(int32_t cutOff);
 void lowPassSample(int32_t cutOff);

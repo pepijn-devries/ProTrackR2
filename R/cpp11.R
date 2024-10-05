@@ -28,18 +28,6 @@ render_mod_ <- function(mod, render_duration, render_options) {
   .Call(`_ProTrackR2_render_mod_`, mod, render_duration, render_options)
 }
 
-mod_sample_as_raw_ <- function(mod, idx) {
-  .Call(`_ProTrackR2_mod_sample_as_raw_`, mod, idx)
-}
-
-mod_sample_info_ <- function(mod, idx) {
-  .Call(`_ProTrackR2_mod_sample_info_`, mod, idx)
-}
-
-mod_sample_as_int_ <- function(mod, idx) {
-  .Call(`_ProTrackR2_mod_sample_as_int_`, mod, idx)
-}
-
 pattern_as_raw_ <- function(mod, pattern, compact) {
   .Call(`_ProTrackR2_pattern_as_raw_`, mod, pattern, compact)
 }
@@ -70,4 +58,24 @@ pt_cleanup_ <- function() {
 
 pt_init_ <- function() {
   .Call(`_ProTrackR2_pt_init_`)
+}
+
+open_samp_ <- function(data) {
+  .Call(`_ProTrackR2_open_samp_`, data)
+}
+
+sample_file_format_ <- function(input, file_type) {
+  .Call(`_ProTrackR2_sample_file_format_`, input, file_type)
+}
+
+mod_sample_as_raw_ <- function(mod, idx) {
+  .Call(`_ProTrackR2_mod_sample_as_raw_`, mod, idx)
+}
+
+mod_sample_info_ <- function(mod, idx) {
+  .Call(`_ProTrackR2_mod_sample_info_`, mod, idx)
+}
+
+mod_sample_as_int_ <- function(mod, idx) {
+  .Call(`_ProTrackR2_mod_sample_as_int_`, mod, idx)
 }
