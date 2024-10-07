@@ -1,4 +1,9 @@
-ProTrackR2 v0.0.0.9006
+ProTrackR2 v0.0.1.0001
+-------------
+
+  * Format patterns conform OpenMPT specs
+
+ProTrackR2 v0.0.1
 -------------
 
   * Initial commit, which can:
