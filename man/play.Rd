@@ -5,12 +5,13 @@
 \alias{play.pt2mod}
 \title{Play a Protracker module}
 \usage{
-\method{play}{pt2mod}(x, duration = 120, options = pt2_render_options(), ...)
+\method{play}{pt2mod}(x, duration = NA, options = pt2_render_options(), ...)
 }
 \arguments{
 \item{x}{Object to be played.}
 
-\item{duration}{Duration of the rendered output in seconds.}
+\item{duration}{Duration of the rendered output in seconds. When set to \code{NA}
+the duration of the module is calculated and used for rendering.}
 
 \item{options}{A list of options used for rendering the audio. Use
 \code{\link[=pt2_render_options]{pt2_render_options()}} to obtain default options, or modify them.}

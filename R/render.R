@@ -3,7 +3,8 @@
 #' Renders a 16bit pulse-code modulation waveform from a Protracker module.
 #' The rendered format can be played on a modern machine.
 #' @param x The object to be rendered
-#' @param duration Duration of the rendered output in seconds.
+#' @param duration Duration of the rendered output in seconds. When set to `NA`
+#' the duration of the module is calculated and used for rendering.
 #' @param options A list of options used for rendering the audio. Use
 #' [`pt2_render_options()`] to obtain default options, or modify them.
 #' @param ... Ignored
@@ -13,15 +14,15 @@
 #' aud <- pt2_render(mod)
 #' @author Pepijn de Vries
 #' @export
-pt2_render <- function(x, duration = 120, options = pt2_render_options(), ...) {
+pt2_render <- function(x, duration = NA, options = pt2_render_options(), ...) {
   UseMethod("pt2_render", x)
 }
 
 #' @rdname pt2_render
 #' @name pt2_render
 #' @export
-pt2_render.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) {
-  render_mod_(x, duration, options) |>
+pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), ...) {
+  render_mod_(x, as.numeric(duration), options) |>
     matrix(nrow = 2, byrow = FALSE) |>
     audio::audioSample(rate = options$sample_rate)
 }
@@ -53,7 +54,7 @@ NULL
 #' ctrl <- play(mod)
 #' }
 #' @method play pt2mod
-play.pt2mod <- function(x, duration = 120, options = pt2_render_options(), ...) {
+play.pt2mod <- function(x, duration = NA, options = pt2_render_options(), ...) {
   x <- pt2_render(x, duration = duration, options = options, ...)
   rate <- attributes(x)$rate
   audio::play.audioSample(x, rate = rate)

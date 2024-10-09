@@ -5,14 +5,15 @@
 \alias{pt2_render.pt2mod}
 \title{Render Protracker modules to a playable format}
 \usage{
-pt2_render(x, duration = 120, options = pt2_render_options(), ...)
+pt2_render(x, duration = NA, options = pt2_render_options(), ...)
 
-\method{pt2_render}{pt2mod}(x, duration = 120, options = pt2_render_options(), ...)
+\method{pt2_render}{pt2mod}(x, duration = NA, options = pt2_render_options(), ...)
 }
 \arguments{
 \item{x}{The object to be rendered}
 
-\item{duration}{Duration of the rendered output in seconds.}
+\item{duration}{Duration of the rendered output in seconds. When set to \code{NA}
+the duration of the module is calculated and used for rendering.}
 
 \item{options}{A list of options used for rendering the audio. Use
 \code{\link[=pt2_render_options]{pt2_render_options()}} to obtain default options, or modify them.}

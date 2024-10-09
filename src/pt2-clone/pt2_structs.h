@@ -102,6 +102,7 @@ typedef struct module_t
 
 	// for MOD2WAV progress bar
 	uint32_t rowsCounter, rowsInTotal;
+	float songDuration; // duration in seconds
 } module_t;
 
 typedef struct editor_t
