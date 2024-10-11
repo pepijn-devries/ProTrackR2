@@ -23,7 +23,7 @@ a specific index from a Protracker module.
 \examples{
 mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 
-pat <- pt2_pattern(mod, 0L)
+pt2_pattern(mod, 0L)
 }
 \author{
 Pepijn de Vries

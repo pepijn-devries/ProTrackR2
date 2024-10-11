@@ -39,8 +39,8 @@ SEXP pt_cell_(SEXP mod, integers pattern, integers channel, integers row) {
 
 SEXP pt_cell_as_char_internal(
     note_t *cell, int offset, strings padding, strings empty, list sformat) {
-  if (padding.size() != 1 || empty.size() != 1)
-    Rf_error("Arguments must have length 1");
+  if (padding.size() < 1 || empty.size() < 1)
+    Rf_error("Arguments must have at least one element");
   if (sformat.size() != 4) Rf_error("'fmt' must have a length of 4.");
   
   note_t * cell2 = cell + offset;
@@ -50,6 +50,7 @@ SEXP pt_cell_as_char_internal(
     std::replace(notestr.begin(), notestr.end(), '-', empt[0]);
   
   auto sprf = package("base")["sprintf"];
+  auto gsub = package("base")["gsub"];
   if (strings(sformat["note"]).size() < 1 || strings(sformat["padding"]).size() < 1 ||
       strings(sformat["instrument"]).size() < 1 || strings(sformat["effect"]).size() < 1)
     Rf_error("Mallformat pt2cell format");
@@ -65,14 +66,30 @@ SEXP pt_cell_as_char_internal(
   if ((int)cell2->command == 0 && (int)cell2->param == 0 &&
       strings(sformat["effect"]).size() > 1)
     fmt_efft = strings(sformat["effect"]).at(1);
-  sexp fmt  = sprf("fmt"_nm = r_string("%s%s%s%s%s"),
-                   fmt_note, fmt_padd, fmt_inst, fmt_padd, fmt_efft);
+  
+  sexp instr_str = sprf(r_string("%02i"), (int)cell2->sample);
+  if ((int)cell2->sample == 0 && empty.size() > 1) {
+    instr_str = gsub("0", empty.at(1), instr_str);
+  }
+
+  sexp efft_str = sprf(
+    fmt_efft, writable::integers({(int)cell2->command}),
+    writable::integers({(int)cell2->param})
+  );
+  
+  if ((int)cell2->command == 0 && (int)cell2->param == 0 && empty.size() > 2) {
+    efft_str = gsub("0", empty.at(2), efft_str, "perl"_nm = true);
+  }
+  
+  sexp fmt = sprf("fmt"_nm = r_string("%s%s%s%s%s"),
+                   fmt_note, fmt_padd, fmt_inst, fmt_padd, efft_str);
+  int second_pad = 0;
+  if (padding.size() > 1) second_pad = 1;
   sexp result = sprf(
     "fmt"_nm = strings(fmt),
     r_string(notestr),
-    padding, writable::integers({(int)cell2->sample}),
-    padding, writable::integers({(int)cell2->command}),
-    writable::integers({(int)cell2->param}));
+    padding.at(0), instr_str,
+    padding.at(second_pad));
   return result;
 }
 

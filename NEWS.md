@@ -1,4 +1,11 @@
-ProTrackR2 v0.0.0.9006
+ProTrackR2 v0.0.2
+-------------
+
+  * Calculate song duration
+  * Start at module positions other than 0
+  * Format patterns conform OpenMPT specs
+
+ProTrackR2 v0.0.1
 -------------
 
   * Initial commit, which can:

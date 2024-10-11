@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.0.9006
+Version: 0.0.2
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -15,12 +15,12 @@ Description: 'ProTracker' is a popular music tracker to sequence
     archaic, it still remains popular to this date. This package
     intends to contribute to this popularity and therewith
     keeping the legacy of 'ProTracker' and the Commodore Amiga
-    alive. This package is the successor of ProTrackR providing
+    alive. This package is the successor of 'ProTrackR' providing
     better performance.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.2.3
 LinkingTo: 
     cpp11
 Collate: 
@@ -29,6 +29,7 @@ Collate:
     'helpers.R'
     'io.R'
     'mod_info.R'
+    'modplug.R'
     'pattern.R'
     'render.R'
     's3.R'

@@ -24,8 +24,12 @@ new_mod_ <- function(name) {
   .Call(`_ProTrackR2_new_mod_`, name)
 }
 
-render_mod_ <- function(mod, render_duration, render_options) {
-  .Call(`_ProTrackR2_render_mod_`, mod, render_duration, render_options)
+render_mod_ <- function(mod, render_duration, render_options, position) {
+  .Call(`_ProTrackR2_render_mod_`, mod, render_duration, render_options, position)
+}
+
+mod_duration <- function(mod, render_options, position) {
+  .Call(`_ProTrackR2_mod_duration`, mod, render_options, position)
 }
 
 pattern_as_raw_ <- function(mod, pattern, compact) {

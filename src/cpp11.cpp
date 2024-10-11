@@ -48,10 +48,17 @@ extern "C" SEXP _ProTrackR2_new_mod_(SEXP name) {
   END_CPP11
 }
 // mod_render.cpp
-SEXP render_mod_(SEXP mod, doubles render_duration, list render_options);
-extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration, SEXP render_options) {
+SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integers position);
+extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration, SEXP render_options, SEXP position) {
   BEGIN_CPP11
-    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options)));
+    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<integers>>(position)));
+  END_CPP11
+}
+// mod_render.cpp
+SEXP mod_duration(SEXP mod, list render_options, integers position);
+extern "C" SEXP _ProTrackR2_mod_duration(SEXP mod, SEXP render_options, SEXP position) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(mod_duration(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<integers>>(position)));
   END_CPP11
 }
 // patterns.cpp
@@ -149,6 +156,7 @@ extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_mod_as_raw_",            (DL_FUNC) &_ProTrackR2_mod_as_raw_,            1},
+    {"_ProTrackR2_mod_duration",           (DL_FUNC) &_ProTrackR2_mod_duration,           3},
     {"_ProTrackR2_mod_length_",            (DL_FUNC) &_ProTrackR2_mod_length_,            1},
     {"_ProTrackR2_mod_name_",              (DL_FUNC) &_ProTrackR2_mod_name_,              1},
     {"_ProTrackR2_mod_pattab_",            (DL_FUNC) &_ProTrackR2_mod_pattab_,            1},
@@ -166,7 +174,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_pt_encode_compact_cell", (DL_FUNC) &_ProTrackR2_pt_encode_compact_cell, 1},
     {"_ProTrackR2_pt_init_",               (DL_FUNC) &_ProTrackR2_pt_init_,               0},
     {"_ProTrackR2_pt_rawcell_as_char_",    (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,    4},
-    {"_ProTrackR2_render_mod_",            (DL_FUNC) &_ProTrackR2_render_mod_,            3},
+    {"_ProTrackR2_render_mod_",            (DL_FUNC) &_ProTrackR2_render_mod_,            4},
     {"_ProTrackR2_sample_file_format_",    (DL_FUNC) &_ProTrackR2_sample_file_format_,    2},
     {NULL, NULL, 0}
 };

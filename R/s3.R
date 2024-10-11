@@ -1,8 +1,10 @@
 #' @method format pt2mod
 #' @export
 format.pt2mod <- function(x, ...) {
-  sprintf("pt2mod '%s' len %i patt %i samp %i",
-          pt2_name(x), pt2_length(x), pt2_n_pattern(x), pt2_n_sample(x))
+  dur <- pt2_duration(x) |>
+    as.numeric("secs")
+  sprintf("pt2mod '%s' (%02.f:%02.f)",
+          pt2_name(x), dur/60, dur%%60)
   
 }
 
@@ -18,7 +20,7 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
   if (is.null(fmt)) {
     fmt <- list(note       = "%s",
                 padding    = "%s",
-                instrument = "%02i",
+                instrument = "%s",
                 effect     = "%X%02X")
     if (requireNamespace("cli", quietly = TRUE)) {
       fmt_note <- getOption("pt2_note_format")
@@ -26,7 +28,7 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
       fmt_efft <- getOption("pt2_effect_format")
       fmt_padd <- getOption("pt2_padding_format")
       if (is.null(fmt_note)) fmt_note <- c(cli::col_blue("%s"), cli::col_silver("%s"))
-      if (is.null(fmt_inst)) fmt_inst <- cli::col_cyan("%02i")
+      if (is.null(fmt_inst)) fmt_inst <- cli::col_cyan("%s")
       if (is.null(fmt_efft)) fmt_efft <- c(cli::col_green("%X%02X"), cli::col_silver("%X%02X"))
       if (is.null(fmt_padd)) fmt_padd <- cli::col_silver("%s")
       fmt <- list(note = fmt_note, padding = fmt_padd, instrument = fmt_inst, effect = fmt_efft)
