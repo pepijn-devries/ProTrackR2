@@ -5,7 +5,7 @@
 \alias{play.pt2mod}
 \title{Play a Protracker module}
 \usage{
-\method{play}{pt2mod}(x, duration = NA, options = pt2_render_options(), ...)
+\method{play}{pt2mod}(x, duration = NA, options = pt2_render_options(), position = 0L, ...)
 }
 \arguments{
 \item{x}{Object to be played.}
@@ -15,6 +15,9 @@ the duration of the module is calculated and used for rendering.}
 
 \item{options}{A list of options used for rendering the audio. Use
 \code{\link[=pt2_render_options]{pt2_render_options()}} to obtain default options, or modify them.}
+
+\item{position}{Starting position in the pattern sequence table (\code{pt2_pattern_table()}).
+Should be a non negative value smaller than the mule length (\code{pt2_length()}).}
 
 \item{...}{Arguments passed to \code{\link[=pt2_render]{pt2_render()}}.}
 }

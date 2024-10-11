@@ -1,8 +1,10 @@
 #' @method format pt2mod
 #' @export
 format.pt2mod <- function(x, ...) {
-  sprintf("pt2mod '%s' len %i patt %i samp %i",
-          pt2_name(x), pt2_length(x), pt2_n_pattern(x), pt2_n_sample(x))
+  dur <- pt2_duration(x) |>
+    as.numeric("secs")
+  sprintf("pt2mod '%s' (%02.f:%02.f)",
+          pt2_name(x), dur/60, dur%%60)
   
 }
 

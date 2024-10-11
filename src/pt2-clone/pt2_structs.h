@@ -145,15 +145,7 @@ typedef struct editor_t
 #endif
 } editor_t;
 
-typedef struct diskop_t
-{
-	volatile bool cached, isFilling, forceStopReading;
-	bool modPackFlg;
-	int8_t mode, smpSaveType;
-	int32_t numEntries, scrollOffset;
-} diskop_t;
 extern editor_t editor;
-extern diskop_t diskop;
 extern module_t *song; // pt2_main.c
 
 #ifdef __cplusplus

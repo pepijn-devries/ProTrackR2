@@ -255,7 +255,32 @@ void modStop(void)
 
 void modSetPos(int16_t pos, int16_t row)
 {
-  return; // TODO dummy for now
+  if (row != -1)
+  {
+    row = CLAMP(row, 0, 63);
+    
+    song->tick = 0;
+    song->row = (int8_t)row;
+    song->currRow = (int8_t)row;
+  }
+  
+  if (pos != -1)
+  {
+    if (pos >= 0)
+    {
+      song->currPos = modPos = pos;
+
+      if (editor.currMode == MODE_PLAY && editor.playMode == PLAY_MODE_NORMAL)
+      {
+        modPattern = (int8_t)song->header.patternTable[pos];
+        if (modPattern > MAX_PATTERNS-1)
+          modPattern = MAX_PATTERNS-1;
+        
+        song->currPattern = modPattern;
+      }
+      
+    }
+  }
 }
 
 void modSetTempo(int32_t bpm, bool doLockAudio)
@@ -282,7 +307,8 @@ void modSetSpeed(int32_t speed)
 
 void modSetPattern(uint8_t pattern)
 {
-  return; // TODO dummy for now
+  modPattern = pattern;
+  song->currPattern = modPattern;
 }
 
 void restartSong(void) // for the beginning of MOD2WAV/PAT2SMP
@@ -357,7 +383,6 @@ static void nextPosition(void)
         song->currRow &= 63;
         song->row = song->currRow;
       }
-      
       return;
     }
     
@@ -370,7 +395,7 @@ static void nextPosition(void)
       {
         doStopIt(true);
         turnOffVoices();
-        
+
         modPos = 0;
         modPattern = (int8_t)song->header.patternTable[modPos];
         song->row = 0;
@@ -1268,6 +1293,7 @@ static void increasePlaybackTimer(void)
 
 bool intMusic(void) // replayer ticker
 {
+  if (song->currRow % 64 == 0)
   // quirk: CIA BPM changes are delayed by one tick in PT, so handle previous tick's BPM change now
   if (ciaSetBPM != -1)
   {
@@ -1287,7 +1313,6 @@ bool intMusic(void) // replayer ticker
     song->tick = 0;
     readNewNote = true;
   }
-  
   if (readNewNote || editor.stepPlayEnabled) // tick 0
   {
     if (pattDelTime2 == 0) // no pattern delay, time to read note data
@@ -1301,7 +1326,7 @@ bool intMusic(void) // replayer ticker
       for (int32_t i = 0; i < PAULA_VOICES; i++, ch++)
       {
         playVoice(ch);
-        
+
         // set voice volume
         const uint32_t voiceAddr = 0xDFF0A0 + (i * 16);
         paulaWriteWord(voiceAddr + 8, ch->n_volume);

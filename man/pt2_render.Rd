@@ -7,7 +7,13 @@
 \usage{
 pt2_render(x, duration = NA, options = pt2_render_options(), ...)
 
-\method{pt2_render}{pt2mod}(x, duration = NA, options = pt2_render_options(), ...)
+\method{pt2_render}{pt2mod}(
+  x,
+  duration = NA,
+  options = pt2_render_options(),
+  position = 0L,
+  ...
+)
 }
 \arguments{
 \item{x}{The object to be rendered}
@@ -19,6 +25,9 @@ the duration of the module is calculated and used for rendering.}
 \code{\link[=pt2_render_options]{pt2_render_options()}} to obtain default options, or modify them.}
 
 \item{...}{Ignored}
+
+\item{position}{Starting position in the pattern sequence table (\code{pt2_pattern_table()}).
+Should be a non negative value smaller than the mule length (\code{pt2_length()}).}
 }
 \value{
 Rendered audio inheriting the \code{\link[audio:audioSample]{audio::audioSample()}} class.

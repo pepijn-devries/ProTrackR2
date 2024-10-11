@@ -9,7 +9,7 @@
 #' @examples
 #' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 #' 
-#' pat <- pt2_pattern(mod, 0L)
+#' pt2_pattern(mod, 0L)
 #' @author Pepijn de Vries
 #' @export
 pt2_pattern <- function(mod, i, ...) {

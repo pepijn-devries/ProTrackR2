@@ -7,12 +7,11 @@
 #include "pt2-clone/pt2_downsample2x.h"
 using namespace cpp11;
 
-static void calcMod2WavTotalRows(void);
+static void calcMod2WavTotalRows(int16_t start_pos);
 
-[[cpp11::register]]
-SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
+double render_prep(SEXP mod, doubles render_duration, list render_options, integers position) {
   module_t *my_song = get_mod(mod);
-  if (render_duration.size() != 1)
+  if (render_duration.size() != 1 || position.size() != 1)
     Rf_error("Arguments should have length 1");
   
   config.mod2WavOutputFreq = audio.outputRate = integers(render_options["sample_rate"]).at(0);
@@ -28,6 +27,14 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   song = my_song;
   
   restartSong();
+  int16_t mpos = (uint16_t)position.at(0);
+  if (mpos < 0 || mpos >= song->header.songLength)
+    Rf_error("'position' is out of range!");
+  
+  modSetPos(mpos, 0);
+  initializeModuleChannels(song);
+  modSetPattern(song->header.patternTable[mpos]);
+  
   clearMixerDownsamplerStates();
   editor.mod2WavOngoing = false; // must be set before calling resetAudio()
   audio.oversamplingFlag = (config.mod2WavOutputFreq < 96000);
@@ -37,13 +44,19 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   updateReplayerTimingMode();
   clearMixerDownsamplerStates();
   modSetTempo(song->currBPM, true); // update BPM (samples per tick) with the tracker's audio frequency
-
+  
   double dur = render_duration.at(0);
   if (R_IsNA(dur)) {
-    calcMod2WavTotalRows();
+    calcMod2WavTotalRows(mpos);
     dur = (double)song->songDuration;
   }
+  return dur;
+}
 
+[[cpp11::register]]
+SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integers position) {
+  double dur = render_prep(mod, render_duration, render_options, position);
+  
   uint32_t total_samples = round(audio.outputRate * dur) * 2; // 2 for stereo
   uint32_t n_rendered = 0;
   writable::integers result((R_xlen_t)(total_samples));
@@ -51,6 +64,10 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   
   setLEDFilter(logicals(render_options["led_filter"]).at(0));
 
+  int16_t mpos = (uint16_t)position.at(0);
+  modSetPos(mpos, 0);
+  initializeModuleChannels(song);
+  modSetPattern(song->header.patternTable[mpos]);
   for (int i = 0; i < (int)song->currSpeed; i++) {
     intMusic(); // skip currSpeed ticks as they are empty.
   }
@@ -79,6 +96,13 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options) {
   return result;
 }
 
+[[cpp11::register]]
+SEXP mod_duration(SEXP mod, list render_options, integers position) {
+  writable::doubles inp({NA_REAL});
+  double dur = render_prep(mod, inp, render_options, position);
+  writable::doubles result({dur});
+  return result;
+}
 
 #define CALC__END_OF_SONG                                           \
 if (--numLoops < 0)                                                 \
@@ -93,8 +117,10 @@ else                                                                \
 }
 
 // ONLY used for a visual percentage counter, so accuracy is not very important
-static void calcMod2WavTotalRows(void)
+static void calcMod2WavTotalRows(int16_t start_pos)
 {
+  modSetPos(start_pos, 0);
+  
   int8_t n_pattpos[PAULA_VOICES], n_loopcount[PAULA_VOICES];
   
   // for pattern loop
@@ -104,10 +130,11 @@ static void calcMod2WavTotalRows(void)
   song->rowsCounter = song->rowsInTotal  = 0;
   uint64_t samplesToMixFrac = 0;
   uint32_t sample_count = 0;
-
+  uint8_t delayTicks = 0;
+  
   uint8_t modRow = 0;
-  int16_t modPos = 0;
-  uint16_t modPattern = song->header.patternTable[0];
+  int16_t modPos = start_pos;
+  int8_t modPattern = song->header.patternTable[modPos];
   uint8_t pBreakPosition = 0;
   bool posJumpAssert = false;
   bool pBreakFlag = false;
@@ -123,6 +150,8 @@ static void calcMod2WavTotalRows(void)
     
     for (int32_t ch = 0; ch < PAULA_VOICES; ch++)
     {
+      delayTicks = 0;
+      
       note_t *note = &song->patterns[modPattern][(modRow * PAULA_VOICES) + ch];
       if (note->command == 0x0B) // Bxx - Position Jump
       {
@@ -175,6 +204,10 @@ static void calcMod2WavTotalRows(void)
             editor.rowVisitTable[(modPos * MOD_ROWS) + pos] = false;
         }
       }
+      else if (note->command == 0x0E && (note->param >> 4) == 0x0E) // EEx - Delay effect
+      {
+        delayTicks = note->param & 0x0F;
+      }
     }
     
     modRow++;
@@ -188,7 +221,7 @@ static void calcMod2WavTotalRows(void)
       samplesToMix++;
     }
     
-    sample_count += samplesToMix * song->currSpeed;
+    sample_count += samplesToMix * song->currSpeed * (delayTicks + 1);
 
     if (pBreakFlag)
     {

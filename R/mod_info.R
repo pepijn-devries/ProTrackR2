@@ -9,6 +9,7 @@
 #' @examples
 #' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 #' 
+#' pt2_length(mod)
 #' pt2_n_pattern(mod)
 #' pt2_n_sample(mod)
 #' pt2_pattern_table(mod)
