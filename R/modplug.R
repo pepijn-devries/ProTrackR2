@@ -2,6 +2,7 @@
 #' 
 #' [OpenMpt](https://openmpt.org/) is a popular modern music tracker. This function allows
 #' you to format a pattern such that it can be pasted directly into OpenMPT.
+#' On windows you can use `writeClipboard()` for this purpose.
 #' @param pattern An object of class `pt2pat` to be formatted
 #' @param ... Ignored
 #' @returns Returns a `character` object formatted such that it can be copied into OpenMPT
@@ -9,9 +10,6 @@
 #' @examples
 #' mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 #' mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
-#' 
-#' ## If you wish to paste the pattern in OpenMPT, write it to the clipboard:
-#' utils::writeClipboard(mp_pat)
 #' @export
 as_modplug_pattern <- function(pattern, ...) {
   if (!inherits(pattern, "pt2pat"))
