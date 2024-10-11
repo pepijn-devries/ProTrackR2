@@ -9,6 +9,17 @@ using namespace cpp11;
 
 static void calcMod2WavTotalRows(int16_t start_pos);
 
+void reset_speed(list render_options) {
+  
+  int speed = integers(render_options["speed"]).at(0);
+  int tempo = integers(render_options["tempo"]).at(0);
+  if (speed < 1 || speed > 0x1F) speed = 6;
+  if (tempo < 0x20 || tempo > 0xFF) tempo = 125;
+  
+  modSetTempo(tempo, true);
+  modSetSpeed(speed);
+}
+
 double render_prep(SEXP mod, doubles render_duration, list render_options, integers position) {
   module_t *my_song = get_mod(mod);
   if (render_duration.size() != 1 || position.size() != 1)
@@ -43,7 +54,7 @@ double render_prep(SEXP mod, doubles render_duration, list render_options, integ
   generateBpmTable(config.mod2WavOutputFreq, editor.timingMode == TEMPO_MODE_VBLANK);
   updateReplayerTimingMode();
   clearMixerDownsamplerStates();
-  modSetTempo(song->currBPM, true); // update BPM (samples per tick) with the tracker's audio frequency
+  reset_speed(render_options);
   
   double dur = render_duration.at(0);
   if (R_IsNA(dur)) {
@@ -66,8 +77,11 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integer
 
   int16_t mpos = (uint16_t)position.at(0);
   modSetPos(mpos, 0);
+  reset_speed(render_options);
+
   initializeModuleChannels(song);
   modSetPattern(song->header.patternTable[mpos]);
+  
   for (int i = 0; i < (int)song->currSpeed; i++) {
     intMusic(); // skip currSpeed ticks as they are empty.
   }

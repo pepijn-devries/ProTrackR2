@@ -1,8 +1,9 @@
-ProTrackR2 v0.0.2
+ProTrackR2 v0.0.3
 -------------
 
   * Calculate song duration
   * Start at module positions other than 0
+  * Custom starting speed and/or tempo
   * Format patterns conform OpenMPT specs
 
 ProTrackR2 v0.0.1

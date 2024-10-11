@@ -79,6 +79,8 @@ pt2_render_options <- function(...) {
     sample_rate = 44100L,
     stereo_separation = 20L,
     amiga_filter = "A500",
+    speed = 6L,
+    tempo = 125L,
     led_filter = FALSE
   )
   for (i in names(defaults)) {
