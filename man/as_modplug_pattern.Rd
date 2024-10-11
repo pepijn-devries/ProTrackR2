@@ -17,13 +17,11 @@ Returns a \code{character} object formatted such that it can be copied into Open
 \description{
 \href{https://openmpt.org/}{OpenMpt} is a popular modern music tracker. This function allows
 you to format a pattern such that it can be pasted directly into OpenMPT.
+On windows you can use \code{writeClipboard()} for this purpose.
 }
 \examples{
 mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
-
-## If you wish to paste the pattern in OpenMPT, write it to the clipboard:
-utils::writeClipboard(mp_pat)
 }
 \author{
 Pepijn de Vries
