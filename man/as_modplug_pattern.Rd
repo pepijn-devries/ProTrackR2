@@ -23,7 +23,7 @@ mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
 mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
 
 ## If you wish to paste the pattern in OpenMPT, write it to the clipboard:
-writeClipboard(mp_pat)
+utils::writeClipboard(mp_pat)
 }
 \author{
 Pepijn de Vries

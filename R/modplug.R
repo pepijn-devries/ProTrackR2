@@ -11,7 +11,7 @@
 #' mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
 #' 
 #' ## If you wish to paste the pattern in OpenMPT, write it to the clipboard:
-#' writeClipboard(mp_pat)
+#' utils::writeClipboard(mp_pat)
 #' @export
 as_modplug_pattern <- function(pattern, ...) {
   if (!inherits(pattern, "pt2pat"))
