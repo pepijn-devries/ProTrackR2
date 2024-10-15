@@ -11,6 +11,8 @@ pt2_validate(x, ...)
 }
 \arguments{
 \item{x}{object to be validated}
+
+\item{...}{Ignored}
 }
 \value{
 A \code{logical} value indicating whether the object is valid or not

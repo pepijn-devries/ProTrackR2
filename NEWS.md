@@ -1,4 +1,4 @@
-ProTrackR2 v0.0.3.0001
+ProTrackR2 v0.0.3.0002
 -------------
 
   * Added select and assignment operators

@@ -15,7 +15,9 @@
       } else if (is.null(value[[y]])) {
         value[[y]]
       } else {
-        as.raw(value[[y]], compact = FALSE)
+        if (inherits(value[[y]], "pt2pat"))
+          as.raw.pt2pat(value[[y]], compact = FALSE) else
+            as.raw.pt2samp(value[[y]])
       }
     })
   
@@ -35,7 +37,7 @@
       new_ptns <- seq(n_pat, length(value) - 1L)
       idx_available <- 128L - seq(1L, empty_spots) |> rev()
       seq_table[1 + idx_available[seq_along(new_ptns)]] <- new_ptns
-      update_pattern_sequence_(mod, seq_table)
+      update_pattern_sequence_(x, seq_table)
     }
     for (j in seq_len(length(value))) {
       if (is.raw(value[[j]])) {
@@ -95,7 +97,7 @@
 `[[<-.pt2patlist` <- function(x, i, value) {
   if (!inherits(value, "pt2pat"))
     stop("Can only replace a pattern in a pattern list by an object of class `pt2pat`")
-  value <- as.raw(value, compact = TRUE)
+  value <- as.raw.pt2pat(value, compact = TRUE)
   x <- unclass(x)
   x[[i]] <- value
   class(x) <- "pt2patlist"
