@@ -20,10 +20,24 @@ extern "C" SEXP _ProTrackR2_mod_length_(SEXP mod) {
   END_CPP11
 }
 // mod_header.cpp
+SEXP set_mod_length_(SEXP mod, integers modlen);
+extern "C" SEXP _ProTrackR2_set_mod_length_(SEXP mod, SEXP modlen) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(set_mod_length_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(modlen)));
+  END_CPP11
+}
+// mod_header.cpp
 SEXP mod_pattab_(SEXP mod);
 extern "C" SEXP _ProTrackR2_mod_pattab_(SEXP mod) {
   BEGIN_CPP11
     return cpp11::as_sexp(mod_pattab_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod)));
+  END_CPP11
+}
+// mod_header.cpp
+SEXP update_pattern_sequence_(SEXP mod, integers ptn_sequence);
+extern "C" SEXP _ProTrackR2_update_pattern_sequence_(SEXP mod, SEXP ptn_sequence) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(update_pattern_sequence_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(ptn_sequence)));
   END_CPP11
 }
 // mod_io.cpp
@@ -66,6 +80,13 @@ SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact);
 extern "C" SEXP _ProTrackR2_pattern_as_raw_(SEXP mod, SEXP pattern, SEXP compact) {
   BEGIN_CPP11
     return cpp11::as_sexp(pattern_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact)));
+  END_CPP11
+}
+// patterns.cpp
+SEXP set_new_pattern_(SEXP mod, integers pattern_idx, raws data_new);
+extern "C" SEXP _ProTrackR2_set_new_pattern_(SEXP mod, SEXP pattern_idx, SEXP data_new) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(set_new_pattern_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern_idx), cpp11::as_cpp<cpp11::decay_t<raws>>(data_new)));
   END_CPP11
 }
 // pt_cell.cpp
@@ -152,30 +173,49 @@ extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
     return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
   END_CPP11
 }
+// samples.cpp
+logicals validate_sample_raw_(raws smp_data);
+extern "C" SEXP _ProTrackR2_validate_sample_raw_(SEXP smp_data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(validate_sample_raw_(cpp11::as_cpp<cpp11::decay_t<raws>>(smp_data)));
+  END_CPP11
+}
+// samples.cpp
+SEXP mod_set_sample_(SEXP mod, integers idx, raws smp_data);
+extern "C" SEXP _ProTrackR2_mod_set_sample_(SEXP mod, SEXP idx, SEXP smp_data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(mod_set_sample_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(smp_data)));
+  END_CPP11
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_ProTrackR2_mod_as_raw_",            (DL_FUNC) &_ProTrackR2_mod_as_raw_,            1},
-    {"_ProTrackR2_mod_duration",           (DL_FUNC) &_ProTrackR2_mod_duration,           3},
-    {"_ProTrackR2_mod_length_",            (DL_FUNC) &_ProTrackR2_mod_length_,            1},
-    {"_ProTrackR2_mod_name_",              (DL_FUNC) &_ProTrackR2_mod_name_,              1},
-    {"_ProTrackR2_mod_pattab_",            (DL_FUNC) &_ProTrackR2_mod_pattab_,            1},
-    {"_ProTrackR2_mod_sample_as_int_",     (DL_FUNC) &_ProTrackR2_mod_sample_as_int_,     2},
-    {"_ProTrackR2_mod_sample_as_raw_",     (DL_FUNC) &_ProTrackR2_mod_sample_as_raw_,     2},
-    {"_ProTrackR2_mod_sample_info_",       (DL_FUNC) &_ProTrackR2_mod_sample_info_,       2},
-    {"_ProTrackR2_new_mod_",               (DL_FUNC) &_ProTrackR2_new_mod_,               1},
-    {"_ProTrackR2_open_mod_",              (DL_FUNC) &_ProTrackR2_open_mod_,              1},
-    {"_ProTrackR2_open_samp_",             (DL_FUNC) &_ProTrackR2_open_samp_,             1},
-    {"_ProTrackR2_pattern_as_raw_",        (DL_FUNC) &_ProTrackR2_pattern_as_raw_,        3},
-    {"_ProTrackR2_pt_cell_",               (DL_FUNC) &_ProTrackR2_pt_cell_,               4},
-    {"_ProTrackR2_pt_cell_as_char_",       (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,       7},
-    {"_ProTrackR2_pt_cleanup_",            (DL_FUNC) &_ProTrackR2_pt_cleanup_,            0},
-    {"_ProTrackR2_pt_decode_compact_cell", (DL_FUNC) &_ProTrackR2_pt_decode_compact_cell, 1},
-    {"_ProTrackR2_pt_encode_compact_cell", (DL_FUNC) &_ProTrackR2_pt_encode_compact_cell, 1},
-    {"_ProTrackR2_pt_init_",               (DL_FUNC) &_ProTrackR2_pt_init_,               0},
-    {"_ProTrackR2_pt_rawcell_as_char_",    (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,    4},
-    {"_ProTrackR2_render_mod_",            (DL_FUNC) &_ProTrackR2_render_mod_,            4},
-    {"_ProTrackR2_sample_file_format_",    (DL_FUNC) &_ProTrackR2_sample_file_format_,    2},
+    {"_ProTrackR2_mod_as_raw_",              (DL_FUNC) &_ProTrackR2_mod_as_raw_,              1},
+    {"_ProTrackR2_mod_duration",             (DL_FUNC) &_ProTrackR2_mod_duration,             3},
+    {"_ProTrackR2_mod_length_",              (DL_FUNC) &_ProTrackR2_mod_length_,              1},
+    {"_ProTrackR2_mod_name_",                (DL_FUNC) &_ProTrackR2_mod_name_,                1},
+    {"_ProTrackR2_mod_pattab_",              (DL_FUNC) &_ProTrackR2_mod_pattab_,              1},
+    {"_ProTrackR2_mod_sample_as_int_",       (DL_FUNC) &_ProTrackR2_mod_sample_as_int_,       2},
+    {"_ProTrackR2_mod_sample_as_raw_",       (DL_FUNC) &_ProTrackR2_mod_sample_as_raw_,       2},
+    {"_ProTrackR2_mod_sample_info_",         (DL_FUNC) &_ProTrackR2_mod_sample_info_,         2},
+    {"_ProTrackR2_mod_set_sample_",          (DL_FUNC) &_ProTrackR2_mod_set_sample_,          3},
+    {"_ProTrackR2_new_mod_",                 (DL_FUNC) &_ProTrackR2_new_mod_,                 1},
+    {"_ProTrackR2_open_mod_",                (DL_FUNC) &_ProTrackR2_open_mod_,                1},
+    {"_ProTrackR2_open_samp_",               (DL_FUNC) &_ProTrackR2_open_samp_,               1},
+    {"_ProTrackR2_pattern_as_raw_",          (DL_FUNC) &_ProTrackR2_pattern_as_raw_,          3},
+    {"_ProTrackR2_pt_cell_",                 (DL_FUNC) &_ProTrackR2_pt_cell_,                 4},
+    {"_ProTrackR2_pt_cell_as_char_",         (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,         7},
+    {"_ProTrackR2_pt_cleanup_",              (DL_FUNC) &_ProTrackR2_pt_cleanup_,              0},
+    {"_ProTrackR2_pt_decode_compact_cell",   (DL_FUNC) &_ProTrackR2_pt_decode_compact_cell,   1},
+    {"_ProTrackR2_pt_encode_compact_cell",   (DL_FUNC) &_ProTrackR2_pt_encode_compact_cell,   1},
+    {"_ProTrackR2_pt_init_",                 (DL_FUNC) &_ProTrackR2_pt_init_,                 0},
+    {"_ProTrackR2_pt_rawcell_as_char_",      (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,      4},
+    {"_ProTrackR2_render_mod_",              (DL_FUNC) &_ProTrackR2_render_mod_,              4},
+    {"_ProTrackR2_sample_file_format_",      (DL_FUNC) &_ProTrackR2_sample_file_format_,      2},
+    {"_ProTrackR2_set_mod_length_",          (DL_FUNC) &_ProTrackR2_set_mod_length_,          2},
+    {"_ProTrackR2_set_new_pattern_",         (DL_FUNC) &_ProTrackR2_set_new_pattern_,         3},
+    {"_ProTrackR2_update_pattern_sequence_", (DL_FUNC) &_ProTrackR2_update_pattern_sequence_, 2},
+    {"_ProTrackR2_validate_sample_raw_",     (DL_FUNC) &_ProTrackR2_validate_sample_raw_,     1},
     {NULL, NULL, 0}
 };
 }

@@ -8,8 +8,16 @@ mod_length_ <- function(mod) {
   .Call(`_ProTrackR2_mod_length_`, mod)
 }
 
+set_mod_length_ <- function(mod, modlen) {
+  .Call(`_ProTrackR2_set_mod_length_`, mod, modlen)
+}
+
 mod_pattab_ <- function(mod) {
   .Call(`_ProTrackR2_mod_pattab_`, mod)
+}
+
+update_pattern_sequence_ <- function(mod, ptn_sequence) {
+  .Call(`_ProTrackR2_update_pattern_sequence_`, mod, ptn_sequence)
 }
 
 open_mod_ <- function(data) {
@@ -34,6 +42,10 @@ mod_duration <- function(mod, render_options, position) {
 
 pattern_as_raw_ <- function(mod, pattern, compact) {
   .Call(`_ProTrackR2_pattern_as_raw_`, mod, pattern, compact)
+}
+
+set_new_pattern_ <- function(mod, pattern_idx, data_new) {
+  .Call(`_ProTrackR2_set_new_pattern_`, mod, pattern_idx, data_new)
 }
 
 pt_cell_ <- function(mod, pattern, channel, row) {
@@ -82,4 +94,12 @@ mod_sample_info_ <- function(mod, idx) {
 
 mod_sample_as_int_ <- function(mod, idx) {
   .Call(`_ProTrackR2_mod_sample_as_int_`, mod, idx)
+}
+
+validate_sample_raw_ <- function(smp_data) {
+  .Call(`_ProTrackR2_validate_sample_raw_`, smp_data)
+}
+
+mod_set_sample_ <- function(mod, idx, smp_data) {
+  .Call(`_ProTrackR2_mod_set_sample_`, mod, idx, smp_data)
 }

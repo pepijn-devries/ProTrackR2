@@ -18,3 +18,21 @@ pt2_pattern <- function(mod, i, ...) {
     class = "pt2pat"
   )
 }
+
+#' Create a new ProTracker pattern
+#' 
+#' Creates a new ProTracker pattern, consisting of four channels and 64 rows.
+#' @param compact Should the pattern be formatted using a compact notation (as used for
+#' file storage), or a none-compact format as used by the player? This can be
+#' set with the `compact` argument.
+#' @returns Returns a new clean `pt2pat` object.
+#' @examples
+#' pt2_new_pattern()
+#' @author Pepijn de Vries
+#' @export
+pt2_new_pattern <- function(compact = TRUE) {
+  x <- raw(ifelse(compact, 1024L, 1536L))
+  class(x) <- "pt2pat"
+  attributes(x)$compact_notation <- compact
+  x
+}

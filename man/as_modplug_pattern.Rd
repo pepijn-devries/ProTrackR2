@@ -17,7 +17,7 @@ Returns a \code{character} object formatted such that it can be copied into Open
 \description{
 \href{https://openmpt.org/}{OpenMpt} is a popular modern music tracker. This function allows
 you to format a pattern such that it can be pasted directly into OpenMPT.
-On windows you can use \code{writeClipboard()} for this purpose.
+On Windows you can use \code{writeClipboard()} for this purpose.
 }
 \examples{
 mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
