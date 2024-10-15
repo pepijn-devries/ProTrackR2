@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.3.0004
+Version: 0.0.3.0005
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -25,7 +25,6 @@ LinkingTo:
     cpp11
 Collate: 
     'ProTrackR2-package.R'
-    'cell.R'
     'cpp11.R'
     'helpers.R'
     'io.R'
