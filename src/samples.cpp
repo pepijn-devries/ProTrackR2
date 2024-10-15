@@ -83,6 +83,7 @@ SEXP mod_sample_as_int_(SEXP mod, integers idx) {
 
 [[cpp11::register]]
 logicals validate_sample_raw_(raws smp_data) {
+  bool result = true;
   list my_attr   = list(smp_data.attr("sample_info"));
   int length     = writable::integers(my_attr["length"]).at(0);
   int loopStart  = writable::integers(my_attr["loopStart"]).at(0);
@@ -92,25 +93,27 @@ logicals validate_sample_raw_(raws smp_data) {
   r_string text  = writable::strings(my_attr["text"]).at(0);
 
   // Sample size should be even
-  if (length % 2 == 1 || smp_data.size() != length || length < 0 || length > config.maxSampleLength)
-    return writable::logicals({false});
-  
-  if (loopStart % 2 == 1 || loopStart < 0 || loopStart > length)
-    return writable::logicals({false});
+  result = result &&
+    (length % 2 == 1 || smp_data.size() != length || length < 0 || length > config.maxSampleLength);
 
-  if (loopLength % 2 == 1 || loopLength < 2 || (loopStart + loopLength) > length)
-    return writable::logicals({false});
+  result = result &&
+    (loopStart % 2 == 1 || loopStart < 0 || loopStart > length);
 
-  if (fineTune < 0 || fineTune > 0xf)
-    return writable::logicals({false});
-  
-  if (volume < 0 || volume > 64)
-    return writable::logicals({false});
-  
-  if (text.size() > 22)
-    return writable::logicals({false});
-  
-  return writable::logicals({true});
+  result = result &&
+    (loopLength % 2 == 1 || loopLength < 2 || (loopStart + loopLength) > length);
+
+  result = result &&
+    (fineTune < 0 || fineTune > 0xf);
+
+  result = result &&
+    (volume < 0 || volume > 64);
+
+  result = result &&
+    (text.size() > 22);
+
+  writable::logicals result_sexp((R_xlen_t)1);
+  result_sexp.at(0) = result;
+  return result_sexp;
 }
 
 [[cpp11::register]]

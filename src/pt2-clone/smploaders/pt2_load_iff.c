@@ -108,7 +108,10 @@ uint32_t loadIFFSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, i
 	int32_t maxSampleLength = config.maxSampleLength;
 	if (is16Bit)
 	  maxSampleLength *= 2;
-
+	
+	if (sampleLength > maxSampleLength)
+	  sampleLength = maxSampleLength;
+	
 	int8_t *sampleData = (int8_t *)malloc(sampleLength);
 	if (sampleData == NULL)
 	  return false;
