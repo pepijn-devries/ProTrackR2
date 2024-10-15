@@ -27,7 +27,7 @@ pt2_length <- function(mod, ...) {
 #' @rdname mod_info
 #' @export
 #' @include helpers.R
-`pt2_length<-` <- function(mod, value, ...) {
+`pt2_length<-` <- function(mod, ..., value) {
   set_mod_length_(mod, as.integer(value))
 }
 

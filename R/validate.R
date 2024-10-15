@@ -3,6 +3,7 @@
 #' Check aspects of S3 class objects for validity. For samples for instance it
 #' is checked if all parameters (volume, finetune, etc.) are within ProTracker specifications.
 #' @param x object to be validated
+#' @param ... Ignored
 #' @returns A `logical` value indicating whether the object is valid or not
 #' @examples
 #' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
