@@ -1,5 +1,6 @@
 #include <cpp11.hpp>
 #include "get_mod.h"
+#include "pt2-clone/pt2_config.h"
 #include "pt2-clone/pt2_replayer_light.h"
 using namespace cpp11;
 
@@ -78,4 +79,71 @@ SEXP mod_sample_info_(SEXP mod, integers idx) {
 SEXP mod_sample_as_int_(SEXP mod, integers idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_as_int_internal(my_song, idx);
+}
+
+[[cpp11::register]]
+logicals validate_sample_raw_(raws smp_data) {
+  list my_attr   = list(smp_data.attr("sample_info"));
+  int length     = writable::integers(my_attr["length"]).at(0);
+  int loopStart  = writable::integers(my_attr["loopStart"]).at(0);
+  int loopLength = writable::integers(my_attr["loopLength"]).at(0);
+  int volume     = writable::integers(my_attr["volume"]).at(0);
+  int fineTune   = writable::integers(my_attr["fineTune"]).at(0);
+  r_string text  = writable::strings(my_attr["text"]).at(0);
+
+  // Sample size should be even
+  if (length % 2 == 1 || smp_data.size() != length || length < 0 || length > config.maxSampleLength)
+    return writable::logicals({false});
+  
+  if (loopStart % 2 == 1 || loopStart < 0 || loopStart > length)
+    return writable::logicals({false});
+
+  if (loopLength % 2 == 1 || loopLength < 2 || (loopStart + loopLength) > length)
+    return writable::logicals({false});
+
+  if (fineTune < 0 || fineTune > 0xf)
+    return writable::logicals({false});
+  
+  if (volume < 0 || volume > 64)
+    return writable::logicals({false});
+  
+  if (text.size() > 22)
+    return writable::logicals({false});
+  
+  return writable::logicals({true});
+}
+
+[[cpp11::register]]
+SEXP mod_set_sample_(SEXP mod, integers idx, raws smp_data) {
+  module_t *my_song = get_mod(mod);
+  moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
+  int8_t *sampleData = &my_song->sampleData[samp->offset];
+  // check validity of smp_data
+  validate_sample_raw_(smp_data);
+  
+  list my_attr = list(smp_data.attr("sample_info"));
+  
+  memset(&samp->text, 0, 22);
+  
+  if (my_attr == R_NilValue) {
+    samp->length     = smp_data.size();
+    samp->loopStart  = 0;
+    samp->loopLength = 2;
+    samp->fineTune   = 0;
+    samp->volume     = 64;
+  } else {
+    samp->length     = writable::integers(my_attr["length"]).at(0);
+    samp->loopStart  = writable::integers(my_attr["loopStart"]).at(0);
+    samp->loopLength = writable::integers(my_attr["loopLength"]).at(0);
+    samp->fineTune   = writable::integers(my_attr["fineTune"]).at(0);
+    samp->volume     = writable::integers(my_attr["volume"]).at(0);
+    r_string name    = writable::strings(my_attr["text"]).at(0);
+    int len = name.size();
+    len = len > 22 ? 22 : len;
+    memcpy(&samp->text, ((std::string)name).c_str(), len);
+  }
+  uint8_t * buffer = (uint8_t *)RAW(as_sexp(smp_data));
+  memcpy(sampleData, buffer, smp_data.size());
+  
+  return mod;
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/mod_info.R, R/samples.R
 \name{pt2_length}
 \alias{pt2_length}
+\alias{pt2_length<-}
 \alias{pt2_n_pattern}
 \alias{pt2_pattern_table}
 \alias{pt2_name}
@@ -11,6 +12,8 @@
 \title{Obtain Protracker module information}
 \usage{
 pt2_length(mod, ...)
+
+pt2_length(mod, ...) <- value
 
 pt2_n_pattern(mod, ...)
 
@@ -26,6 +29,9 @@ pt2_n_sample(mod, ...)
 }
 \arguments{
 \item{...}{Ignored}
+
+\item{value}{New length of a module in number of patterns in the pattern
+sequence table.}
 
 \item{x, mod}{A \code{pt2mod} class object for which to obtain information. For \code{x}
 also samples of class \code{pt2samp} are allowed as input.}

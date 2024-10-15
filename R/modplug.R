@@ -2,7 +2,7 @@
 #' 
 #' [OpenMpt](https://openmpt.org/) is a popular modern music tracker. This function allows
 #' you to format a pattern such that it can be pasted directly into OpenMPT.
-#' On windows you can use `writeClipboard()` for this purpose.
+#' On Windows you can use `writeClipboard()` for this purpose.
 #' @param pattern An object of class `pt2pat` to be formatted
 #' @param ... Ignored
 #' @returns Returns a `character` object formatted such that it can be copied into OpenMPT

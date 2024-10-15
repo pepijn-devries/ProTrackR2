@@ -43,7 +43,7 @@
 #define MOD_ROWS 64
 #define MOD_SAMPLES 31
 #define MAX_PATTERNS 100
-
+#define N_PATT_SEQ 128
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.3
+Version: 0.0.3.0001
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -34,6 +34,8 @@ Collate:
     'render.R'
     's3.R'
     'samples.R'
+    'select_ops.R'
+    'validate.R'
 Imports:
     audio
 Suggests:

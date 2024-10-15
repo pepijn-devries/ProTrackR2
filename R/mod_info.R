@@ -3,6 +3,8 @@
 #' Obtain information about a protracker module or embedded samples.
 #' @param x,mod A `pt2mod` class object for which to obtain information. For `x`
 #' also samples of class `pt2samp` are allowed as input.
+#' @param value New length of a module in number of patterns in the pattern
+#' sequence table.
 #' @param ... Ignored
 #' @returns Returns information about the specified Protracker module
 #' @author Pepijn de Vries
@@ -20,6 +22,13 @@
 pt2_length <- function(mod, ...) {
   .check_mod(mod)
   mod_length_(mod)
+}
+
+#' @rdname mod_info
+#' @export
+#' @include helpers.R
+`pt2_length<-` <- function(mod, value, ...) {
+  set_mod_length_(mod, as.integer(value))
 }
 
 #' @rdname mod_info

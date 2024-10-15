@@ -56,7 +56,7 @@ typedef struct note_t
 typedef struct moduleHeader_t
 {
 	char name[20 + 1];
-	uint16_t patternTable[128], songLength;
+	uint16_t patternTable[N_PATT_SEQ], songLength;
 	uint16_t initialTempo; // used for STK/UST modules after module is loaded
 } moduleHeader_t;
 
@@ -117,7 +117,7 @@ typedef struct editor_t
 	bool sampleAllFlag, halfClipFlag, newOldFlag, pat2SmpHQ, mixFlag;
 	bool modLoaded, autoInsFlag, repeatKeyFlag, sampleZero, tuningToneFlag;
 	bool stepPlayEnabled, stepPlayBackwards, blockBufferFlag, blockMarkFlag, didQuantize;
-	bool swapChannelFlag, configFound, chordLengthMin, rowVisitTable[128 * MOD_ROWS];
+	bool swapChannelFlag, configFound, chordLengthMin, rowVisitTable[N_PATT_SEQ * MOD_ROWS];
 	bool muted[PAULA_VOICES];
 
 	int8_t smpRedoFinetunes[MOD_SAMPLES], smpRedoVolumes[MOD_SAMPLES], multiModeNext[4], trackPattFlag;

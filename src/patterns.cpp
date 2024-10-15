@@ -32,3 +32,25 @@ SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact) {
   result.attr("compact_notation") = compact;
   return result;
 }
+
+[[cpp11::register]]
+SEXP set_new_pattern_(SEXP mod, integers pattern_idx, raws data_new) {
+  
+  if (data_new.size() != sizeof(note_t)*PAULA_VOICES*MOD_ROWS)
+    Rf_error("Received incorrect amount of data for pattern");
+  
+  if (pattern_idx.size() != 1)
+    Rf_error("Can only handle one index per call");
+
+  uint32_t idx = pattern_idx.at(0);
+  if (idx < 0 || idx > MAX_PATTERNS)
+    Rf_error("Pattern index out of range");
+  
+  module_t *my_song = get_mod(mod);
+  
+  uint8_t * patsrc = (uint8_t *)RAW(as_sexp(data_new));
+  note_t * patdest = my_song->patterns[idx];
+  memcpy((uint8_t *)patdest, patsrc, data_new.size());
+  
+  return R_NilValue;
+}

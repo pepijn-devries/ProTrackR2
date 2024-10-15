@@ -3,9 +3,8 @@
 format.pt2mod <- function(x, ...) {
   dur <- pt2_duration(x) |>
     as.numeric("secs")
-  sprintf("pt2mod '%s' (%02.f:%02.f)",
+  sprintf("pt2mod '%s' [%02.f:%02.f]",
           pt2_name(x), dur/60, dur%%60)
-  
 }
 
 #' @method print pt2mod
@@ -80,7 +79,6 @@ as.raw.pt2pat <- function(x, ...) {
 }
 
 #' @method as.raw.pt2pat logical
-#' @name as.raw
 #' @export
 as.raw.pt2pat.logical <- function(x, compact = TRUE, ...) {
   if (typeof(x) == "raw") {
@@ -107,13 +105,37 @@ format.pt2samp <- function(x, ...) {
   } else {
     mod_sample_info_(x$mod, as.integer(x$i))
   }
-  sprintf("PT2 Sample '%s' (%i)", si$text, si$length)
+  sprintf("PT2 Sample '%s' [%i]", si$text, si$length)
 }
 
 #' @method print pt2samp
 #' @export
 print.pt2samp <- function(x, ...) {
   format(x, ...) |> print()
+}
+
+#' @method format pt2patlist
+#' @export
+format.pt2patlist <- function(x, ...) {
+  sprintf("pattern list [n=%i]", length(x))
+}
+
+#' @method print pt2patlist
+#' @export
+print.pt2patlist <- function(x, ...) {
+  format(x, ...) |> paste0("\n") |> cat()
+}
+
+#' @method format pt2samplist
+#' @export
+format.pt2samplist <- function(x, ...) {
+  sprintf("sample list [n=%i]", length(x))
+}
+
+#' @method print pt2samplist
+#' @export
+print.pt2samplist <- function(x, ...) {
+  format(x, ...) |> paste0("\n") |> cat()
 }
 
 #' @method as.raw pt2mod

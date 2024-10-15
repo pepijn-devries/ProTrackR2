@@ -1,3 +1,11 @@
+ProTrackR2 v0.0.3.0001
+-------------
+
+  * Added select and assignment operators
+    for patterns and samples
+  * Added validation routine for samples
+  * Allow user to set the length of a module
+
 ProTrackR2 v0.0.3
 -------------
 

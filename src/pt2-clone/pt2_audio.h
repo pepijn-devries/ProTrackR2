@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-//#include "pt2_replayer.h"
 #include "pt2_replayer_light.h"
 
 // for the low-pass/high-pass filters in the SAMPLER screen
