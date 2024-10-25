@@ -1,12 +1,13 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.3.0005
-Authors@R:
+Version: 0.0.4
+Authors@R: c(
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
-    comment = c(ORCID = "0000-0002-7961-6646"))
-Author:
-    Pepijn de Vries [aut, cre] (0000-0002-7961-6646)
+    comment = c(ORCID = "0000-0002-7961-6646")),
+    person("Olav", "Sørensen", role = c("aut"),
+    comment = c("Developer of the ProTracker 2.3d clone"))
+    )
 Maintainer: Pepijn de Vries <pepijn.devries@outlook.com>
 Description: 'ProTracker' is a popular music tracker to sequence
     music on a Commodore Amiga machine. This package offers the
@@ -25,6 +26,7 @@ LinkingTo:
     cpp11
 Collate: 
     'ProTrackR2-package.R'
+    'cell.R'
     'cpp11.R'
     'helpers.R'
     'io.R'
@@ -40,6 +42,7 @@ Imports:
     audio
 Suggests:
     cli,
+    htmltools,
     kableExtra,
     knitr,
     rmarkdown

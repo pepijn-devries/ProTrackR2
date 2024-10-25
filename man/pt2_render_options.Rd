@@ -9,8 +9,26 @@ pt2_render_options(...)
 \arguments{
 \item{...}{Specify custom options.}
 }
+\value{
+Returns a named \code{list} of options that can be used for rendering
+ProTracker modules (see \code{\link[=pt2_render]{pt2_render()}} and \code{\link[=play]{play()}}).
+It contains the following elements:
+\itemize{
+\item \code{sample_rate}: an integer value specifying the sample rate of the output in Hz.
+\item \code{stereo_separation}: an integer percentage determining how much the
+tracker channels will be separated to the left and right stereo output channels.
+\item \code{amiga_filter}: a \code{character} string specifying the hardware filter to be emulated.
+Can be \code{"A500"} for emulating Amiga 500 hardware filters, or \code{"A1200"} for emulating
+Amiga 1200 hardware filters.
+\item \code{speed}: An integer value specifying the initial speed of the module measured in 'ticks'
+per row. Should be in range of \code{1} and \code{31}.
+\item \code{tempo}: An integer value specifying the initial tempo of the module. When speed is set
+to \code{6}, it measures the tempo as beats per minute. Should be in the range of \code{32} and \code{255}
+\item \code{led_filter}: A \code{logical} value specifying the state of the hardware LED filter to be emultated.
+}
+}
 \description{
-Retrieve options for rendering Protracker modules. See also
+Retrieve options for rendering ProTracker modules. See also
 \code{\link[=pt2_render]{pt2_render()}}.
 }
 \examples{

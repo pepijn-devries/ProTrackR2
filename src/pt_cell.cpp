@@ -1,4 +1,5 @@
 #include <cpp11.hpp>
+#include <cpp11/matrix.hpp>
 #include <sstream>
 #include <iomanip>
 #include "get_mod.h"
@@ -57,7 +58,8 @@ SEXP pt_cell_as_char_internal(
     Rf_error("Mallformat pt2cell format");
   
   r_string fmt_note = strings(sformat["note"]).at(0);
-  r_string fmt_inst = strings(sformat["instrument"]).at(0);
+  r_string fmt_inst = "%s";
+  r_string fmt_inst_temp = strings(sformat["instrument"]).at(0);
   r_string fmt_efft = strings(sformat["effect"]).at(0);
   r_string fmt_padd = strings(sformat["padding"]).at(0);
   
@@ -68,9 +70,11 @@ SEXP pt_cell_as_char_internal(
       strings(sformat["effect"]).size() > 1)
     fmt_efft = strings(sformat["effect"]).at(1);
   
-  sexp instr_str = sprf(r_string("%02i"), (int)cell2->sample);
+  sexp instr_str;
   if ((int)cell2->sample == 0 && empty.size() > 1) {
-    instr_str = gsub("0", empty.at(1), instr_str);
+    instr_str = writable::strings(r_string((std::string)empty.at(1) + (std::string)empty.at(1)));
+  } else {
+    instr_str = sprf(fmt_inst_temp, (int)cell2->sample);
   }
 
   sexp efft_str = sprf(
@@ -146,4 +150,71 @@ SEXP pt_encode_compact_cell(raws source){
 void pt_encode_compact_cell_internal(note_t * source, uint8_t * dest, uint32_t n_notes) {
   cellCompacter(source, dest, n_notes);
   return;
+}
+
+[[cpp11::register]]
+SEXP celllist_to_raw_(list celllist, logicals compact) {
+  if (compact.size() != 1) Rf_error("`compact` should have length 1");
+  int size_out = celllist.size();
+  if (compact.at(0)) size_out *= 4;
+  else size_out *= sizeof(note_t);
+  
+  writable::raws data_out((R_xlen_t)size_out);
+  uint8_t * celldst = (uint8_t *)RAW(as_sexp(data_out));
+  
+  for (int i = 0; i < celllist.size(); i++) {
+    SEXP element = celllist.at(i);
+    if (!Rf_inherits(element, "pt2cell")) Rf_error("Invalid pt2celllist.");
+    if (TYPEOF(element) == RAWSXP) {
+      Rf_error("Raw to raw is not implemented in C++. Contact package maintainer if you see this error");
+    } else {
+
+      list cell = list(element);
+      SEXP mod = cell["mod"];
+      module_t *my_song = get_mod(mod);
+      note_t * pat = my_song->patterns[integers(cell["i"]).at(0)];
+      pat += (integers(cell["k"]).at(0) + integers(cell["j"]).at(0)*PAULA_VOICES);
+      if (compact.at(0)) {
+        pt_encode_compact_cell_internal(pat, celldst, 1);
+        celldst += 4;
+      } else {
+        memcpy(celldst, pat, sizeof(note_t));
+        celldst += sizeof(note_t);
+      }
+    }
+  }
+  data_out.attr("class") = "pt2celllist";
+  data_out.attr("compact_notation") = compact;
+  return data_out;
+}
+
+[[cpp11::register]]
+SEXP replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
+  if (idx.slice_size() < 1L)
+    Rf_error("Need at least one element to replace");
+
+  module_t *my_song = get_mod(pattern["mod"]);
+  uint32_t i = integers(pattern["i"]).at(0); 
+  note_t * pat_base = my_song->patterns[i];
+  uint8_t * source = (uint8_t *)RAW(as_sexp(replacement));
+  
+  uint32_t m = 0; // replacement index
+  bool recycled = false;
+  bool allused = false;
+  for (int32_t l = 0; l < idx.slice_size(); l++) {
+    if (m == 0 && l != 0) recycled = true;
+    uint32_t j = idx(l, 0);
+    uint32_t k = idx(l, 1);
+    note_t  * target = pat_base + j * PAULA_VOICES + k;
+    memcpy((uint8_t *)target, source + m * sizeof(note_t), sizeof(note_t));
+    m++;
+    if (m >= replacement.size()/sizeof(note_t)) {
+      m = 0; // Recycle replacement values;
+      allused = true;
+    }
+  }
+  if (!allused) Rf_warning("Not all replacement values used");
+  if (recycled) Rf_warning("Replacement values are recycled");
+  
+  return pattern;
 }

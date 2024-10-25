@@ -76,10 +76,10 @@ extern "C" SEXP _ProTrackR2_mod_duration(SEXP mod, SEXP render_options, SEXP pos
   END_CPP11
 }
 // patterns.cpp
-SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact);
-extern "C" SEXP _ProTrackR2_pattern_as_raw_(SEXP mod, SEXP pattern, SEXP compact) {
+SEXP cells_as_raw_(SEXP mod, integers pattern, logicals compact, logicals as_pattern, integers row, integers channel);
+extern "C" SEXP _ProTrackR2_cells_as_raw_(SEXP mod, SEXP pattern, SEXP compact, SEXP as_pattern, SEXP row, SEXP channel) {
   BEGIN_CPP11
-    return cpp11::as_sexp(pattern_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact)));
+    return cpp11::as_sexp(cells_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact), cpp11::as_cpp<cpp11::decay_t<logicals>>(as_pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(row), cpp11::as_cpp<cpp11::decay_t<integers>>(channel)));
   END_CPP11
 }
 // patterns.cpp
@@ -122,6 +122,20 @@ SEXP pt_encode_compact_cell(raws source);
 extern "C" SEXP _ProTrackR2_pt_encode_compact_cell(SEXP source) {
   BEGIN_CPP11
     return cpp11::as_sexp(pt_encode_compact_cell(cpp11::as_cpp<cpp11::decay_t<raws>>(source)));
+  END_CPP11
+}
+// pt_cell.cpp
+SEXP celllist_to_raw_(list celllist, logicals compact);
+extern "C" SEXP _ProTrackR2_celllist_to_raw_(SEXP celllist, SEXP compact) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(celllist_to_raw_(cpp11::as_cpp<cpp11::decay_t<list>>(celllist), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact)));
+  END_CPP11
+}
+// pt_cell.cpp
+SEXP replace_cells_(list pattern, integers_matrix<> idx, raws replacement);
+extern "C" SEXP _ProTrackR2_replace_cells_(SEXP pattern, SEXP idx, SEXP replacement) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(replace_cells_(cpp11::as_cpp<cpp11::decay_t<list>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers_matrix<>>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(replacement)));
   END_CPP11
 }
 // pt_cleanup.cpp
@@ -190,6 +204,8 @@ extern "C" SEXP _ProTrackR2_mod_set_sample_(SEXP mod, SEXP idx, SEXP smp_data) {
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
+    {"_ProTrackR2_celllist_to_raw_",         (DL_FUNC) &_ProTrackR2_celllist_to_raw_,         2},
+    {"_ProTrackR2_cells_as_raw_",            (DL_FUNC) &_ProTrackR2_cells_as_raw_,            6},
     {"_ProTrackR2_mod_as_raw_",              (DL_FUNC) &_ProTrackR2_mod_as_raw_,              1},
     {"_ProTrackR2_mod_duration",             (DL_FUNC) &_ProTrackR2_mod_duration,             3},
     {"_ProTrackR2_mod_length_",              (DL_FUNC) &_ProTrackR2_mod_length_,              1},
@@ -202,7 +218,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_new_mod_",                 (DL_FUNC) &_ProTrackR2_new_mod_,                 1},
     {"_ProTrackR2_open_mod_",                (DL_FUNC) &_ProTrackR2_open_mod_,                1},
     {"_ProTrackR2_open_samp_",               (DL_FUNC) &_ProTrackR2_open_samp_,               1},
-    {"_ProTrackR2_pattern_as_raw_",          (DL_FUNC) &_ProTrackR2_pattern_as_raw_,          3},
     {"_ProTrackR2_pt_cell_",                 (DL_FUNC) &_ProTrackR2_pt_cell_,                 4},
     {"_ProTrackR2_pt_cell_as_char_",         (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,         7},
     {"_ProTrackR2_pt_cleanup_",              (DL_FUNC) &_ProTrackR2_pt_cleanup_,              0},
@@ -211,6 +226,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_pt_init_",                 (DL_FUNC) &_ProTrackR2_pt_init_,                 0},
     {"_ProTrackR2_pt_rawcell_as_char_",      (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,      4},
     {"_ProTrackR2_render_mod_",              (DL_FUNC) &_ProTrackR2_render_mod_,              4},
+    {"_ProTrackR2_replace_cells_",           (DL_FUNC) &_ProTrackR2_replace_cells_,           3},
     {"_ProTrackR2_sample_file_format_",      (DL_FUNC) &_ProTrackR2_sample_file_format_,      2},
     {"_ProTrackR2_set_mod_length_",          (DL_FUNC) &_ProTrackR2_set_mod_length_,          2},
     {"_ProTrackR2_set_new_pattern_",         (DL_FUNC) &_ProTrackR2_set_new_pattern_,         3},

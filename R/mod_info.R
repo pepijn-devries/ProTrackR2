@@ -1,4 +1,4 @@
-#' Obtain Protracker module information
+#' Obtain ProTracker module information
 #' 
 #' Obtain information about a protracker module or embedded samples.
 #' @param x,mod A `pt2mod` class object for which to obtain information. For `x`
@@ -6,7 +6,7 @@
 #' @param value New length of a module in number of patterns in the pattern
 #' sequence table.
 #' @param ... Ignored
-#' @returns Returns information about the specified Protracker module
+#' @returns Returns information about the specified ProTracker module
 #' @author Pepijn de Vries
 #' @examples
 #' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))

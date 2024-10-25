@@ -4,9 +4,11 @@
 \alias{pt2_new_pattern}
 \title{Create a new ProTracker pattern}
 \usage{
-pt2_new_pattern(compact = TRUE)
+pt2_new_pattern(..., compact = TRUE)
 }
 \arguments{
+\item{...}{Currently ignored}
+
 \item{compact}{Should the pattern be formatted using a compact notation (as used for
 file storage), or a none-compact format as used by the player? This can be
 set with the \code{compact} argument.}

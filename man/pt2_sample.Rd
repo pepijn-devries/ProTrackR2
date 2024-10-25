@@ -2,7 +2,7 @@
 % Please edit documentation in R/samples.R
 \name{pt2_sample}
 \alias{pt2_sample}
-\title{Obtain sample data and info from a Protracker module}
+\title{Obtain sample data and info from a ProTracker module}
 \usage{
 pt2_sample(mod, i, ...)
 }
@@ -17,8 +17,8 @@ pt2_sample(mod, i, ...)
 Returns a sample object of class \code{pt2samp}.
 }
 \description{
-Obtain sample data and info from a Protracker module at a specific index.
-Protracker modules can hold up to 31 samples. The index should range from 0 to 30.
+Obtain sample data and info from a ProTracker module at a specific index.
+ProTracker modules can hold up to 31 samples. The index should range from 0 to 30.
 }
 \examples{
 mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))

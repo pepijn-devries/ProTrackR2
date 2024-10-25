@@ -8,3 +8,4 @@ src/*.dll
 src/Makevars
 inst/doc
 docs
+lib

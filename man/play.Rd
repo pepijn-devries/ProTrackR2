@@ -3,7 +3,7 @@
 \name{play}
 \alias{play}
 \alias{play.pt2mod}
-\title{Play a Protracker module}
+\title{Play a ProTracker module}
 \usage{
 \method{play}{pt2mod}(x, duration = NA, options = pt2_render_options(), position = 0L, ...)
 }
@@ -26,7 +26,7 @@ Returns an \verb{[audio::}$.audioInstance\verb{]} object which
 allows you to control the playback (pause, resume, rewind).
 }
 \description{
-Renders a Protracker module as \code{\link[audio:audioSample]{audio::audioSample()}} and plays it.
+Renders a ProTracker module as \code{\link[audio:audioSample]{audio::audioSample()}} and plays it.
 }
 \examples{
 \dontrun{

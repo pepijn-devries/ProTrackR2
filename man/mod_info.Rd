@@ -9,7 +9,7 @@
 \alias{pt2_name.pt2mod}
 \alias{pt2_name.pt2samp}
 \alias{pt2_n_sample}
-\title{Obtain Protracker module information}
+\title{Obtain ProTracker module information}
 \usage{
 pt2_length(mod, ...)
 
@@ -37,7 +37,7 @@ sequence table.}
 also samples of class \code{pt2samp} are allowed as input.}
 }
 \value{
-Returns information about the specified Protracker module
+Returns information about the specified ProTracker module
 }
 \description{
 Obtain information about a protracker module or embedded samples.

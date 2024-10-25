@@ -3,7 +3,7 @@
 \name{pt2_read_mod}
 \alias{pt2_read_mod}
 \alias{pt2_write_mod}
-\title{Read and write Protracker modules}
+\title{Read and write ProTracker modules}
 \usage{
 pt2_read_mod(file, ...)
 
@@ -21,10 +21,10 @@ pt2_write_mod(mod, file, ...)
 \code{pt_write_mod()} returns \code{NULL} invisibly.
 }
 \description{
-Functions to read and write Protracker module. The read function will
-read a number of mod files that are compatible with Protracker, this
+Functions to read and write ProTracker module. The read function will
+read a number of mod files that are compatible with ProTracker, this
 includes files compressed with PowerPacker (PP). The write function
-will only write modules conform Protracker specifications.
+will only write modules conform ProTracker specifications.
 }
 \examples{
 mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))

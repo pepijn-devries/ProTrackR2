@@ -40,8 +40,8 @@ mod_duration <- function(mod, render_options, position) {
   .Call(`_ProTrackR2_mod_duration`, mod, render_options, position)
 }
 
-pattern_as_raw_ <- function(mod, pattern, compact) {
-  .Call(`_ProTrackR2_pattern_as_raw_`, mod, pattern, compact)
+cells_as_raw_ <- function(mod, pattern, compact, as_pattern, row, channel) {
+  .Call(`_ProTrackR2_cells_as_raw_`, mod, pattern, compact, as_pattern, row, channel)
 }
 
 set_new_pattern_ <- function(mod, pattern_idx, data_new) {
@@ -66,6 +66,14 @@ pt_decode_compact_cell <- function(source) {
 
 pt_encode_compact_cell <- function(source) {
   .Call(`_ProTrackR2_pt_encode_compact_cell`, source)
+}
+
+celllist_to_raw_ <- function(celllist, compact) {
+  .Call(`_ProTrackR2_celllist_to_raw_`, celllist, compact)
+}
+
+replace_cells_ <- function(pattern, idx, replacement) {
+  .Call(`_ProTrackR2_replace_cells_`, pattern, idx, replacement)
 }
 
 pt_cleanup_ <- function() {
