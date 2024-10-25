@@ -3,7 +3,9 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   ProTrackR_vs_ProTrackR2: ProTrackR_vs_ProTrackR2.html
-last_built: 2024-10-15T11:54Z
+  s3class: s3class.html
+  sel_assign: sel_assign.html
+last_built: 2024-10-25T21:02Z
 urls:
   reference: https://pepijn-devries.github.io/ProTrackR2/reference
   article: https://pepijn-devries.github.io/ProTrackR2/articles

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,6 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
+    <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
+    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -69,7 +71,7 @@
 <p>The predecessor to this package (<a href="https://pepijn-devries.github.io/ProTrackR/" class="external-link">ProTrackR</a>) was
 entirely programmed in R. Although technically possible, it was
 challenging and slow with recursive algorithms. The new version is a
-complete overhaul in C/C++, based on Olav Sørensen’s <a href="https://16-bits.org/pt2.php" class="external-link">Protracker clone</a>. With it, came
+complete overhaul in C/C++, based on Olav Sørensen’s <a href="https://16-bits.org/pt2.php" class="external-link">ProTracker clone</a>. With it, came
 some design changes which are worth mentioning here.</p>
 </div>
 <div class="section level2">
@@ -149,6 +151,16 @@ Not tested yet
 </tbody>
 </table>
 </div>
+<div class="section level2">
+<h2 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
+</h2>
+<p>A benchmark test where the same module (the one provided with this
+package) is rendered with both <code>ProTrackR</code> and
+<code>ProTrackR2</code>. The settings for both tests were similar and
+performed on the same system and repeated 10 times. On average
+<code>ProTrackR2</code> renders 8.8 times faster than
+<code>ProTrackR</code>.</p>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
@@ -156,7 +168,7 @@ Not tested yet
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Pepijn de Vries.</p>
+  <p>Developed by Pepijn de Vries, Olav Sørensen.</p>
 </div>
 
 <div class="pkgdown-footer-right">

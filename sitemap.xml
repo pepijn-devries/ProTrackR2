@@ -4,6 +4,8 @@
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/LICENSE.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/ProTrackR_vs_ProTrackR2.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/index.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/s3class.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/sel_assign.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/authors.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/index.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/news/index.html</loc></url>
@@ -13,6 +15,7 @@
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/mod_io.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/play.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_cell.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_duration.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_mod.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.html</loc></url>
@@ -21,6 +24,8 @@
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render_options.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_sample.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_validate.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/samp_io.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.html</loc></url>
 </urlset>
 

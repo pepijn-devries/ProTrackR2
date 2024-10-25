@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
+    <li><a class="dropdown-item" href="articles/s3class.html">ProTrackR2 S3 class objects</a></li>
+    <li><a class="dropdown-item" href="articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -60,7 +62,7 @@
 <!-- badges: start -->
 
 <p></p>
-<p><a href="https://en.wikipedia.org/wiki/Protracker" class="external-link">ProTracker</a> is music sequencer software from the 1990s on the <a href="https://en.wikipedia.org/wiki/Amiga" class="external-link">Commodore Amiga</a> (see screenshot of version 2.3a on the right). The R package <code>ProTrackR2</code> is the successor of <a href="https://pepijn-devries.github.io/ProTrackR/" class="external-link"><code>ProTrackR</code></a>. It can be used to play and manipulate Protracker module music.</p>
+<p><a href="https://en.wikipedia.org/wiki/ProTracker" class="external-link">ProTracker</a> is music sequencer software from the 1990s on the <a href="https://en.wikipedia.org/wiki/Amiga" class="external-link">Commodore Amiga</a> (see screenshot of version 2.3a on the right). The R package <code>ProTrackR2</code> is the successor of <a href="https://pepijn-devries.github.io/ProTrackR/" class="external-link"><code>ProTrackR</code></a>. It can be used to play and manipulate ProTracker module music.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -72,13 +74,13 @@
 <h2 id="protracker23d-clone">ProTracker2.3d clone<a class="anchor" aria-label="anchor" href="#protracker23d-clone"></a>
 </h2>
 <p><img src="https://content.pouet.net/files/screenshots/00050/00050055.png" alt="ProTracker 2.3a" align="right"></p>
-<p>The ProTrackR2 package essentially provides an R entry point into the <a href="https://16-bits.org/pt2.php" class="external-link">Protracker2.3d clone</a> by <a href="https://github.com/8bitbubsy" class="external-link">Olav Sørensen (A.K.A. 8bitbubsy)</a> and other <a href="https://github.com/8bitbubsy/pt2-clone/graphs/contributors" class="external-link">contributors</a> (<a href="https://github.com/8bitbubsy/pt2-clone" class="external-link">source code</a>). For this purpose, I took the code by Sørensen and stripped away the graphical user interface (GUI) and access to the audio device. Next I added R bindings to access functionality to read, write, manipulate and render Protracker modules. This allows you to process such modules with R scripts and in batches. If you wish to use the the GUI I suggest to visit one of the links above and check out the work of Olav Sørensen.</p>
+<p>The ProTrackR2 package essentially provides an R entry point into the <a href="https://16-bits.org/pt2.php" class="external-link">ProTracker2.3d clone</a> by <a href="https://github.com/8bitbubsy" class="external-link">Olav Sørensen (A.K.A. 8bitbubsy)</a> and other <a href="https://github.com/8bitbubsy/pt2-clone/graphs/contributors" class="external-link">contributors</a> (<a href="https://github.com/8bitbubsy/pt2-clone" class="external-link">source code</a>). For this purpose, I took the code by Sørensen and stripped away the graphical user interface (GUI) and access to the audio device. Next I added R bindings to access functionality to read, write, manipulate and render ProTracker modules. This allows you to process such modules with R scripts and in batches. If you wish to use the the GUI I suggest to visit one of the links above and check out the work of Olav Sørensen.</p>
 <p>The work by Olav Sørensen is gratefully acknowledged here, without which this package would have not been possible.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>The example below shows how to load a Protracker module file and play it in R:</p>
+<p>The example below shows how to load a ProTracker module file and play it in R:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pepijn-devries.github.io/ProTrackR2/">ProTrackR2</a></span><span class="op">)</span></span>
 <span></span>
@@ -118,6 +120,8 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Pepijn de Vries <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-7961-6646" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Olav Sørensen <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -134,7 +138,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Pepijn de Vries.</p>
+  <p>Developed by Pepijn de Vries, Olav Sørensen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
