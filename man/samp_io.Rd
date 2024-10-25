@@ -3,7 +3,7 @@
 \name{pt2_read_sample}
 \alias{pt2_read_sample}
 \alias{pt2_write_sample}
-\title{Read and write Protracker audio samples}
+\title{Read and write ProTracker audio samples}
 \usage{
 pt2_read_sample(file, ...)
 
@@ -22,7 +22,7 @@ the file extension will be used to determine which file format to write.}
 \code{pt_write_sample()} returns \code{NULL} invisibly.
 }
 \description{
-Functions to read and write Protracker audio samples. Reading is supported
+Functions to read and write ProTracker audio samples. Reading is supported
 for common types of WAV, IFF and AIFF files. Writing is supported for
 WAV and IFF files.
 }

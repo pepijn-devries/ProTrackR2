@@ -6,9 +6,11 @@
 using namespace cpp11;
 
 [[cpp11::register]]
-SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact) {
+SEXP cells_as_raw_(SEXP mod, integers pattern, logicals compact, logicals as_pattern,
+                   integers row, integers channel) {
   module_t *my_song = get_mod(mod);
-  if (pattern.size() != 1 || compact.size() != 1)
+  if (pattern.size() != 1 || compact.size() != 1 ||
+      as_pattern.size() != 1 || row.size() != 1 || channel.size() != 1)
     Rf_error("argument must have size 1");
   
   int npat = n_patterns_internal(mod);
@@ -16,13 +18,22 @@ SEXP pattern_as_raw_(SEXP mod, integers pattern, logicals compact) {
     Rf_error("Index out of range!");
   
   note_t * pat = my_song->patterns[pattern.at(0)];
-  
-  int result_size = MOD_ROWS*PAULA_VOICES;
-  if (compact.at(0)) result_size *= 4; else result_size *= sizeof(note_t);
+  int result_size;
+  int cell_count = MOD_ROWS*PAULA_VOICES;
+  int offset = 0;
+  if (!as_pattern.at(0)) {
+    if (channel.at(0) < 0 || channel.at(0) > PAULA_VOICES ||
+        row.at(0) < 0 || row.at(0) > MOD_ROWS)
+      Rf_error("Index out of range!");
+    offset = row.at(0)*PAULA_VOICES + channel.at(0);
+    cell_count = 1;
+  }
+  pat += offset;
+  if (compact.at(0)) result_size = cell_count*4; else result_size = cell_count*sizeof(note_t);
   writable::raws patdat((R_xlen_t)result_size);
   uint8_t * patdest = (uint8_t *)RAW(as_sexp(patdat));
   if (compact.at(0)) {
-    pt_encode_compact_cell_internal(pat, patdest, MOD_ROWS*PAULA_VOICES);
+    pt_encode_compact_cell_internal(pat, patdest, cell_count);
   } else {
     memcpy(patdest, (uint8_t *)pat, patdat.size());
   }

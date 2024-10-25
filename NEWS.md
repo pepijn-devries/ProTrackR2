@@ -1,10 +1,12 @@
-ProTrackR2 v0.0.3.0005
+ProTrackR2 v0.0.4
 -------------
 
   * Added select and assignment operators
     for patterns and samples
   * Added validation routine for samples
   * Allow user to set the length of a module
+  * Extended documentation
+  * Several minor bug fixes
 
 ProTrackR2 v0.0.3
 -------------
@@ -18,7 +20,7 @@ ProTrackR2 v0.0.1
 -------------
 
   * Initial commit, which can:
-    * load and save Protracker modules
+    * load and save ProTracker modules
     * load and save audio samples
-    * render audio from Protracker modules
-    * play Protracker modules
+    * render audio from ProTracker modules
+    * play ProTracker modules

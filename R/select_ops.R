@@ -1,8 +1,21 @@
+#' Select and assign operators for ProTrackR2 S3 class objects
+#' 
+#' Functions to select and assign elements to ProTracker modules.
+#' See `vignette('s3class')` for an overview of ProTrackR2 S3 class objects. See `vignette('sel_assign')`
+#' for practical guidance on selecting and assigning elements of ProTrackR2 class objects.
+#' @param x Object to apply S3 method to. See 'usage' section for allowed object types.
+#' @param i,j Indices for extracting or replacing ProTrackR2 object elements
+#' @param value Replacement value for the selected element(s).
+#' @param ... Passed on to other methods.
+#' @returns Returns the selected object in case of a selection (`[`, `[[`, or `$`) operator. Returns the
+#' updated object `x` in case of an assignment (`<-`) operator.
+#' @rdname select_assign
 #' @export
 `$.pt2mod` <- function(x, i, ...) {
   x[[i]]
 }
 
+#' @rdname select_assign
 #' @export
 `$<-.pt2mod` <- function(x, i, value) {
   value <-
@@ -21,8 +34,8 @@
       }
     })
   
-  if (i == 1 || toupper(i) == "PATTERNS") {
-    if (length(value) > 100)
+  if (i == 1L || toupper(i) == "PATTERNS") {
+    if (length(value) > 100L)
       stop("A ProTracker module cannot hold more than 100 patterns.")
     n_pat <- pt2_n_pattern(x)
     empty_spots <- pt2_pattern_table(x) |> rev() |> cumsum()
@@ -36,7 +49,7 @@
       seq_table <- pt2_pattern_table(x)
       new_ptns <- seq(n_pat, length(value) - 1L)
       idx_available <- 128L - seq(1L, empty_spots) |> rev()
-      seq_table[1 + idx_available[seq_along(new_ptns)]] <- new_ptns
+      seq_table[1L + idx_available[seq_along(new_ptns)]] <- new_ptns
       update_pattern_sequence_(x, seq_table)
     }
     for (j in seq_len(length(value))) {
@@ -44,7 +57,7 @@
         set_new_pattern_(x, as.integer(j - 1L), unclass(value[[j]]))
       }
     }
-  } else if (i == 2 || toupper(i) == "SAMPLES") {
+  } else if (i == 2L || toupper(i) == "SAMPLES") {
     for (j in seq_len(length(value))) {
       if (is.raw(value[[j]])) {
         mod_set_sample_(x, as.integer(j - 1L), value[[j]])
@@ -57,6 +70,7 @@
   x
 }
 
+#' @rdname select_assign
 #' @export
 `[[.pt2mod` <- function(x, i, ...) {
   if (i == 1 || toupper(i) == "PATTERNS") {
@@ -76,6 +90,7 @@
   }
 }
 
+#' @rdname select_assign
 #' @export
 `[.pt2patlist` <- function(x, i, ...) {
   x <- unclass(x)
@@ -84,6 +99,7 @@
   x
 }
 
+#' @rdname select_assign
 #' @export
 `[[.pt2patlist` <- function(x, i, ...) {
   x <- unclass(x)
@@ -93,6 +109,7 @@
   x
 }
 
+#' @rdname select_assign
 #' @export
 `[[<-.pt2patlist` <- function(x, i, value) {
   if (!inherits(value, "pt2pat"))
@@ -104,6 +121,7 @@
   x
 }
 
+#' @rdname select_assign
 #' @export
 `[.pt2samplist` <- function(x, i, ...) {
   x <- unclass(x)
@@ -112,10 +130,53 @@
   x
 }
 
+#' @rdname select_assign
 #' @export
 `[[.pt2samplist` <- function(x, i, ...) {
   x <- unclass(x)
   x <- NextMethod()
   class(x) <- "pt2samp"
   x
+}
+
+#' @rdname select_assign
+#' @export
+`[.pt2pat` <- function(x, i, j, ...) {
+  if (missing(i)) i <- 1L:64L
+  if (missing(j)) j <- 1L:4L
+  idx <- expand.grid(i = i - 1L, j = j - 1L)
+  result <- mapply(\(y, i, j) pt2_cell(x, i, j), i = idx[,"i"], j = idx[,"j"], SIMPLIFY = FALSE)
+  class(result) <- "pt2celllist"
+  result
+}
+
+#' @rdname select_assign
+#' @export
+`[<-.pt2pat` <- function(x, i, j, ..., value) {
+  if (!inherits(value, "pt2celllist"))
+    stop("`values` should be of class `pt2celllist`")
+  
+  if (missing(i)) i <- 1L:64L
+  if (missing(j)) j <- 1L:4L
+  target_idx <-
+    expand.grid(as.integer(i) - 1L, as.integer(j) - 1L)
+  
+  if (typeof(x) == "raw") {
+    values <- as.raw.pt2celllist(value, compact = attributes(x)$compact_notation)
+    compact <- attributes(x)$compact_notation
+    size <- ifelse(compact, 4, 6)
+    x <- x |> unclass()
+    target_idx <-
+      target_idx |>
+      apply(1, \(z) size * (z[1] * 4L + z[2])) |>
+      lapply(`+`, seq_len(size)) |>
+      unlist()
+    x[target_idx] <- values|>unlist()
+    class(x) <- "pt2pat"
+    attributes(x)$compact_notation <- compact
+    x
+  } else {
+    values <- as.raw.pt2celllist(value, compact = FALSE)
+    replace_cells_(x, as.matrix(target_idx), values)
+  }
 }

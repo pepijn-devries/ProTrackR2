@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 The predecessor to this package ([ProTrackR](https://pepijn-devries.github.io/ProTrackR/)) was
 entirely programmed in R. Although technically possible, it was challenging and slow with recursive algorithms.
 The new version is a complete overhaul in C/C++, based on Olav S&oslash;rensen's
-[Protracker clone](https://16-bits.org/pt2.php). With it, came some design changes which are worth mentioning
+[ProTracker clone](https://16-bits.org/pt2.php). With it, came some design changes which are worth mentioning
 here.
 
 ## Overview of differences
@@ -39,3 +39,10 @@ data.frame(
 ) |>
   kbl()
 ```
+
+## Benchmark
+
+A benchmark test where the same module (the one provided with this package) is rendered with
+both `ProTrackR` and `ProTrackR2`. The settings for both tests were similar and performed
+on the same system and repeated 10 times. On average `ProTrackR2` renders 8.8 times faster
+than `ProTrackR`.

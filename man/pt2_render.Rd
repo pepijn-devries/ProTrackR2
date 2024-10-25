@@ -3,7 +3,7 @@
 \name{pt2_render}
 \alias{pt2_render}
 \alias{pt2_render.pt2mod}
-\title{Render Protracker modules to a playable format}
+\title{Render ProTracker modules to a playable format}
 \usage{
 pt2_render(x, duration = NA, options = pt2_render_options(), ...)
 
@@ -33,7 +33,7 @@ Should be a non negative value smaller than the mule length (\code{pt2_length()}
 Rendered audio inheriting the \code{\link[audio:audioSample]{audio::audioSample()}} class.
 }
 \description{
-Renders a 16bit pulse-code modulation waveform from a Protracker module.
+Renders a 16bit pulse-code modulation waveform from a ProTracker module.
 The rendered format can be played on a modern machine.
 }
 \examples{

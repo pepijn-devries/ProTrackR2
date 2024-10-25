@@ -1,6 +1,6 @@
-#' Render Protracker modules to a playable format
+#' Render ProTracker modules to a playable format
 #' 
-#' Renders a 16bit pulse-code modulation waveform from a Protracker module.
+#' Renders a 16bit pulse-code modulation waveform from a ProTracker module.
 #' The rendered format can be played on a modern machine.
 #' @param x The object to be rendered
 #' @param duration Duration of the rendered output in seconds. When set to `NA`
@@ -35,9 +35,9 @@ pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), 
 #' @rdname play
 NULL
 
-#' Play a Protracker module
+#' Play a ProTracker module
 #' 
-#' Renders a Protracker module as [`audio::audioSample()`] and plays it.
+#' Renders a ProTracker module as [`audio::audioSample()`] and plays it.
 #'
 #' @param x Object to be played.
 #' @inheritParams pt2_render
@@ -64,10 +64,24 @@ play.pt2mod <- function(x, duration = NA, options = pt2_render_options(), positi
 
 #' Retrieve options for rendering
 #' 
-#' Retrieve options for rendering Protracker modules. See also
+#' Retrieve options for rendering ProTracker modules. See also
 #' [`pt2_render()`].
 #'
 #' @param ... Specify custom options.
+#' @returns Returns a named `list` of options that can be used for rendering
+#' ProTracker modules (see [`pt2_render()`] and [`play()`]).
+#' It contains the following elements:
+#'   * `sample_rate`: an integer value specifying the sample rate of the output in Hz.
+#'   * `stereo_separation`: an integer percentage determining how much the
+#'     tracker channels will be separated to the left and right stereo output channels.
+#'   * `amiga_filter`: a `character` string specifying the hardware filter to be emulated.
+#'     Can be `"A500"` for emulating Amiga 500 hardware filters, or `"A1200"` for emulating
+#'     Amiga 1200 hardware filters.
+#'   * `speed`: An integer value specifying the initial speed of the module measured in 'ticks'
+#'     per row. Should be in range of `1` and `31`.
+#'   * `tempo`: An integer value specifying the initial tempo of the module. When speed is set
+#'     to `6`, it measures the tempo as beats per minute. Should be in the range of `32` and `255`
+#'   * `led_filter`: A `logical` value specifying the state of the hardware LED filter to be emultated.
 #' @author Pepijn de Vries
 #' @examples
 #' pt2_render_options(stereo_separation = 100)

@@ -1,0 +1,292 @@
+---
+title: "ProTrackR2 S3 class objects"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ProTrackR2 S3 class objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{js, echo = FALSE}
+function getpatclass(i) {
+  var classname= 'patcolumn' + i;
+  var els = document.getElementsByClassName(classname);
+  return els;
+}
+
+function highlightcol(colindex, mouseover) {
+  for (j = 1; j < 5; j++) {
+      var els = getpatclass(j);
+      for (i = 0; i < els.length; i++) {
+        if (mouseover && colindex == j) {
+          els[i].style.borderLeft  = '2px solid red';
+          els[i].style.borderRight = '2px solid red';
+        } else {
+          els[i].style.borderLeft = '0px none';
+          els[i].style.borderRight = '0px none';
+        }
+      }
+  }
+}
+
+function getpatclass2(i) {
+  var classname= 'patrow' + i;
+  var els = document.getElementsByClassName(classname);
+  return els;
+}
+
+function highlightrow(rowindex, mouseover) {
+  for (j = 0; j < 7; j++) {
+      var els = getpatclass2(j);
+      for (i = 0; i < els.length; i++) {
+        if (mouseover && rowindex == j) {
+          els[i].style.borderTop  = '2px solid orange';
+          els[i].style.borderBottom = '2px solid orange';
+        } else {
+          els[i].style.borderTop = '0px none';
+          els[i].style.borderBottom = '0px none';
+        }
+      }
+  }
+}
+
+```
+
+```{css, echo=FALSE}
+.pt2note {
+  background-color: #0000FF22;
+  display:inline;
+  float:left;
+}
+
+.pt2instr {
+  background-color: #00FFFF22;
+  display:inline;
+  float:left;
+}
+
+.pt2effect {
+  background-color: #00FF0022;
+  display:inline;
+  float:left;
+}
+
+g.grvzclick:hover {
+  outline: solid 3px blue;
+}
+
+table.tab_patt td {
+  border-left: 0px none;
+  border-right: 0px none;
+}
+
+table.tab_patt {
+  font-family: monospace;
+}
+```
+
+## Outline of ProTrackR2 objects
+
+The ProTrackR2 package has defined a number of hierarchical classes to represent ProTracker modules.
+This vignette explains how these objects are organised, and how they can be used to work with
+ProTracker modules in R. We start with the diagram below, which shows an object tree. It shows
+how object classes are organised and related. It is similar (but not identical) to how ProTracker
+module files are organised. We follow the tree to explain each object by starting at its root:
+the ProTracker module.
+
+```{r, echo=FALSE, results='asis'}
+htmltools::includeHTML("../man/figures/object-tree.svg")
+```
+
+## ProTracker Module objects (`pt2mod`)
+
+The `pt2mod` class object is a memory representation of ProTracker module files. The type of this
+object is `externalptr` and points to the location in memory where the data is stored for manipulation
+and/or play back.
+
+An empty module can be created by calling `pt2_new_mod("song title")`. It can also be initiated by
+reading a module from a file like this:
+
+```{r setup}
+library(ProTrackR2)
+mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod
+```
+
+As you might know, external pointers cannot be accessed directly in `R`. Instead you need to use
+the functions and methods presented in this package to approach it. If you want a more 'physical'
+manifestation of the object, you can call `as.raw()` (which returns the raw file representation of
+the object). Or write it to a file using `pt2_write_mod()`. If you want to know what the module
+sounds like you can simply play it:
+
+```{r play, eval=FALSE}
+play(mod)
+```
+
+## Sample list objects (`pt2samplist`)
+
+The sample list is a collection of distinct instruments (samples) and is represented by the `pt2samplist`
+class. Essentially, it is a list of samples (`pt2samp` class objects; see below). The sample list of
+a module can be obtained using the `$`-operator as shown below.
+
+```{r sample-list}
+mod$samples
+```
+
+See also `vignette("sel_assign")` for more details about selecting or replacing a sample list.
+The sample list returned here is the complete list of samples, including empty sample slots.
+If you want to count the number of non-empty samples in a module use `pt2_n_sample(mod)`.
+
+### Sample objects (`pt2samp`)
+
+ProTracker uses pulse-code modulation (PCM) mono audio samples with 8 bit depth. In this package it's
+represented by the `pt2samp` class. It can either by a list where the first element is a
+`pt2samplelist` object and the second is an `integer` index of the sample in the list.
+It can also be a vector of `raw` values, where each value is a PCM sample. The `raw` form
+will also hold an attribute named `"sample_info"` used to interpret the sample. The attribute
+`"sample_info"` is a named list containing the following elements:
+
+  * `length`: should be identical to the length of the vector of `raw` values.
+  * `loopStart`: start position (in number of samples) of a loop in the sample (0 when loop is off).
+  * `loopLength`: length (in number of samples) of a loop (2 when loop is off).
+  * `fineTune`: an `integer` value (between -8 and 7) to tweak a sample when it is out of tune.
+  * `volume`: volume level of the sample. An `integer` value between 0 (muted) and 64 (max).
+  * `text`: 22 UTF-8 characters. Usually describing the sample or the module.
+
+A sample can be initiated by reading it from an audio file using `pt2_read_sample()`. It can
+also be selected from a sample list as shown below.
+
+```{r sample}
+my_sample <- mod$samples[[1]]
+```
+
+See also `vignette("sel_assign")` for more details about selecting or replacing a sample.
+
+## Pattern list objects (`pt2patlist`)
+
+The pattern list is a collection of distinct pattern tables and is represented by the `pt2patlist`
+class. Essentially, it is a list of pattern tables (`pt2pat` class objects; see below). Note that
+this list of pattern tables is not necessarily the order in which they are played. This is determined
+by the pattern sequence (`pt2_pattern_table(mod)`).
+
+The pattern list of a module can be obtained using the `$`-operator as shown below.
+
+```{r pattern-list}
+mod$patterns
+```
+
+The loaded module consists of `r length(mod$patterns)` unique pattern tables.
+See also `vignette("sel_assign")` for more details about selecting or replacing a pattern list.
+
+### Pattern objects (`pt2pat`)
+
+A pattern table defines the rhythm and melody of a ProTracker module. The columns in a pattern
+table represent the four audio channels (red borders in <a href="#tab-pat-example">Table 1</a>).
+Each row (orange borders in <a href="#tab-pat-example">Table 1</a>) is subsequently played and
+specifies which note (blue fields in <a href="#tab-pat-example">Table 1</a>) using a specific instrument
+(sample, cyan fields in <a href="#tab-pat-example">Table 1</a>) is heard. It can also specify specific
+effects such as tremolo, porta or vibrato (green fields in <a href="#tab-pat-example">Table 1</a>). <!-- TODO add link to effects vignette when available -->
+
+```{r tab-pattern, echo=FALSE, message=FALSE, warning=FALSE}
+library(ProTrackR2)
+mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+
+mat <-
+  mod$patterns[[1]] |>
+  as.character() |>
+  apply(1, \(x) gsub("-", "&minus;", x))
+mat <- mat[,c(1:5, 64)] |>
+  apply(2, \(x) {
+    strsplit(x, " ") |>
+      lapply(\(y)
+             sprintf("<div class='pt2note'>%s</div><div class='pt2instr'>&nbsp;&nbsp;%s&nbsp;&nbsp;</div><div class='pt2effect'>%s</div>",
+                     y[1], y[2], y[3])) |> unlist()
+  })
+mat <- rbind(c(0:4, 63), mat)
+mat[,5] <- "..."
+
+mat <- outer(1:5, 1:6, function(X, Y) {
+  sprintf("<td class='patcolumn%i'> %s </td>", X - 1, mat[cbind(X, Y)])
+}) |>
+  apply(2, paste0, collapse = "\n") |>
+  sprintf(
+    fmt = sprintf("<tr class = 'patrow%i'%s%%%%s> %%s </tr>",
+                  1:6,
+                  c("", "", "", "", " style='text-align: center;'", ""))
+) |>
+  paste0(collapse = "\n")
+
+mat <-
+  do.call(sprintf, c(
+    list(fmt = mat),
+    sprintf(" onmouseleave='highlightrow(%i, false);' onmouseenter='highlightrow(%i, true);'",
+            1:6, 1:6)))
+
+hd <-
+  c("<th> Row </th>",
+    sprintf("<th onmouseleave='highlightcol(%i, false);' onmouseenter='highlightcol(%i, true);'> Channel %i </th>", 1:4, 1:4, 1:4)) |>
+  paste0(collapse = "\n") |>
+  sprintf(fmt = "<thead>\n<tr>\n%s</tr></thead>")
+cp <- "<caption><span id='tab-pat-example'>Table 1: </span>An example of a pattern table. Note that rows 4 to 62 are omitted.</caption>"
+sprintf("<table class='tab_patt'>%s\n\n%s\n<tbody>\n%s\n</tbody>\n</table>",
+        cp, hd, mat) |>
+  htmltools::HTML()
+```
+
+A ProTracker pattern is represented by the `pt2pat` class. It can be a `list` 
+where the first element is its parent module (`pt2mod`) and the second element is 
+the index in the pattern list. It can also be a `vector` of `raw` values that either
+represents the file structure of a pattern or its representation in memory used by
+the play back routine.
+
+A pattern can be initiated with `pt2_new_pattern()`. This produces a `raw` representation
+of a pattern. Here the `logical` argument `compact` determines if the notation is compact (`TRUE`)
+as is the case in a file, or not (`FALSE`) as in memory. This is stored as an attribute to
+the object for its correct interpretation.
+
+It can also be selected from an existing module as shown below.
+
+```{r pattern}
+my_ptn <- mod$patterns[[1]]
+```
+
+Consult `vignette("sel_assign")` for more information about selecting and replacing patterns.
+
+### Cell list objects (`pt2celllist`)
+
+The cell list is a collection of cells from a pattern table and is represented by the `pt2celllist`
+class. Essentially, it is a list of cells (`pt2cell` class objects; see below).
+The cell list can be obtained using the `[`-operator from a pattern as shown below.
+
+```{r celllist}
+## This selects all cells in the first two channels
+## of a pattern
+my_cells <- my_ptn[,1:2]
+```
+
+Consult `vignette("sel_assign")` for more information about selecting and replacing cell lists.
+
+### Cell objects (`pt2cell`)
+
+A cell is an elementary unit in a pattern table and contains information about which note to play
+(blue fields in <a href="#tab-pat-example">Table 1</a>),
+which instrument (sample cyan fields in <a href="#tab-pat-example">Table 1</a>)
+and what kind of effect to apply (green fields in <a href="#tab-pat-example">Table 1</a>).
+It is represented by the `pt2cell` class
+and can consist of a `list`, where the first element is a `pt2mod` object and followed by three indices
+`i` (pattern id), `j` (pattern row) and `k` (channel id). It can also be represented by a vector of
+`raw` values as stored in file (compact) or in memory (not compact). A cell can be selected from
+a cell list as shown below.
+
+```{r cell}
+my_cells[[1]]
+```
+
+See `vignette("sel_assign")` for more information about selecting and replacing cell values.

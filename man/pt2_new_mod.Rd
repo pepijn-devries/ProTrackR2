@@ -2,7 +2,7 @@
 % Please edit documentation in R/io.R
 \name{pt2_new_mod}
 \alias{pt2_new_mod}
-\title{Create a new (empty) Protracker module}
+\title{Create a new (empty) ProTracker module}
 \usage{
 pt2_new_mod(name, ...)
 }
@@ -15,7 +15,7 @@ pt2_new_mod(name, ...)
 A \code{pt2mod} class module, with no samples and one empty pattern.
 }
 \description{
-Creates an empty Protracker module, it is returned as a \code{pt2mod} class object.
+Creates an empty ProTracker module, it is returned as a \code{pt2mod} class object.
 }
 \examples{
 mod <- pt2_new_mod("my_song")

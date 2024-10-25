@@ -2,7 +2,7 @@
 % Please edit documentation in R/modplug.R
 \name{as_modplug_pattern}
 \alias{as_modplug_pattern}
-\title{Format a Protracker pattern conform OpenMPT specs}
+\title{Format a ProTracker pattern conform OpenMPT specs}
 \usage{
 as_modplug_pattern(pattern, ...)
 }

@@ -20,5 +20,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Pepijn de Vries \email{pepijn.devries@outlook.com} (\href{https://orcid.org/0000-0002-7961-6646}{ORCID})
 
+Authors:
+\itemize{
+  \item Olav Sørensen (Developer of the ProTracker 2.3d clone)
+}
+
 }
 \keyword{internal}

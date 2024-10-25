@@ -2,7 +2,7 @@
 % Please edit documentation in R/pattern.R
 \name{pt2_pattern}
 \alias{pt2_pattern}
-\title{Retrieve a pattern from a Protracker module}
+\title{Retrieve a pattern from a ProTracker module}
 \usage{
 pt2_pattern(mod, i, ...)
 }
@@ -18,7 +18,7 @@ A \code{pt2pat} object representing the pattern.
 }
 \description{
 Get a pattern table (sequence of notes and effects on each of the 4 channels) at
-a specific index from a Protracker module.
+a specific index from a ProTracker module.
 }
 \examples{
 mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))

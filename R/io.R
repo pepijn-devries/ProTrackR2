@@ -1,9 +1,9 @@
-#' Read and write Protracker modules
+#' Read and write ProTracker modules
 #' 
-#' Functions to read and write Protracker module. The read function will
-#' read a number of mod files that are compatible with Protracker, this
+#' Functions to read and write ProTracker module. The read function will
+#' read a number of mod files that are compatible with ProTracker, this
 #' includes files compressed with PowerPacker (PP). The write function
-#' will only write modules conform Protracker specifications.
+#' will only write modules conform ProTracker specifications.
 #' @param mod An object of class `pt2mod`.
 #' @param file Filename of the file to read from or write to.
 #' @param ... Ignored
@@ -47,9 +47,9 @@ pt2_write_mod <- function(mod, file, ...) {
   return (invisible(NULL))
 }
 
-#' Create a new (empty) Protracker module
+#' Create a new (empty) ProTracker module
 #' 
-#' Creates an empty Protracker module, it is returned as a `pt2mod` class object.
+#' Creates an empty ProTracker module, it is returned as a `pt2mod` class object.
 #' @param name Name for the new module. It will be truncated if longer than 20 characters.
 #' @param ... Ignored
 #' @returns A `pt2mod` class module, with no samples and one empty pattern.
@@ -61,9 +61,9 @@ pt2_new_mod <- function(name, ...) {
   new_mod_(name)
 }
 
-#' Read and write Protracker audio samples
+#' Read and write ProTracker audio samples
 #' 
-#' Functions to read and write Protracker audio samples. Reading is supported
+#' Functions to read and write ProTracker audio samples. Reading is supported
 #' for common types of WAV, IFF and AIFF files. Writing is supported for
 #' WAV and IFF files.
 #' @param sample An object of class `pt2samp`.

@@ -20,4 +20,3 @@ if (!requireNamespace("ProTrackR")) {
   }
   mean(dur1)/mean(dur2)
 }
-#TODO save results
