@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.4
+Version: 0.0.4.0001
 Authors@R: c(
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -27,11 +27,16 @@ LinkingTo:
 Collate: 
     'ProTrackR2-package.R'
     'cell.R'
+    'command.R'
     'cpp11.R'
+    'data.R'
+    'demo.R'
     'helpers.R'
+    'instrument.R'
     'io.R'
     'mod_info.R'
     'modplug.R'
+    'note.R'
     'pattern.R'
     'render.R'
     's3.R'
@@ -47,4 +52,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://pepijn-devries.github.io/ProTrackR2/
+URL:
+    https://pepijn-devries.github.io/ProTrackR2/,
+    https://github.com/pepijn-devries/ProTrackR2
+BugReports: https://github.com/pepijn-devries/ProTrackR2/issues

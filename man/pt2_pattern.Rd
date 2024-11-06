@@ -21,7 +21,7 @@ Get a pattern table (sequence of notes and effects on each of the 4 channels) at
 a specific index from a ProTracker module.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 pt2_pattern(mod, 0L)
 }

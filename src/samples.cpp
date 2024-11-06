@@ -4,12 +4,10 @@
 #include "pt2-clone/pt2_replayer_light.h"
 using namespace cpp11;
 
-moduleSample_t * get_mod_sampinf_internal(module_t * my_song, integers idx) {
-  if (idx.size() != 1) Rf_error("This function only accepts a single index.");
-  uint32_t i = idx.at(0);
-  if (i < 0 || i >= MOD_SAMPLES) Rf_error("Index out of range");
+moduleSample_t * get_mod_sampinf_internal(module_t * my_song, int idx) {
+  if (idx < 0 || idx >= MOD_SAMPLES) Rf_error("Index out of range");
   
-  return &my_song->samples[i];
+  return &my_song->samples[idx];
 }
 
 SEXP mod_sample_info_internal2(moduleSample_t * samp) {
@@ -25,12 +23,12 @@ SEXP mod_sample_info_internal2(moduleSample_t * samp) {
   return attr;
 }
 
-SEXP mod_sample_info_internal(module_t * my_song, integers idx) {
+SEXP mod_sample_info_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   return mod_sample_info_internal2(samp);
 }
 
-SEXP mod_sample_as_raw_internal(module_t * my_song, integers idx) {
+SEXP mod_sample_as_raw_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];
   uint32_t len = samp->length;
@@ -47,13 +45,12 @@ SEXP mod_sample_as_raw_internal(module_t * my_song, integers idx) {
 }
 
 [[cpp11::register]]
-SEXP mod_sample_as_raw_(SEXP mod, integers idx) {
-  if (idx.size() != 1) Rf_error("This function only accepts a single index.");
+SEXP mod_sample_as_raw_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_as_raw_internal(my_song, idx);
 }
 
-SEXP mod_sample_as_int_internal(module_t * my_song, integers idx) {
+SEXP mod_sample_as_int_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];
   uint32_t len = samp->length;
@@ -69,14 +66,13 @@ SEXP mod_sample_as_int_internal(module_t * my_song, integers idx) {
 }
 
 [[cpp11::register]]
-SEXP mod_sample_info_(SEXP mod, integers idx) {
-  if (idx.size() != 1) Rf_error("This function only accepts a single index.");
+SEXP mod_sample_info_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_info_internal(my_song, idx);
 }
 
 [[cpp11::register]]
-SEXP mod_sample_as_int_(SEXP mod, integers idx) {
+SEXP mod_sample_as_int_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_as_int_internal(my_song, idx);
 }
@@ -118,7 +114,7 @@ logicals validate_sample_raw_(raws smp_data) {
 }
 
 [[cpp11::register]]
-SEXP mod_set_sample_(SEXP mod, integers idx, raws smp_data) {
+SEXP mod_set_sample_(SEXP mod, int idx, raws smp_data) {
   module_t *my_song = get_mod(mod);
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];

@@ -6,7 +6,7 @@
 #' @param ... Ignored
 #' @returns A `logical` value indicating whether the object is valid or not
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' pt2_validate(mod$samples[[1]])
 #' @author Pepijn de Vries

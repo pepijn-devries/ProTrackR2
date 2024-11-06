@@ -20,7 +20,7 @@ you to format a pattern such that it can be pasted directly into OpenMPT.
 On Windows you can use \code{writeClipboard()} for this purpose.
 }
 \examples{
-mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod    <- pt2_read_mod(pt2_demo())
 mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
 }
 \author{

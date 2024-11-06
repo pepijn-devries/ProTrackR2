@@ -7,7 +7,7 @@
 #' @param ... Ignored
 #' @returns A `pt2pat` object representing the pattern.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' pt2_pattern(mod, 0L)
 #' @author Pepijn de Vries

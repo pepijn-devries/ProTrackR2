@@ -248,11 +248,6 @@ void modPlay(int16_t patt, int16_t pos, int8_t row)
   
 }
 
-void modStop(void)
-{
-  return; // TODO dummy for now
-}
-
 void modSetPos(int16_t pos, int16_t row)
 {
   if (row != -1)
@@ -313,9 +308,7 @@ void modSetPattern(uint8_t pattern)
 
 void restartSong(void) // for the beginning of MOD2WAV/PAT2SMP
 {
-  if (editor.songPlaying)
-    modStop();
-  
+
   editor.playMode = PLAY_MODE_NORMAL;
   editor.blockMarkFlag = false;
   

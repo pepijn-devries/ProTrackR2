@@ -30,7 +30,7 @@ Renders a ProTracker module as \code{\link[audio:audioSample]{audio::audioSample
 }
 \examples{
 \dontrun{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 ## ctrl will contain the audioInstance that will let you control the audio playback:
 ctrl <- play(mod)

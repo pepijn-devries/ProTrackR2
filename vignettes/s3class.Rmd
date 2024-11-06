@@ -116,7 +116,7 @@ reading a module from a file like this:
 
 ```{r setup}
 library(ProTrackR2)
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 mod
 ```
 
@@ -158,7 +158,8 @@ will also hold an attribute named `"sample_info"` used to interpret the sample. 
   * `loopLength`: length (in number of samples) of a loop (2 when loop is off).
   * `fineTune`: an `integer` value (between -8 and 7) to tweak a sample when it is out of tune.
   * `volume`: volume level of the sample. An `integer` value between 0 (muted) and 64 (max).
-  * `text`: 22 UTF-8 characters. Usually describing the sample or the module.
+  * `text`: 22 UTF-8 characters. Usually describing the sample or the module. It can
+    also contain a message to the audience.
 
 A sample can be initiated by reading it from an audio file using `pt2_read_sample()`. It can
 also be selected from a sample list as shown below.
@@ -192,11 +193,12 @@ table represent the four audio channels (red borders in <a href="#tab-pat-exampl
 Each row (orange borders in <a href="#tab-pat-example">Table 1</a>) is subsequently played and
 specifies which note (blue fields in <a href="#tab-pat-example">Table 1</a>) using a specific instrument
 (sample, cyan fields in <a href="#tab-pat-example">Table 1</a>) is heard. It can also specify specific
-effects such as tremolo, porta or vibrato (green fields in <a href="#tab-pat-example">Table 1</a>). <!-- TODO add link to effects vignette when available -->
+effects such as tremolo, porta or vibrato (green fields in <a href="#tab-pat-example">Table 1</a>).
+See for more details `vignette("effect_commands")`.
 
 ```{r tab-pattern, echo=FALSE, message=FALSE, warning=FALSE}
 library(ProTrackR2)
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 mat <-
   mod$patterns[[1]] |>
@@ -290,3 +292,8 @@ my_cells[[1]]
 ```
 
 See `vignette("sel_assign")` for more information about selecting and replacing cell values.
+
+### Command objects (`pt2command`)
+
+TODO
+<!-- TODO add refs to pt2_note pt2_instrument and pt2_effect -->

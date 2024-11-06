@@ -7,7 +7,7 @@
 #' @param ... Ignored.
 #' @returns Returns a sample object of class `pt2samp`.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' smp <- pt2_sample(mod, 0L)
 #' @author Pepijn de Vries

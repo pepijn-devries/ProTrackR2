@@ -14,6 +14,8 @@
 Useful links:
 \itemize{
   \item \url{https://pepijn-devries.github.io/ProTrackR2/}
+  \item \url{https://github.com/pepijn-devries/ProTrackR2}
+  \item Report bugs at \url{https://github.com/pepijn-devries/ProTrackR2/issues}
 }
 
 }

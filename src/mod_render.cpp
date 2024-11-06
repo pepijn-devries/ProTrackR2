@@ -20,11 +20,9 @@ void reset_speed(list render_options) {
   modSetSpeed(speed);
 }
 
-double render_prep(SEXP mod, doubles render_duration, list render_options, integers position) {
+double render_prep(SEXP mod, double render_duration, list render_options, int position) {
   module_t *my_song = get_mod(mod);
-  if (render_duration.size() != 1 || position.size() != 1)
-    Rf_error("Arguments should have length 1");
-  
+
   config.mod2WavOutputFreq = audio.outputRate = integers(render_options["sample_rate"]).at(0);
   config.stereoSeparation = integers(render_options["stereo_separation"]).at(0);
   config.amigaModel = MODEL_A500;
@@ -38,7 +36,7 @@ double render_prep(SEXP mod, doubles render_duration, list render_options, integ
   song = my_song;
   
   restartSong();
-  int16_t mpos = (uint16_t)position.at(0);
+  int16_t mpos = (uint16_t)position;
   if (mpos < 0 || mpos >= song->header.songLength)
     Rf_error("'position' is out of range!");
   
@@ -56,7 +54,7 @@ double render_prep(SEXP mod, doubles render_duration, list render_options, integ
   clearMixerDownsamplerStates();
   reset_speed(render_options);
   
-  double dur = render_duration.at(0);
+  double dur = render_duration;
   if (R_IsNA(dur)) {
     calcMod2WavTotalRows(mpos);
     dur = (double)song->songDuration;
@@ -65,7 +63,7 @@ double render_prep(SEXP mod, doubles render_duration, list render_options, integ
 }
 
 [[cpp11::register]]
-SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integers position) {
+SEXP render_mod_(SEXP mod, double render_duration, list render_options, int position) {
   double dur = render_prep(mod, render_duration, render_options, position);
   
   uint32_t total_samples = round(audio.outputRate * dur) * 2; // 2 for stereo
@@ -75,7 +73,7 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integer
   
   setLEDFilter(logicals(render_options["led_filter"]).at(0));
 
-  int16_t mpos = (uint16_t)position.at(0);
+  int16_t mpos = (uint16_t)position;
   modSetPos(mpos, 0);
   reset_speed(render_options);
 
@@ -111,11 +109,8 @@ SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integer
 }
 
 [[cpp11::register]]
-SEXP mod_duration(SEXP mod, list render_options, integers position) {
-  writable::doubles inp({NA_REAL});
-  double dur = render_prep(mod, inp, render_options, position);
-  writable::doubles result({dur});
-  return result;
+double mod_duration(SEXP mod, list render_options, int position) {
+  return render_prep(mod, NA_REAL, render_options, position);
 }
 
 #define CALC__END_OF_SONG                                           \

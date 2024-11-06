@@ -28,7 +28,7 @@ loops, pattern breaks and delay effects. The duration in seconds of the
 module is calculated by this function.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 pt2_duration(mod)
 }

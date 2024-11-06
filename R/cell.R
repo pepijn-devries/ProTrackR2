@@ -11,7 +11,7 @@
 #' @param ... Ignored
 #' @returns Returns a cell object from the table as class `pt2cell`.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' pt2_cell(mod$patterns[[1]], 0L, 0L)
 #' @author Pepijn de Vries
