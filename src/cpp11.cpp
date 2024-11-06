@@ -20,10 +20,10 @@ extern "C" SEXP _ProTrackR2_mod_length_(SEXP mod) {
   END_CPP11
 }
 // mod_header.cpp
-SEXP set_mod_length_(SEXP mod, integers modlen);
+SEXP set_mod_length_(SEXP mod, int modlen);
 extern "C" SEXP _ProTrackR2_set_mod_length_(SEXP mod, SEXP modlen) {
   BEGIN_CPP11
-    return cpp11::as_sexp(set_mod_length_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(modlen)));
+    return cpp11::as_sexp(set_mod_length_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(modlen)));
   END_CPP11
 }
 // mod_header.cpp
@@ -62,45 +62,87 @@ extern "C" SEXP _ProTrackR2_new_mod_(SEXP name) {
   END_CPP11
 }
 // mod_render.cpp
-SEXP render_mod_(SEXP mod, doubles render_duration, list render_options, integers position);
+SEXP render_mod_(SEXP mod, double render_duration, list render_options, int position);
 extern "C" SEXP _ProTrackR2_render_mod_(SEXP mod, SEXP render_duration, SEXP render_options, SEXP position) {
   BEGIN_CPP11
-    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<doubles>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<integers>>(position)));
+    return cpp11::as_sexp(render_mod_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<double>>(render_duration), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<int>>(position)));
   END_CPP11
 }
 // mod_render.cpp
-SEXP mod_duration(SEXP mod, list render_options, integers position);
+double mod_duration(SEXP mod, list render_options, int position);
 extern "C" SEXP _ProTrackR2_mod_duration(SEXP mod, SEXP render_options, SEXP position) {
   BEGIN_CPP11
-    return cpp11::as_sexp(mod_duration(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<integers>>(position)));
+    return cpp11::as_sexp(mod_duration(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<list>>(render_options), cpp11::as_cpp<cpp11::decay_t<int>>(position)));
   END_CPP11
 }
 // patterns.cpp
-SEXP cells_as_raw_(SEXP mod, integers pattern, logicals compact, logicals as_pattern, integers row, integers channel);
+SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern, int row, int channel);
 extern "C" SEXP _ProTrackR2_cells_as_raw_(SEXP mod, SEXP pattern, SEXP compact, SEXP as_pattern, SEXP row, SEXP channel) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cells_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact), cpp11::as_cpp<cpp11::decay_t<logicals>>(as_pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(row), cpp11::as_cpp<cpp11::decay_t<integers>>(channel)));
+    return cpp11::as_sexp(cells_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern), cpp11::as_cpp<cpp11::decay_t<bool>>(compact), cpp11::as_cpp<cpp11::decay_t<bool>>(as_pattern), cpp11::as_cpp<cpp11::decay_t<int>>(row), cpp11::as_cpp<cpp11::decay_t<int>>(channel)));
   END_CPP11
 }
 // patterns.cpp
-SEXP set_new_pattern_(SEXP mod, integers pattern_idx, raws data_new);
+SEXP set_new_pattern_(SEXP mod, int pattern_idx, raws data_new);
 extern "C" SEXP _ProTrackR2_set_new_pattern_(SEXP mod, SEXP pattern_idx, SEXP data_new) {
   BEGIN_CPP11
-    return cpp11::as_sexp(set_new_pattern_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern_idx), cpp11::as_cpp<cpp11::decay_t<raws>>(data_new)));
+    return cpp11::as_sexp(set_new_pattern_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern_idx), cpp11::as_cpp<cpp11::decay_t<raws>>(data_new)));
   END_CPP11
 }
 // pt_cell.cpp
-SEXP pt_cell_(SEXP mod, integers pattern, integers channel, integers row);
+SEXP pt_cell_(SEXP mod, int pattern, int channel, int row);
 extern "C" SEXP _ProTrackR2_pt_cell_(SEXP mod, SEXP pattern, SEXP channel, SEXP row) {
   BEGIN_CPP11
-    return cpp11::as_sexp(pt_cell_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(channel), cpp11::as_cpp<cpp11::decay_t<integers>>(row)));
+    return cpp11::as_sexp(pt_cell_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern), cpp11::as_cpp<cpp11::decay_t<int>>(channel), cpp11::as_cpp<cpp11::decay_t<int>>(row)));
   END_CPP11
 }
 // pt_cell.cpp
-SEXP pt_cell_as_char_(SEXP mod, integers pattern, integers channel, integers row, strings padding, strings empty_char, list sformat);
+std::string pt_note_string_(SEXP mod, int pattern, int channel, int row);
+extern "C" SEXP _ProTrackR2_pt_note_string_(SEXP mod, SEXP pattern, SEXP channel, SEXP row) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_note_string_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern), cpp11::as_cpp<cpp11::decay_t<int>>(channel), cpp11::as_cpp<cpp11::decay_t<int>>(row)));
+  END_CPP11
+}
+// pt_cell.cpp
+std::string pt_note_string_raw_(raws data);
+extern "C" SEXP _ProTrackR2_pt_note_string_raw_(SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_note_string_raw_(cpp11::as_cpp<cpp11::decay_t<raws>>(data)));
+  END_CPP11
+}
+// pt_cell.cpp
+int pt_instr_(SEXP mod, int pattern, int channel, int row);
+extern "C" SEXP _ProTrackR2_pt_instr_(SEXP mod, SEXP pattern, SEXP channel, SEXP row) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_instr_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern), cpp11::as_cpp<cpp11::decay_t<int>>(channel), cpp11::as_cpp<cpp11::decay_t<int>>(row)));
+  END_CPP11
+}
+// pt_cell.cpp
+int pt_instr_raw_(raws data);
+extern "C" SEXP _ProTrackR2_pt_instr_raw_(SEXP data) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_instr_raw_(cpp11::as_cpp<cpp11::decay_t<raws>>(data)));
+  END_CPP11
+}
+// pt_cell.cpp
+raws pt_eff_command_(list mod, integers pattern, integers channel, integers row);
+extern "C" SEXP _ProTrackR2_pt_eff_command_(SEXP mod, SEXP pattern, SEXP channel, SEXP row) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_eff_command_(cpp11::as_cpp<cpp11::decay_t<list>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(channel), cpp11::as_cpp<cpp11::decay_t<integers>>(row)));
+  END_CPP11
+}
+// pt_cell.cpp
+SEXP pt_set_eff_command_(list mod, integers pattern, integers channel, integers row, raws replacement, bool warn);
+extern "C" SEXP _ProTrackR2_pt_set_eff_command_(SEXP mod, SEXP pattern, SEXP channel, SEXP row, SEXP replacement, SEXP warn) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_set_eff_command_(cpp11::as_cpp<cpp11::decay_t<list>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(channel), cpp11::as_cpp<cpp11::decay_t<integers>>(row), cpp11::as_cpp<cpp11::decay_t<raws>>(replacement), cpp11::as_cpp<cpp11::decay_t<bool>>(warn)));
+  END_CPP11
+}
+// pt_cell.cpp
+SEXP pt_cell_as_char_(SEXP mod, int pattern, int channel, int row, strings padding, strings empty_char, list sformat);
 extern "C" SEXP _ProTrackR2_pt_cell_as_char_(SEXP mod, SEXP pattern, SEXP channel, SEXP row, SEXP padding, SEXP empty_char, SEXP sformat) {
   BEGIN_CPP11
-    return cpp11::as_sexp(pt_cell_as_char_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers>>(channel), cpp11::as_cpp<cpp11::decay_t<integers>>(row), cpp11::as_cpp<cpp11::decay_t<strings>>(padding), cpp11::as_cpp<cpp11::decay_t<strings>>(empty_char), cpp11::as_cpp<cpp11::decay_t<list>>(sformat)));
+    return cpp11::as_sexp(pt_cell_as_char_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(pattern), cpp11::as_cpp<cpp11::decay_t<int>>(channel), cpp11::as_cpp<cpp11::decay_t<int>>(row), cpp11::as_cpp<cpp11::decay_t<strings>>(padding), cpp11::as_cpp<cpp11::decay_t<strings>>(empty_char), cpp11::as_cpp<cpp11::decay_t<list>>(sformat)));
   END_CPP11
 }
 // pt_cell.cpp
@@ -125,10 +167,10 @@ extern "C" SEXP _ProTrackR2_pt_encode_compact_cell(SEXP source) {
   END_CPP11
 }
 // pt_cell.cpp
-SEXP celllist_to_raw_(list celllist, logicals compact);
+SEXP celllist_to_raw_(list celllist, bool compact);
 extern "C" SEXP _ProTrackR2_celllist_to_raw_(SEXP celllist, SEXP compact) {
   BEGIN_CPP11
-    return cpp11::as_sexp(celllist_to_raw_(cpp11::as_cpp<cpp11::decay_t<list>>(celllist), cpp11::as_cpp<cpp11::decay_t<logicals>>(compact)));
+    return cpp11::as_sexp(celllist_to_raw_(cpp11::as_cpp<cpp11::decay_t<list>>(celllist), cpp11::as_cpp<cpp11::decay_t<bool>>(compact)));
   END_CPP11
 }
 // pt_cell.cpp
@@ -160,31 +202,31 @@ extern "C" SEXP _ProTrackR2_open_samp_(SEXP data) {
   END_CPP11
 }
 // samp_io.cpp
-SEXP sample_file_format_(SEXP input, strings file_type);
+SEXP sample_file_format_(SEXP input, std::string file_type);
 extern "C" SEXP _ProTrackR2_sample_file_format_(SEXP input, SEXP file_type) {
   BEGIN_CPP11
-    return cpp11::as_sexp(sample_file_format_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(input), cpp11::as_cpp<cpp11::decay_t<strings>>(file_type)));
+    return cpp11::as_sexp(sample_file_format_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(input), cpp11::as_cpp<cpp11::decay_t<std::string>>(file_type)));
   END_CPP11
 }
 // samples.cpp
-SEXP mod_sample_as_raw_(SEXP mod, integers idx);
+SEXP mod_sample_as_raw_(SEXP mod, int idx);
 extern "C" SEXP _ProTrackR2_mod_sample_as_raw_(SEXP mod, SEXP idx) {
   BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+    return cpp11::as_sexp(mod_sample_as_raw_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(idx)));
   END_CPP11
 }
 // samples.cpp
-SEXP mod_sample_info_(SEXP mod, integers idx);
+SEXP mod_sample_info_(SEXP mod, int idx);
 extern "C" SEXP _ProTrackR2_mod_sample_info_(SEXP mod, SEXP idx) {
   BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_info_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+    return cpp11::as_sexp(mod_sample_info_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(idx)));
   END_CPP11
 }
 // samples.cpp
-SEXP mod_sample_as_int_(SEXP mod, integers idx);
+SEXP mod_sample_as_int_(SEXP mod, int idx);
 extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
   BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx)));
+    return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(idx)));
   END_CPP11
 }
 // samples.cpp
@@ -195,10 +237,10 @@ extern "C" SEXP _ProTrackR2_validate_sample_raw_(SEXP smp_data) {
   END_CPP11
 }
 // samples.cpp
-SEXP mod_set_sample_(SEXP mod, integers idx, raws smp_data);
+SEXP mod_set_sample_(SEXP mod, int idx, raws smp_data);
 extern "C" SEXP _ProTrackR2_mod_set_sample_(SEXP mod, SEXP idx, SEXP smp_data) {
   BEGIN_CPP11
-    return cpp11::as_sexp(mod_set_sample_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<integers>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(smp_data)));
+    return cpp11::as_sexp(mod_set_sample_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(smp_data)));
   END_CPP11
 }
 
@@ -222,9 +264,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_pt_cell_as_char_",         (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,         7},
     {"_ProTrackR2_pt_cleanup_",              (DL_FUNC) &_ProTrackR2_pt_cleanup_,              0},
     {"_ProTrackR2_pt_decode_compact_cell",   (DL_FUNC) &_ProTrackR2_pt_decode_compact_cell,   1},
+    {"_ProTrackR2_pt_eff_command_",          (DL_FUNC) &_ProTrackR2_pt_eff_command_,          4},
     {"_ProTrackR2_pt_encode_compact_cell",   (DL_FUNC) &_ProTrackR2_pt_encode_compact_cell,   1},
     {"_ProTrackR2_pt_init_",                 (DL_FUNC) &_ProTrackR2_pt_init_,                 0},
+    {"_ProTrackR2_pt_instr_",                (DL_FUNC) &_ProTrackR2_pt_instr_,                4},
+    {"_ProTrackR2_pt_instr_raw_",            (DL_FUNC) &_ProTrackR2_pt_instr_raw_,            1},
+    {"_ProTrackR2_pt_note_string_",          (DL_FUNC) &_ProTrackR2_pt_note_string_,          4},
+    {"_ProTrackR2_pt_note_string_raw_",      (DL_FUNC) &_ProTrackR2_pt_note_string_raw_,      1},
     {"_ProTrackR2_pt_rawcell_as_char_",      (DL_FUNC) &_ProTrackR2_pt_rawcell_as_char_,      4},
+    {"_ProTrackR2_pt_set_eff_command_",      (DL_FUNC) &_ProTrackR2_pt_set_eff_command_,      6},
     {"_ProTrackR2_render_mod_",              (DL_FUNC) &_ProTrackR2_render_mod_,              4},
     {"_ProTrackR2_replace_cells_",           (DL_FUNC) &_ProTrackR2_replace_cells_,           3},
     {"_ProTrackR2_sample_file_format_",      (DL_FUNC) &_ProTrackR2_sample_file_format_,      2},

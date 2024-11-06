@@ -25,7 +25,7 @@ we start the session by loading a module file.
 ```{r setup}
 library(ProTrackR2)
 
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 ```
 
 ## Selecting lists from modules
@@ -59,7 +59,8 @@ mod[[2L]]
 
 For vectors and lists, `R` uses indices starting at 1. ProTracker modules often use arrays
 of elements that starting with indices at 0 (but unfortunately consistently for everything).
-And in some case ProTracker effect commands refer to such indices. Unfortunately, this is
+And in some case ProTracker effect commands refer to such indices (see `vignette("effect_commands")`).
+Unfortunately, this is
 a source of confusion, for which there exists no ideal solution.
 
 In this package, I've tried to implement it as consistent as possible. Named functions and

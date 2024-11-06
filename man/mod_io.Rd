@@ -27,7 +27,7 @@ includes files compressed with PowerPacker (PP). The write function
 will only write modules conform ProTracker specifications.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 }
 \author{
 Pepijn de Vries

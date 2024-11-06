@@ -18,13 +18,11 @@ SEXP mod_length_(SEXP mod) {
 }
 
 [[cpp11::register]]
-SEXP set_mod_length_(SEXP mod, integers modlen) {
-  if (modlen.size() != 1) Rf_error("Length should hold only one value");
+SEXP set_mod_length_(SEXP mod, int modlen) {
   module_t *my_song = get_mod(mod);
-  uint32_t modlen2 = modlen.at(0);
-  if (modlen2 < 1 || modlen2 > N_PATT_SEQ)
+  if (modlen < 1 || modlen > N_PATT_SEQ)
     Rf_error("Specified length out of range");
-  my_song->header.songLength = modlen2;
+  my_song->header.songLength = modlen;
   return mod;
 }
 

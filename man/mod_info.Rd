@@ -43,7 +43,7 @@ Returns information about the specified ProTracker module
 Obtain information about a protracker module or embedded samples.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 pt2_length(mod)
 pt2_n_pattern(mod)

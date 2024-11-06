@@ -13,3 +13,5 @@
 ^pkgdown$
 ^\.github$
 ^lib$
+^doc$
+^Meta$

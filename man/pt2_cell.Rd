@@ -25,7 +25,7 @@ For more information about selecting elements from ProTrackR2 class objects chec
 \code{vignette("select_opts")}.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 pt2_cell(mod$patterns[[1]], 0L, 0L)
 }

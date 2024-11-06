@@ -22,7 +22,7 @@ Check aspects of S3 class objects for validity. For samples for instance it
 is checked if all parameters (volume, finetune, etc.) are within ProTracker specifications.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 pt2_validate(mod$samples[[1]])
 }

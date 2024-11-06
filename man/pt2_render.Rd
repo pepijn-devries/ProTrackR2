@@ -37,7 +37,7 @@ Renders a 16bit pulse-code modulation waveform from a ProTracker module.
 The rendered format can be played on a modern machine.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 aud <- pt2_render(mod)
 }
 \author{

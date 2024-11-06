@@ -4,6 +4,8 @@
 \alias{format.pt2mod}
 \alias{print.pt2mod}
 \alias{format.pt2pat}
+\alias{format.pt2command}
+\alias{print.pt2command}
 \alias{print.pt2pat}
 \alias{as.character.pt2pat}
 \alias{as.raw.pt2celllist}
@@ -13,6 +15,7 @@
 \alias{format.pt2cell}
 \alias{print.pt2cell}
 \alias{as.character.pt2cell}
+\alias{as.raw.pt2command}
 \alias{as.raw.pt2cell}
 \alias{as.raw.pt2cell.logical}
 \alias{format.pt2samp}
@@ -26,6 +29,8 @@
 \alias{as.raw.pt2mod}
 \alias{as.raw.pt2samp}
 \alias{as.integer.pt2samp}
+\alias{length.pt2celllist}
+\alias{length.pt2command}
 \title{Implementation of basic S3 methods}
 \usage{
 \method{format}{pt2mod}(x, ...)
@@ -39,6 +44,10 @@
   fmt = getOption("pt2_cell_format"),
   ...
 )
+
+\method{format}{pt2command}(x, fmt = getOption("pt2_effect_format"), ...)
+
+\method{print}{pt2command}(x, max.print = 10L, ...)
 
 \method{print}{pt2pat}(x, sep = "  ", show_header = TRUE, show_row = TRUE, ...)
 
@@ -63,6 +72,8 @@
 \method{print}{pt2cell}(x, ...)
 
 \method{as.character}{pt2cell}(x, ...)
+
+\method{as.raw}{pt2command}(x, ...)
 
 \method{as.raw}{pt2cell}(x, ...)
 
@@ -89,6 +100,10 @@
 \method{as.raw}{pt2samp}(x, ...)
 
 \method{as.integer}{pt2samp}(x, ...)
+
+\method{length}{pt2celllist}(x, ...)
+
+\method{length}{pt2command}(x, ...)
 }
 \arguments{
 \item{x}{Object to apply S3 method to. See 'usage' section for allowed object types.}
@@ -99,12 +114,14 @@
 and between instrument number and effect command (element 2). Values are recycled.}
 
 \item{empty_char}{A \code{vector} of single \code{character} values used to represent empty pattern elements.
-First element is used for notes, second for instrument number, the third for effect commands.
-Values are recycled.}
+First element is used for notes, second for instrument number, the third for effect commands
+(see also \code{vignette("effect_commands")}). Values are recycled.}
 
 \item{fmt}{Experimental feature to format a \code{pt2cell}. It should be a named \code{list} containing
 formatting strings for elements in the cell. It should contain the elements \code{"note"}, \code{"padding"},
 \code{"instrument"} and \code{"effect"}. Its implementation may change in future releases.}
+
+\item{max.print}{Maximum number of elements to be printed.}
 
 \item{sep}{A separator \code{character} string for concatenating pattern table columns (i.e. channels).}
 
@@ -128,6 +145,7 @@ The following is returned by the different methods:
 class as \code{x}
 \item \code{as.integer}: converted \code{raw} 8 bit sample data to signed pulse code modulation \code{integer}
 values between -128 and +127.
+\item \code{length} returns number of elements in \code{x}
 }
 }
 \description{

@@ -8,7 +8,7 @@
 #' @returns Returns a `character` object formatted such that it can be copied into OpenMPT
 #' @author Pepijn de Vries
 #' @examples
-#' mod    <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod    <- pt2_read_mod(pt2_demo())
 #' mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
 #' @export
 as_modplug_pattern <- function(pattern, ...) {

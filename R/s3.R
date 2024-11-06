@@ -7,11 +7,12 @@
 #' @param padding A `vector` of `character` strings used to pad between note and instrument number (element 1)
 #' and between instrument number and effect command (element 2). Values are recycled.
 #' @param empty_char A `vector` of single `character` values used to represent empty pattern elements.
-#' First element is used for notes, second for instrument number, the third for effect commands.
-#' Values are recycled.
+#' First element is used for notes, second for instrument number, the third for effect commands
+#' (see also `vignette("effect_commands")`). Values are recycled.
 #' @param fmt Experimental feature to format a `pt2cell`. It should be a named `list` containing
 #' formatting strings for elements in the cell. It should contain the elements `"note"`, `"padding"`,
 #' `"instrument"` and `"effect"`. Its implementation may change in future releases.
+#' @param max.print Maximum number of elements to be printed.
 #' @param sep A separator `character` string for concatenating pattern table columns (i.e. channels).
 #' @param show_header A `logical` value indicating if a header should be shown for the
 #' pattern table.
@@ -29,6 +30,7 @@
 #'     class as `x`
 #'   * `as.integer`: converted `raw` 8 bit sample data to signed pulse code modulation `integer`
 #'     values between -128 and +127.
+#'   * `length` returns number of elements in `x`
 #' @method format pt2mod
 #' @rdname s3methods
 #' @export
@@ -52,6 +54,40 @@ print.pt2mod <- function(x, ...) {
 format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("pt2_cell_format"), ...) {
   .cell_format(x, padding, empty_char, fmt, as.raw.pt2pat) |>
     matrix(ncol = 4, byrow = T)
+}
+
+#' @method format pt2command
+#' @rdname s3methods
+#' @export
+format.pt2command <- function(x, fmt = getOption("pt2_effect_format"), ...) {
+  if (typeof(x) == "raw") {
+    matrix(x, ncol = 2L, byrow = TRUE) |>
+      apply(1, .command_format, fmt, simplify = FALSE) |>
+      unlist()
+  } else if (inherits(x, "pt2celllist")) {
+    lapply(x, .command_format, fmt) |> unlist()
+  } else {
+    .command_format(x, fmt)
+  }
+}
+
+#' @method print pt2command
+#' @rdname s3methods
+#' @export
+print.pt2command <- function(x, max.print = 10L, ...) {
+  len  <- length(x)
+  last <- NULL
+  if (length(x) > max.print) {
+    x <- x[seq_len(max.print)]
+    last <- sprintf("Reached `max.print` %s more records not showing",
+                    len - max.print)
+  }
+  x |>
+    format(...) |>
+    c(last) |>
+    paste0(collapse = "\n") |>
+    paste0("\n") |>
+    cat()
 }
 
 #' @method print pt2pat
@@ -98,9 +134,21 @@ as.raw.pt2celllist <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.raw.pt2celllist.logical <- function(x, compact = TRUE, ...) {
-  x <- lapply(x, as.raw, compact = compact, ...) |> unlist()
+  if (typeof(x) == "raw") {
+    cur_notation <- attributes(x)$compact_notation
+    width <- ifelse(cur_notation, 4, 6)
+    x <-
+      matrix(unclass(x), ncol = width, byrow = TRUE) |>
+      apply(1, \(y) {
+        class(y) <- "pt2cell"
+        attributes(y)$compact_notation <- cur_notation
+        as.raw.pt2cell(y, compact = compact)
+      }, simplify = FALSE) |> unlist()
+  } else {
+    x <- lapply(x, \(y) as.raw.pt2cell(y, compact = compact, ...)) |> unlist()
+  }
   class(x) <- "pt2celllist"
-  attributes(x)$compact_notation = compact
+  attributes(x)$compact_notation <- compact
   x
 }
 
@@ -157,6 +205,23 @@ as.character.pt2cell <- function(x, ...) {
   x
 }
 
+#' @method as.raw pt2command
+#' @rdname s3methods
+#' @export
+as.raw.pt2command <- function(x, ...) {
+  if (typeof(x) == "raw") return(x)
+
+  if (inherits(x, "pt2celllist") || is.null(names(x))) {
+    mods <- lapply(x, `[[`, "mod")
+    i <- lapply(x, `[[`, "i") |> unlist()
+    j <- lapply(x, `[[`, "j") |> unlist()
+    k <- lapply(x, `[[`, "k") |> unlist()
+    pt_eff_command_(mods, i, k, j)
+  } else {
+    pt_eff_command_(list(x$mod), x$i, x$k, x$j)
+  }
+}
+
 #' @method as.raw pt2cell
 #' @rdname s3methods
 #' @export
@@ -172,6 +237,8 @@ as.raw.pt2cell <- function(x, ...) {
 as.raw.pt2cell.logical <- function(x, compact = TRUE, ...) {
   if (typeof(x) == "raw") {
     cur_notation <- attributes(x)$compact_notation
+    if (is.null(cur_notation))
+      stop("Unknown notation of `pt2cell`")
     if (cur_notation == compact) return (x)
     if (cur_notation) {
       x <- pt_decode_compact_cell(x)
@@ -227,10 +294,7 @@ print.pt2patlist <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 format.pt2celllist <- function(x, ...) {
-  len <- length(x)
-  if (typeof(x) == "raw")
-    len <- len / ifelse(attributes(x)$compact_notation, 4, 6)
-  sprintf("cell list [n=%i]", len)
+  sprintf("cell list [n=%i]", length(x))
 }
 
 #' @method print pt2celllist
@@ -286,6 +350,13 @@ as.integer.pt2samp <- function(x, ...) {
   }
 }
 
+.command_format <- function(x, fmt = getOption("pt2_effect_format")) {
+  if (is.null(fmt)) fmt <- c(cli::col_green("%X%02X"), cli::col_silver("%X%02X"))
+  x <- as.raw.pt2command(x) |> as.integer()
+  fmt <- ifelse(all(x == 0L), fmt[[2]], fmt[[1]])
+  sprintf(fmt, x[[1]], x[[2]])
+}
+
 .cell_format <- function(x, padding = " ", empty_char = "-",
                          fmt = getOption("pt2_cell_format"), as.raw.fun) {
   if (is.null(fmt)) {
@@ -310,4 +381,21 @@ as.integer.pt2samp <- function(x, ...) {
       as.character(padding),
       as.character(empty_char),
       as.list(fmt))
+}
+
+#' @method length pt2celllist
+#' @rdname s3methods
+#' @export
+length.pt2celllist <- function(x, ...) {
+  fct  <- ifelse(attributes(x)$compact_notation, 4L, 6L)
+  fct  <- ifelse(typeof(x) == "raw", fct, 1L)
+  length(unclass(x))/fct
+}
+
+#' @method length pt2command
+#' @rdname s3methods
+#' @export
+length.pt2command <- function(x, ...) {
+  fct  <- ifelse(typeof(x) == "raw", 2L, 1L)
+  length(unclass(x))/fct
 }

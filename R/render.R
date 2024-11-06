@@ -12,7 +12,7 @@
 #' @param ... Ignored
 #' @returns Rendered audio inheriting the [`audio::audioSample()`] class.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' aud <- pt2_render(mod)
 #' @author Pepijn de Vries
 #' @export
@@ -50,7 +50,7 @@ NULL
 #' @rdname play
 #' @examples
 #' \dontrun{
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' ## ctrl will contain the audioInstance that will let you control the audio playback:
 #' ctrl <- play(mod)
@@ -119,7 +119,7 @@ pt2_render_options <- function(...) {
 #' @returns The duration in seconds (as a `difftime` class object)
 #' @author Pepijn de Vries
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' pt2_duration(mod)
 #' @export

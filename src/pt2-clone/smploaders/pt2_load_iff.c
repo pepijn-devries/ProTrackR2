@@ -12,7 +12,7 @@
 #include "../pt2_downsample2x.h"
 #include "../pt2_audio.h"
 
-uint32_t loadIFFSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_t * smpDataPtr) {
+bool loadIFFSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_t * smpDataPtr) {
   int32_t loopStart, loopLength;
   uint32_t pos = 0;
   

@@ -21,7 +21,7 @@ Obtain sample data and info from a ProTracker module at a specific index.
 ProTracker modules can hold up to 31 samples. The index should range from 0 to 30.
 }
 \examples{
-mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+mod <- pt2_read_mod(pt2_demo())
 
 smp <- pt2_sample(mod, 0L)
 }

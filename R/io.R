@@ -10,7 +10,7 @@
 #' @returns `pt2_read_mod()` returns a `pt2mod` class object when successful.
 #' `pt_write_mod()` returns `NULL` invisibly.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' @author Pepijn de Vries
 #' @rdname mod_io
 #' @export
@@ -73,7 +73,7 @@ pt2_new_mod <- function(name, ...) {
 #' @returns `pt2_read_sample()` returns a `pt2samp` class object when successful.
 #' `pt_write_sample()` returns `NULL` invisibly.
 #' @examples
-#' mod <- pt2_read_mod(system.file("mod.intro", package = "ProTrackR2"))
+#' mod <- pt2_read_mod(pt2_demo())
 #' my_sample <- pt2_sample(mod, 1L)
 #' my_sample_file <- tempfile(fileext = ".iff")
 #' pt2_write_sample(my_sample, my_sample_file)

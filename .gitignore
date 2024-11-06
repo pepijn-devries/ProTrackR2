@@ -9,3 +9,5 @@ src/Makevars
 inst/doc
 docs
 lib
+/doc/
+/Meta/

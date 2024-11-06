@@ -1,0 +1,56 @@
+---
+title: "Effect commands"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Effect commands}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What are effect commands
+
+A pattern table is composed of cells telling the tracker which notes to play
+in which order. It also has a field for effect commands. It is often represented
+as a three digit hexadecimal value. The first hex digit represents the effect
+command, the latter represent parameter values used by the command. The
+table below summarises all available effects in ProTracker and is followed
+by sections describing them in more detail and providing examples.
+
+```{r tab-effect-commands, echo=FALSE, message=FALSE, warning=FALSE}
+library(ProTrackR2)
+library(kableExtra)
+data(effect_commands)
+effect_commands |> kbl()
+```
+
+## Extracting and updating effect commands
+
+To get an effect command from a ProTracker module, you can simply call
+`pt2_command()` to a `pt2cell` or `pt2celllist` class object (see `vignette("s3class")` for
+a ProTrackR2 object tree). There, are several ways of extracting cells as
+documented in `vignette("sel_assign")`. In the example below there is one way shown
+of getting the effect commands of the first 8 rows of the second column in
+the third pattern.
+
+```{r select-command}
+mod <- pt2_read_mod(pt2_demo())
+pt2_command(
+  mod$patterns[[ 3 ]] [ 1:8, 2 ])
+```
+
+You can also assign new effect commands to your selection like this:
+
+```{r assign-command}
+pt2_command(
+  mod$patterns[[ 3 ]] [ 1:8, 2 ]) <- "C10"
+```
+
+<!-- TODO combination with instrument number -->
+<!-- TODO include details and examples -->

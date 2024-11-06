@@ -42,7 +42,7 @@ SEXP open_samp_(raws data) {
 }
 
 [[cpp11::register]]
-SEXP sample_file_format_(SEXP input, strings file_type) {
+SEXP sample_file_format_(SEXP input, std::string file_type) {
   raws input_r(input);
   int8_t * ibuffer      = (int8_t *)RAW(input_r);
   list sample_info      = list(input_r.attr("sample_info"));
@@ -55,17 +55,17 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
   
   writable::raws output((R_xlen_t)0);
   
-  if (file_type.size() != 1)
-    Rf_error("Arguments need to have a length of 1");
-  if (file_type.at(0) == "IFF") {
+  if (file_type.compare("IFF")) {
     // IFF file size
     // FORM + 8SVX + VHDR + 20 + NAME + namelen + ANNO + ProTrackR2 + BODY + samplelen
     uint32_t file_size = 16 * 4 + 8 + 20 + 10 + sampleLength + (sampleLength & 1);
     if (namelen > 0) {
       file_size += 16 + (namelen + (namelen&1));
     }
-
-    output = writable::raws((R_xlen_t)file_size);
+    
+    int32_t align = ((uint32_t)(file_size/4))*4;
+    
+    writable::raws output((R_xlen_t)align);
     uint8_t * buffer = (uint8_t *)RAW(as_sexp(output));
     memcpy(buffer, "FORM", 4);
     buffer += 4;
@@ -98,7 +98,7 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
     buffer += 1;
     ((uint32_t *)buffer)[0] = SWAP32(volume * 1024);
     buffer += 4;
-
+    
     memcpy(buffer, "NAME", 4);
     buffer += 4;
     ((uint32_t *)buffer)[0] = SWAP32(namelen);
@@ -109,7 +109,7 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
       buffer[0] = 0;
       buffer++;
     }
-
+    
     memcpy(buffer, "ANNO", 4);
     buffer += 4;
     ((uint32_t *)buffer)[0] = SWAP32(10);
@@ -124,15 +124,15 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
     buffer += sampleLength;
     
     if (sampleLength & 1) buffer[0] = 0;
-
-  } else if (file_type.at(0) == "WAV") {
+    output.resize(file_size);
+  } else if (file_type.compare("WAV")) {
     wavHeader_t wavHeader;
     samplerChunk_t samplerChunk;
     mptExtraChunk_t mptExtraChunk;
     memset(&wavHeader, 0, sizeof(wavHeader_t));
     memset(&samplerChunk, 0, sizeof(samplerChunk_t));
     memset(&mptExtraChunk, 0, sizeof(mptExtraChunk_t));
-
+    
     wavHeader.format = 0x45564157; // "WAVE"
     wavHeader.chunkID = 0x46464952; // "RIFF"
     wavHeader.subchunk1ID = 0x20746D66; // "fmt "
@@ -146,7 +146,7 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
     wavHeader.sampleRate = PLAYBACK_FREQ;
     wavHeader.byteRate = wavHeader.sampleRate * wavHeader.numChannels * wavHeader.bitsPerSample / 8;
     wavHeader.blockAlign = wavHeader.numChannels * wavHeader.bitsPerSample / 8;
-
+    
     if (loopStart+loopLength > 2) // loop enabled?
     {
       wavHeader.chunkSize += sizeof (samplerChunk_t);
@@ -172,9 +172,9 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
       sizeof (mptExtraChunk);
     if (loopStart + loopLength > 2) tot_size += sizeof(samplerChunk);
     
-    output = writable::raws((R_xlen_t)tot_size);
+    writable::raws output((R_xlen_t)tot_size);
     uint8_t * buffer = (uint8_t *)RAW(as_sexp(output));
-
+    
     memcpy(buffer, &wavHeader, sizeof(wavHeader));
     buffer += sizeof(wavHeader_t);
     
@@ -182,7 +182,7 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
       buffer[0] = (uint8_t)(ibuffer[i] + 128);
       buffer++;
     }
-
+    
     if (sampleLength & 1) {
       buffer[0] = 0;
       buffer++;
@@ -192,12 +192,12 @@ SEXP sample_file_format_(SEXP input, strings file_type) {
       memcpy(buffer, &samplerChunk, sizeof (samplerChunk));
       buffer += sizeof (samplerChunk);
     }
-
+    
     memcpy(buffer, &mptExtraChunk, sizeof (mptExtraChunk));
     
   } else {
     Rf_error("Writing file type '%s' is not supported.",
-             ((std::string)file_type.at(0)).c_str());
+             file_type.c_str());
   }
   return output;
 }

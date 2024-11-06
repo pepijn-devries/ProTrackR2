@@ -25,13 +25,12 @@ here.
 ## Overview of differences
 
 The table below summarises the differences between ProTrackR2 and its predecessor.
-<!-- TODO explain each of these differences in more detail -->
 
 ```{r tab-dif, echo=FALSE, message=FALSE, warning=FALSE}
 library(kableExtra)
 data.frame(
-  Feature    = c("Effect commands", "Infrastructure", "File readers",
-                 "Audio output", "OpenMPT test cases"),
+  Feature    = c("[Effect commands](#effect-commands)", "[Infrastructure](#infrastructure)",
+                 "[File readers](#file-readers)", "[Audio output](#audio-output)", "OpenMPT test cases"),
   ProTrackR  = c("Limited set implemented", "R script", "Optimized for format preservation",
                  "tuneR S4 Wave class", "Passes 6 out of 12 selected tests"),
   ProTrackR2 = c("All PT2.3d effects implemented", "Compiled C/C++", "Optimized for PT2.3d compatibility",
@@ -40,9 +39,77 @@ data.frame(
   kbl()
 ```
 
-## Benchmark
+## Effect commands
+
+ProTracker uses specific codes to apply certain effects or position jumps. `ProTrackR` implements only
+a subset of these effects, whereas `ProTrackR2` has implemented all ProTracker compatible effects.
+
+The predecessor only partly implemented arpeggio and setting finetune. It did not implement
+glissando, sample filtering (E8) and loop reversal (EF). All these effects are implemented in
+the current package.
+
+For a full overview of effect commands see `vignette("effect_commands")`.
+
+## Infrastructure
+
+By switching to `C` and `C++` compiled code, the new package gained a significant
+performance boost (see [benchmark results](#benchmark)). Where the in the predecessor
+the module was represented by a vector of `raw` data, an `externalptr` to a `C struct`
+is used in the current package. This required a slightly different approach to handle
+these objects. In order to avoid confusion about the syntax, it was completely redesigned
+in the successor.
+
+<!--
+TODO
+S3 class instead of S4 etc.
+changes in syntax, some examples side by side
+-->
+
+### Benchmark
 
 A benchmark test where the same module (the one provided with this package) is rendered with
 both `ProTrackR` and `ProTrackR2`. The settings for both tests were similar and performed
 on the same system and repeated 10 times. On average `ProTrackR2` renders 8.8 times faster
 than `ProTrackR`.
+
+## File readers
+
+While reading ProTracker modules, the predecessor preserved the data in the file. It only
+modified / fixed data when requested by the user. The current package will always sanitise
+data while reading it, making it compatible with ProTracker 2.3d. The current reader is
+also a bit more flexible and allows to read more exotic formats. It even allows you to
+read files compressed with PowerPacker.
+
+### Alternatives
+
+If you want even more flexibility, check out the [openmpt package](https://pepijn-devries.github.io/openmpt/).
+It uses [libopenmpt](https://lib.openmpt.org/) to read and play modules. This library
+has a more extensive set of supported [file formats](https://wiki.openmpt.org/Manual:_Module_formats).
+The downside is that it does not allow you to modify or save modules.
+
+## Audio output
+
+The predecessor used [tuneR](https://cran.r-project.org/package=tuneR) objects to store
+rendered audio. In the current package we use [audio](https://cran.r-project.org/package=tuneR)
+objects. This switch was made as the `S3` class objects from 'audio' are easier to handle than the
+stricter and formal `S4` class objects from 'tuneR'. If you wish to use the advanced features
+from the 'tuneR' package, this is still possible as both formats can be converted relatively easy.
+
+```{r audio-tuner, eval=FALSE}
+## Load demo module
+mod <- pt2_read_mod(pt2_demo())
+
+## render 'audioSample' object
+mod_audio <- pt2_render(mod)
+
+## Convert from 'audio::audioSample' to 'tuneR::Wave' object:
+if (requireNamespace("tuneR")) {
+  mod_tuneR <-
+    tuneR::Wave(
+      left      = as.integer(2^15*unclass(mod_audio[1,])),
+      right     = as.integer(2^15*unclass(mod_audio[2,])),
+      samp.rate = attributes(mod_audio)$rate,
+      bit       = attributes(mod_audio)$bits
+    )
+}
+```
