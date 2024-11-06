@@ -3,6 +3,7 @@
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/LICENSE.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/ProTrackR_vs_ProTrackR2.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/effect_commands.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/index.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/s3class.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/articles/sel_assign.html</loc></url>
@@ -11,14 +12,19 @@
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/news/index.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/ProTrackR2-package.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/as_modplug_pattern.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/effect_commands.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/index.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/mod_io.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/play.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_cell.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_command.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_demo.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_duration.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_instrument.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_mod.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.html</loc></url>
+<url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_pattern.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render.html</loc></url>
 <url><loc>https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render_options.html</loc></url>

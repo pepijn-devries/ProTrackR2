@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.0001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
+<li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
+    <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
     <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
   </ul>
@@ -44,6 +45,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/pepijn-devries/ProTrackR2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -59,7 +61,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>ProTrackR vs ProTrackR2</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/pepijn-devries/ProTrackR2/blob/master/vignettes/ProTrackR_vs_ProTrackR2.Rmd" class="external-link"><code>vignettes/ProTrackR_vs_ProTrackR2.Rmd</code></a></small>
       <div class="d-none name"><code>ProTrackR_vs_ProTrackR2.Rmd</code></div>
     </div>
 
@@ -78,8 +80,7 @@ some design changes which are worth mentioning here.</p>
 <h2 id="overview-of-differences">Overview of differences<a class="anchor" aria-label="anchor" href="#overview-of-differences"></a>
 </h2>
 <p>The table below summarises the differences between ProTrackR2 and its
-predecessor.
-<!-- TODO explain each of these differences in more detail --></p>
+predecessor.</p>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -95,7 +96,7 @@ ProTrackR2
 <tbody>
 <tr>
 <td style="text-align:left;">
-Effect commands
+<a href="#effect-commands">Effect commands</a>
 </td>
 <td style="text-align:left;">
 Limited set implemented
@@ -106,7 +107,7 @@ All PT2.3d effects implemented
 </tr>
 <tr>
 <td style="text-align:left;">
-Infrastructure
+<a href="#infrastructure">Infrastructure</a>
 </td>
 <td style="text-align:left;">
 R script
@@ -117,7 +118,7 @@ Compiled C/C++
 </tr>
 <tr>
 <td style="text-align:left;">
-File readers
+<a href="#file-readers">File readers</a>
 </td>
 <td style="text-align:left;">
 Optimized for format preservation
@@ -128,7 +129,7 @@ Optimized for PT2.3d compatibility
 </tr>
 <tr>
 <td style="text-align:left;">
-Audio output
+<a href="#audio-output">Audio output</a>
 </td>
 <td style="text-align:left;">
 tuneR S4 Wave class
@@ -152,14 +153,91 @@ Not tested yet
 </table>
 </div>
 <div class="section level2">
-<h2 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
+<h2 id="effect-commands">Effect commands<a class="anchor" aria-label="anchor" href="#effect-commands"></a>
 </h2>
+<p>ProTracker uses specific codes to apply certain effects or position
+jumps. <code>ProTrackR</code> implements only a subset of these effects,
+whereas <code>ProTrackR2</code> has implemented all ProTracker
+compatible effects.</p>
+<p>The predecessor only partly implemented arpeggio and setting
+finetune. It did not implement glissando, sample filtering (E8) and loop
+reversal (EF). All these effects are implemented in the current
+package.</p>
+<p>For a full overview of effect commands see
+<code><a href="../articles/effect_commands.html">vignette("effect_commands")</a></code>.</p>
+</div>
+<div class="section level2">
+<h2 id="infrastructure">Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure"></a>
+</h2>
+<p>By switching to <code>C</code> and <code>C++</code> compiled code,
+the new package gained a significant performance boost (see <a href="#benchmark">benchmark results</a>). Where the in the predecessor
+the module was represented by a vector of <code>raw</code> data, an
+<code>externalptr</code> to a <code>C struct</code> is used in the
+current package. This required a slightly different approach to handle
+these objects. In order to avoid confusion about the syntax, it was
+completely redesigned in the successor.</p>
+<!--
+TODO
+S3 class instead of S4 etc.
+changes in syntax, some examples side by side
+-->
+<div class="section level3">
+<h3 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
+</h3>
 <p>A benchmark test where the same module (the one provided with this
 package) is rendered with both <code>ProTrackR</code> and
 <code>ProTrackR2</code>. The settings for both tests were similar and
 performed on the same system and repeated 10 times. On average
 <code>ProTrackR2</code> renders 8.8 times faster than
 <code>ProTrackR</code>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="file-readers">File readers<a class="anchor" aria-label="anchor" href="#file-readers"></a>
+</h2>
+<p>While reading ProTracker modules, the predecessor preserved the data
+in the file. It only modified / fixed data when requested by the user.
+The current package will always sanitise data while reading it, making
+it compatible with ProTracker 2.3d. The current reader is also a bit
+more flexible and allows to read more exotic formats. It even allows you
+to read files compressed with PowerPacker.</p>
+<div class="section level3">
+<h3 id="alternatives">Alternatives<a class="anchor" aria-label="anchor" href="#alternatives"></a>
+</h3>
+<p>If you want even more flexibility, check out the <a href="https://pepijn-devries.github.io/openmpt/" class="external-link">openmpt package</a>. It
+uses <a href="https://lib.openmpt.org/" class="external-link">libopenmpt</a> to read and play
+modules. This library has a more extensive set of supported <a href="https://wiki.openmpt.org/Manual:_Module_formats" class="external-link">file formats</a>.
+The downside is that it does not allow you to modify or save
+modules.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="audio-output">Audio output<a class="anchor" aria-label="anchor" href="#audio-output"></a>
+</h2>
+<p>The predecessor used <a href="https://cran.r-project.org/package=tuneR" class="external-link">tuneR</a> objects to
+store rendered audio. In the current package we use <a href="https://cran.r-project.org/package=tuneR" class="external-link">audio</a> objects. This
+switch was made as the <code>S3</code> class objects from ‘audio’ are
+easier to handle than the stricter and formal <code>S4</code> class
+objects from ‘tuneR’. If you wish to use the advanced features from the
+‘tuneR’ package, this is still possible as both formats can be converted
+relatively easy.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Load demo module</span></span>
+<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## render 'audioSample' object</span></span>
+<span><span class="va">mod_audio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_render.html">pt2_render</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Convert from 'audio::audioSample' to 'tuneR::Wave' object:</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"tuneR"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">mod_tuneR</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">tuneR</span><span class="fu">::</span><span class="fu">Wave</span><span class="op">(</span></span>
+<span>      left      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">15</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      right     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">15</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      samp.rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">)</span><span class="op">$</span><span class="va">rate</span>,</span>
+<span>      bit       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">)</span><span class="op">$</span><span class="va">bits</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

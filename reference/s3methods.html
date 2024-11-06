@@ -11,7 +11,7 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.0001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,13 +22,15 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
+    <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
     <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/pepijn-devries/ProTrackR2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -37,7 +39,7 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Implementation of basic S3 methods</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/pepijn-devries/ProTrackR2/blob/master/R/s3.R" class="external-link"><code>R/s3.R</code></a></small>
       <div class="d-none name"><code>s3methods.Rd</code></div>
     </div>
 
@@ -63,6 +65,12 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 <span>  fmt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"pt2_cell_format"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'pt2command'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, fmt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"pt2_effect_format"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'pt2command'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, max.print <span class="op">=</span> <span class="fl">10L</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'pt2pat'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, sep <span class="op">=</span> <span class="st">"  "</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span>, show_row <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -96,6 +104,9 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 <span></span>
 <span><span class="co"># S3 method for class 'pt2cell'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'pt2command'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'pt2cell'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -134,7 +145,13 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 <span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'pt2samp'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'pt2celllist'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'pt2command'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -156,14 +173,18 @@ and between instrument number and effect command (element 2). Values are recycle
 
 <dt id="arg-empty-char">empty_char<a class="anchor" aria-label="anchor" href="#arg-empty-char"></a></dt>
 <dd><p>A <code>vector</code> of single <code>character</code> values used to represent empty pattern elements.
-First element is used for notes, second for instrument number, the third for effect commands.
-Values are recycled.</p></dd>
+First element is used for notes, second for instrument number, the third for effect commands
+(see also <code><a href="../articles/effect_commands.html">vignette("effect_commands")</a></code>). Values are recycled.</p></dd>
 
 
 <dt id="arg-fmt">fmt<a class="anchor" aria-label="anchor" href="#arg-fmt"></a></dt>
 <dd><p>Experimental feature to format a <code>pt2cell</code>. It should be a named <code>list</code> containing
 formatting strings for elements in the cell. It should contain the elements <code>"note"</code>, <code>"padding"</code>,
 <code>"instrument"</code> and <code>"effect"</code>. Its implementation may change in future releases.</p></dd>
+
+
+<dt id="arg-max-print">max.print<a class="anchor" aria-label="anchor" href="#arg-max-print"></a></dt>
+<dd><p>Maximum number of elements to be printed.</p></dd>
 
 
 <dt id="arg-sep">sep<a class="anchor" aria-label="anchor" href="#arg-sep"></a></dt>
@@ -195,6 +216,7 @@ set with the <code>compact</code> argument.</p></dd>
 class as <code>x</code></p></li>
 <li><p><code>as.integer</code>: converted <code>raw</code> 8 bit sample data to signed pulse code modulation <code>integer</code>
 values between -128 and +127.</p></li>
+<li><p><code>length</code> returns number of elements in <code>x</code></p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
