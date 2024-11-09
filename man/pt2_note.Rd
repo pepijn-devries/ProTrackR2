@@ -2,15 +2,24 @@
 % Please edit documentation in R/note.R
 \name{pt2_note}
 \alias{pt2_note}
+\alias{pt2_note<-}
 \title{Extract a note from a ProTracker module}
 \usage{
 pt2_note(x, ...)
+
+pt2_note(x, silent = TRUE, ...) <- value
 }
 \arguments{
-\item{x}{An object of class \code{pt2_cell}, which can be extracted
-from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}.}
+\item{x}{An object of class \code{pt2cell}, which can be extracted
+from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}. A cell list (class \code{pt2celllist})
+is also allowed. See \code{vignette("sel_assign")} for more details about
+selecting cells and cell lists.}
 
 \item{...}{Ignored}
+
+\item{silent}{Don't warn about replacement values not being used or recycled.}
+
+\item{value}{A \code{character} string to replace the selected notes from \code{x}.}
 }
 \value{
 Returns a string representing the note's key.
@@ -30,7 +39,18 @@ the octave of the note. In ProTracker allowed notes range from
 \examples{
 mod <- pt2_read_mod(pt2_demo())
 
+## select a specific cell from the first pattern
 cell <- pt2_cell(mod$patterns[[1]], 0L, 0L)
 
+## get the note played by this particular cell
 pt2_note(cell)
+
+## Replace the notes in the first pattern
+## with those of the first bar of
+## 'Frère Jacques'
+pt2_note(mod$patterns[[1]][]) <-
+  c("C-2", "---", "---", "---",
+    "D-2", "---", "---", "---",
+    "E-2", "---", "---", "---",
+    "C-2", "---", "---", "---")
 }

@@ -4,8 +4,10 @@
 #' consists of cells, containing information about the note and instrument
 #' to be played. This function can be used to retrieve or replace the
 #' effect commands in a module.
-#' @param x An object of class `pt2_cell`, which can be extracted
-#' from a pattern table with [`pt2_cell()`].
+#' @param x An object of class `pt2cell`, which can be extracted
+#' from a pattern table with [`pt2_cell()`]. A cell list (class `pt2celllist`)
+#' is also allowed. See `vignette("sel_assign")` for more details about
+#' selecting cells and cell lists.
 #' @param silent Don't warn about replacement values not being used or recycled.
 #' @param ... Ignored
 #' @param value A replacement value. It should be an object that can be converted into
@@ -27,6 +29,7 @@
 #' ## Set the command for all cells in the first pattern
 #' ## to `C20` (volume at 50%):
 #' pt2_command(mod$patterns[[1]][]) <- "C20"
+#' @include cell.R
 #' @export
 pt2_command <- function(x, ...) {
   if (inherits(x, "pt2command")) return(x)
@@ -86,26 +89,11 @@ pt2_command <- function(x, ...) {
     x <- c(t(x))
     class(x) <- cur_class
     attributes(x)$compact_notation <- FALSE
-    raw_fun <- .get_raw_fun(x)
     x <- raw_fun(x, compact = cur_notation)
     return(x)
   } else {
-    if (inherits(x, "pt2cell")) {
-      pt_set_eff_command_(list(x$mod), x$i, x$k, x$j, value[1:2], !silent)
-    } else {
-      mod <- lapply(x, `[[`, "mod")
-      i <- lapply(x, `[[`, "i") |> unlist()
-      j <- lapply(x, `[[`, "j") |> unlist()
-      k <- lapply(x, `[[`, "k") |> unlist()
-      pt_set_eff_command_(mod, i, k, j, value, !silent)
-    }
+    .cell_helper(x, pt_set_eff_command_, replacement = value, warn = !silent)
   }
 
   x
-}
-
-.get_raw_fun <- function(x) {
-  fun <- as.raw.pt2cell
-  if (inherits(x, "pt2celllist")) fun <- as.raw.pt2celllist
-  return (fun)
 }

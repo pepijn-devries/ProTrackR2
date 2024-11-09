@@ -52,6 +52,10 @@ pt_cell_ <- function(mod, pattern, channel, row) {
   .Call(`_ProTrackR2_pt_cell_`, mod, pattern, channel, row)
 }
 
+note_to_period_ <- function(note, empty_char, finetune) {
+  .Call(`_ProTrackR2_note_to_period_`, note, empty_char, finetune)
+}
+
 pt_note_string_ <- function(mod, pattern, channel, row) {
   .Call(`_ProTrackR2_pt_note_string_`, mod, pattern, channel, row)
 }
@@ -60,12 +64,16 @@ pt_note_string_raw_ <- function(data) {
   .Call(`_ProTrackR2_pt_note_string_raw_`, data)
 }
 
+pt_set_note_ <- function(mod, pattern, channel, row, replacement, warn) {
+  .Call(`_ProTrackR2_pt_set_note_`, mod, pattern, channel, row, replacement, warn)
+}
+
 pt_instr_ <- function(mod, pattern, channel, row) {
   .Call(`_ProTrackR2_pt_instr_`, mod, pattern, channel, row)
 }
 
-pt_instr_raw_ <- function(data) {
-  .Call(`_ProTrackR2_pt_instr_raw_`, data)
+pt_set_instr_ <- function(mod, pattern, channel, row, replacement, warn) {
+  .Call(`_ProTrackR2_pt_set_instr_`, mod, pattern, channel, row, replacement, warn)
 }
 
 pt_eff_command_ <- function(mod, pattern, channel, row) {

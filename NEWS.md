@@ -1,8 +1,8 @@
-ProTrackR2 v0.0.4.0001
+ProTrackR2 v0.0.5
 -------------
 
  * Added functions to extract or replace
-   notes, instruments or effects in cells
+   notes, instruments and/or effects in cells
  * Added vignette about effect commands
  * Added fixes for problems detect by
    clang-UBSAN, gcc-UBSAN, LTO and valgrind

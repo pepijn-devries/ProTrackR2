@@ -20,8 +20,8 @@ A pattern table is composed of cells telling the tracker which notes to play
 in which order. It also has a field for effect commands. It is often represented
 as a three digit hexadecimal value. The first hex digit represents the effect
 command, the latter represent parameter values used by the command. The
-table below summarises all available effects in ProTracker and is followed
-by sections describing them in more detail and providing examples.
+table below summarises all available effects in ProTracker<!--TODO and is followed
+by sections describing them in more detail and providing examples-->.
 
 ```{r tab-effect-commands, echo=FALSE, message=FALSE, warning=FALSE}
 library(ProTrackR2)

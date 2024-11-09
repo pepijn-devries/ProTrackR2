@@ -2,19 +2,31 @@
 % Please edit documentation in R/instrument.R
 \name{pt2_instrument}
 \alias{pt2_instrument}
-\title{Extract a sample index from a ProTracker pattern}
+\alias{pt2_instrument<-}
+\title{Extract or replace a sample index from a ProTracker pattern}
 \usage{
 pt2_instrument(x, ...)
+
+pt2_instrument(x, silent = TRUE, ...) <- value
 }
 \arguments{
-\item{x}{An object of class \code{pt2_cell}, which can be extracted
-from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}.}
+\item{x}{An object of class \code{pt2cell}, which can be extracted
+from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}. A cell list (class \code{pt2celllist})
+is also allowed. See \code{vignette("sel_assign")} for more details about
+selecting cells and cell lists.}
 
 \item{...}{Ignored.}
+
+\item{silent}{Don't warn about replacement values not being used or recycled.}
+
+\item{value}{Replacement value for the instrument (sample id). An \code{integer} value
+ranging from \code{0} to \code{31}.}
 }
 \value{
 Returns the \code{integer} sample index in \code{x}. The index
 has a base of \code{1}. An index of \code{0} means 'no sample'.
+In case of the assignment operator (\verb{<-}) an updated version of
+\code{x} is returned
 }
 \description{
 As explained in \code{vignette("s3class")}, the ProTracker pattern table
@@ -25,7 +37,13 @@ from such a cell.
 \examples{
 mod <- pt2_read_mod(pt2_demo())
 
+## select a specific cell from the first pattern
 cell <- pt2_cell(mod$patterns[[1]], 0L, 0L)
 
+## get the sample number used in this cell
 pt2_instrument(cell)
+
+## Replace the instrument in all cells of
+## pattern 1 with sample number 3:
+pt2_instrument(mod$patterns[[1]][]) <- 3
 }

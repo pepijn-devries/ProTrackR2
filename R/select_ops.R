@@ -256,3 +256,58 @@
   class(x) <- cur_class
   x
 }
+
+#' @rdname select_assign
+#' @export
+`[[<-.pt2command` <- function(x, i, ..., value) {
+  if (inherits(x, c("pt2cell", "pt2celllist"))) {
+    
+    class(x) <- setdiff(class(x), "pt2command")
+    pt2_command(x[[i]]) <- value
+    class(x) <- union("pt2command", class(x))
+    
+  } else if (typeof(x) == "raw") {
+    
+    x <- .command_list(x)
+    value <- pt2_command(value) |>
+      as.raw() |>
+      .command_list()
+    x[[i]] <- value
+    x <- unlist(x)
+    class(x) <- "pt2command"
+    
+  } else {
+    stop("Replacement method not implemented")
+  }
+  x
+}
+
+#' @rdname select_assign
+#' @export
+`[<-.pt2command` <- function(x, i, ..., value) {
+  if (inherits(x, c("pt2cell", "pt2celllist"))) {
+    
+    class(x) <- setdiff(class(x), "pt2command")
+    pt2_command(x[i]) <- value
+    class(x) <- union("pt2command", class(x))
+    
+  } else if (typeof(x) == "raw") {
+    
+    x <- .command_list(x)
+    value <- pt2_command(value) |>
+      as.raw() |>
+      .command_list()
+    x[i] <- value
+    x <- unlist(x)
+    class(x) <- "pt2command"
+    
+  } else {
+    stop("Replacement method not implemented")
+  }
+  x
+}
+
+.command_list <- function(x) {
+  matrix(unclass(x), ncol = 2L, byrow = TRUE) |>
+    apply(1, c, simplify = FALSE)
+}

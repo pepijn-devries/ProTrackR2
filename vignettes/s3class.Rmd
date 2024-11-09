@@ -295,5 +295,12 @@ See `vignette("sel_assign")` for more information about selecting and replacing 
 
 ### Command objects (`pt2command`)
 
-TODO
-<!-- TODO add refs to pt2_note pt2_instrument and pt2_effect -->
+The command objects are used to represent ProTracker effect commands used in specific cells
+(see `vignette("effect_commands")`). It is essentially either a `pt2cell` or a `pt2celllist`
+object with `pt2command` as a child class.
+
+It can be used to select or replace effect commands (see `pt2_command()` or `vignette("sel_assign")`).
+From the diagram at the top of this document you can see that cells also contain instrument and
+note information. These don't inherit specific classes as they are represented by simple
+`integer` and `character` values. For more information about those please check `pt2_instrument()` and
+`pt2_note()`.
