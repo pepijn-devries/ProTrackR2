@@ -19,7 +19,7 @@ selecting cells and cell lists.}
 
 \item{silent}{Don't warn about replacement values not being used or recycled.}
 
-\item{value}{TODO}
+\item{value}{A \code{character} string to replace the selected notes from \code{x}.}
 }
 \value{
 Returns a string representing the note's key.

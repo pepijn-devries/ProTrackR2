@@ -15,7 +15,7 @@
 #' selecting cells and cell lists.
 #' @param silent Don't warn about replacement values not being used or recycled.
 #' @param ... Ignored
-#' @param value TODO
+#' @param value A `character` string to replace the selected notes from `x`.
 #' @returns Returns a string representing the note's key.
 #' @examples
 #' mod <- pt2_read_mod(pt2_demo())
