@@ -42,3 +42,21 @@ pt2_cell <- function(pattern, i, j, ...) {
   }
   result
 }
+
+.cell_helper <- function(x, fun, ...) {
+  if (inherits(x, "pt2cell")) {
+    fun(list(x$mod), x$i, x$k, x$j, ...)
+  } else {
+    mod <- lapply(x, `[[`, "mod")
+    i <- lapply(x, `[[`, "i") |> unlist()
+    j <- lapply(x, `[[`, "j") |> unlist()
+    k <- lapply(x, `[[`, "k") |> unlist()
+    fun(mod, i, k, j, ...)
+  }
+}
+
+.get_raw_fun <- function(x) {
+  fun <- as.raw.pt2cell
+  if (inherits(x, "pt2celllist")) fun <- as.raw.pt2celllist
+  return (fun)
+}

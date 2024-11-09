@@ -36,12 +36,60 @@ SEXP pt_cell_(SEXP mod, int pattern, int channel, int row) {
   return result;
 }
 
+int cell_check_input(
+    list mod, integers pattern, integers channel, integers row) {
+  int input_size = pattern.size();
+  if (input_size < 1 ||
+      channel.size() != input_size ||
+      row.size() != input_size ||
+      LENGTH(mod) != input_size)
+    Rf_error("All input should have the same size");
+  return input_size;
+}
+
 [[cpp11::register]]
-std::string pt_note_string_(
-    SEXP mod, int pattern, int channel, int row) {
-  note_t * note = pt_cell_internal(mod, pattern, channel, row);
-  std::string notestr(noteNames1[periodToNote(note->period)]);
-  return notestr;
+integers note_to_period_(strings note, std::string empty_char, int finetune) {
+  if (empty_char.length() != 1)
+    Rf_error("`empty_char` should consist of 1 character.");
+  if (finetune < -8 || finetune > 7)
+    Rf_error("`finetune` is out of range [-8, +7].");
+  if (finetune < 0) {
+    finetune += 16;
+  }
+  writable::integers result((R_xlen_t)note.size());
+  char empty = empty_char.c_str()[0];
+  
+  for (int i = 0; i < note.size(); i++) {
+    std:: string s = (std::string)note.at(i);
+    for (auto & c: s) {
+      c = toupper(c);
+      if (c == empty) c = '-';
+    }
+    result.at(i) = NA_INTEGER;
+    for (int j = 2; j < 38; j++) {
+      if (s.compare(noteNames1[j]) == 0) {
+        result.at(i) = periodTable[j - 2 + finetune * 37];
+        break;
+      }
+    }
+  }
+  return result;
+}
+
+[[cpp11::register]]
+strings pt_note_string_(
+    list mod, integers pattern, integers channel, integers row) {
+  int input_size = cell_check_input(mod, pattern, channel, row);
+  
+  writable::strings result((R_xlen_t)pattern.size());
+  
+  for (int i = 0; i < input_size; i++) {
+    note_t * note = pt_cell_internal(mod.at(i), pattern.at(i), channel.at(i), row.at(i));
+    std::string notestr(noteNames1[periodToNote(note->period)]);
+    result.at(i) = notestr;
+  }
+  
+  return result;
 }
 
 [[cpp11::register]]
@@ -52,27 +100,79 @@ std::string pt_note_string_raw_(raws data) {
 }
 
 [[cpp11::register]]
-int pt_instr_(
-    SEXP mod, int pattern, int channel, int row) {
-  note_t * note = pt_cell_internal(mod, pattern, channel, row);
-  return note->sample;
+SEXP pt_set_note_(
+    list mod, integers pattern, integers channel, integers row, strings replacement,
+    bool warn) {
+  int input_size = cell_check_input(mod, pattern, channel, row);
+  integers replacement_int = note_to_period_(replacement, std::string("-"), 0);
+  
+  int j = 0;
+  bool all_used = false;
+  bool recycled = false;
+  for (int i = 0; i < input_size; i++) {
+    if (j + 1 > replacement.size()) {
+      j = 0;
+      recycled = true;
+    }
+    note_t * note = pt_cell_internal(mod.at(i), pattern.at(i), channel.at(i), row.at(i));
+    int rep = replacement_int.at(j);
+    if (rep == NA_INTEGER) rep = 0;
+    note->period = rep;
+    j++;
+    if (j + 1 >= replacement.size()) all_used = true;
+  }
+  if (warn) {
+    if (!all_used) Rf_warning("Not all replacement values are used");
+    if (recycled) Rf_warning("Replacement values are recycled");
+  }
+  return R_NilValue;
 }
 
 [[cpp11::register]]
-int pt_instr_raw_(raws data) {
-  note_t * note = (note_t *)(RAW(as_sexp(data)));
-  return note->sample;
+integers pt_instr_(
+    list mod, integers pattern, integers channel, integers row) {
+  int input_size = cell_check_input(mod, pattern, channel, row);
+  
+  writable::integers result((R_xlen_t)pattern.size());
+  
+  for (int i = 0; i < input_size; i++) {
+    note_t * note = pt_cell_internal(mod.at(i), pattern.at(i), channel.at(i), row.at(i));
+    result.at(i) = note->sample;
+  }
+  
+  return result;
+}
+
+[[cpp11::register]]
+SEXP pt_set_instr_(
+    list mod, integers pattern, integers channel, integers row, integers replacement,
+    bool warn) {
+  int input_size = cell_check_input(mod, pattern, channel, row);
+  
+  int j = 0;
+  bool all_used = false;
+  bool recycled = false;
+  for (int i = 0; i < input_size; i++) {
+    if (j + 1 > replacement.size()) {
+      j = 0;
+      recycled = true;
+    }
+    note_t * note = pt_cell_internal(mod.at(i), pattern.at(i), channel.at(i), row.at(i));
+    note->sample  = replacement.at(j);
+    j++;
+    if (j + 1 >= replacement.size()) all_used = true;
+  }
+  if (warn) {
+    if (!all_used) Rf_warning("Not all replacement values are used");
+    if (recycled) Rf_warning("Replacement values are recycled");
+  }
+  return R_NilValue;
 }
 
 [[cpp11::register]]
 raws pt_eff_command_(
     list mod, integers pattern, integers channel, integers row) {
-  int input_size = pattern.size();
-  if (input_size < 1 ||
-      channel.size() != input_size ||
-      row.size() != input_size ||
-      LENGTH(mod) != input_size)
-    Rf_error("All input should have the same size");
+  int input_size = cell_check_input(mod, pattern, channel, row);
   
   writable::raws result((R_xlen_t)2*pattern.size());
   
@@ -89,12 +189,8 @@ raws pt_eff_command_(
 SEXP pt_set_eff_command_(
     list mod, integers pattern, integers channel, integers row, raws replacement,
     bool warn) {
-  int input_size = pattern.size();
-  if (input_size < 1 ||
-      channel.size() != input_size ||
-      row.size() != input_size ||
-      LENGTH(mod) != input_size)
-    Rf_error("All input should have the same size");
+  int input_size = cell_check_input(mod, pattern, channel, row);
+  
   if (replacement.size() % 2 != 0)
     Rf_error("Replacement value should consist of a multitude of 2 raws.");
   int j = 0;

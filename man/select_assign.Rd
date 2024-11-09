@@ -15,6 +15,8 @@
 \alias{[.pt2celllist}
 \alias{[[.pt2command}
 \alias{[.pt2command}
+\alias{[[<-.pt2command}
+\alias{[<-.pt2command}
 \title{Select and assign operators for ProTrackR2 S3 class objects}
 \usage{
 \method{$}{pt2mod}(x, i, ...)
@@ -44,6 +46,10 @@
 \method{[[}{pt2command}(x, i, ...)
 
 \method{[}{pt2command}(x, i, ...)
+
+\method{[[}{pt2command}(x, i, ...) <- value
+
+\method{[}{pt2command}(x, i, ...) <- value
 }
 \arguments{
 \item{x}{Object to apply S3 method to. See 'usage' section for allowed object types.}

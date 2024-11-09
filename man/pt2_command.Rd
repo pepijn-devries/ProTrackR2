@@ -10,8 +10,10 @@ pt2_command(x, ...)
 pt2_command(x, silent = TRUE, ...) <- value
 }
 \arguments{
-\item{x}{An object of class \code{pt2_cell}, which can be extracted
-from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}.}
+\item{x}{An object of class \code{pt2cell}, which can be extracted
+from a pattern table with \code{\link[=pt2_cell]{pt2_cell()}}. A cell list (class \code{pt2celllist})
+is also allowed. See \code{vignette("sel_assign")} for more details about
+selecting cells and cell lists.}
 
 \item{...}{Ignored}
 
