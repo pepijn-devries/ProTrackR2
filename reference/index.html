@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.0001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,10 +104,10 @@
         <dd>Calculate the duration of the module</dd>
       </dl><dl><dt>
 
-          <code><a href="pt2_instrument.html">pt2_instrument()</a></code>
+          <code><a href="pt2_instrument.html">pt2_instrument()</a></code> <code><a href="pt2_instrument.html">`pt2_instrument&lt;-`()</a></code>
 
         </dt>
-        <dd>Extract a sample index from a ProTracker pattern</dd>
+        <dd>Extract or replace a sample index from a ProTracker pattern</dd>
       </dl><dl><dt>
 
           <code><a href="pt2_new_mod.html">pt2_new_mod()</a></code>
@@ -122,10 +122,16 @@
         <dd>Create a new ProTracker pattern</dd>
       </dl><dl><dt>
 
-          <code><a href="pt2_note.html">pt2_note()</a></code>
+          <code><a href="pt2_note.html">pt2_note()</a></code> <code><a href="pt2_note.html">`pt2_note&lt;-`()</a></code>
 
         </dt>
         <dd>Extract a note from a ProTracker module</dd>
+      </dl><dl><dt>
+
+          <code><a href="pt2_note_to_period.html">pt2_note_to_period()</a></code>
+
+        </dt>
+        <dd>Get a corresponding period value from a note string</dd>
       </dl><dl><dt>
 
           <code><a href="pt2_pattern.html">pt2_pattern()</a></code>
@@ -170,7 +176,7 @@
         <dd>Read and write ProTracker audio samples</dd>
       </dl><dl><dt>
 
-          <code><a href="select_assign.html">`$`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`$&lt;-`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2command&gt;</i>)</a></code>
+          <code><a href="select_assign.html">`$`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`$&lt;-`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code>
 
         </dt>
         <dd>Select and assign operators for ProTrackR2 S3 class objects</dd>

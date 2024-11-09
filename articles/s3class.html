@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.0001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -488,8 +488,18 @@ selecting and replacing cell values.</p>
 <div class="section level3">
 <h3 id="command-objects-pt2command">Command objects (<code>pt2command</code>)<a class="anchor" aria-label="anchor" href="#command-objects-pt2command"></a>
 </h3>
-<p>TODO
-<!-- TODO add refs to pt2_note pt2_instrument and pt2_effect --></p>
+<p>The command objects are used to represent ProTracker effect commands
+used in specific cells (see <code><a href="../articles/effect_commands.html">vignette("effect_commands")</a></code>).
+It is essentially either a <code>pt2cell</code> or a
+<code>pt2celllist</code> object with <code>pt2command</code> as a child
+class.</p>
+<p>It can be used to select or replace effect commands (see
+<code><a href="../reference/pt2_command.html">pt2_command()</a></code> or <code><a href="../articles/sel_assign.html">vignette("sel_assign")</a></code>). From
+the diagram at the top of this document you can see that cells also
+contain instrument and note information. These don’t inherit specific
+classes as they are represented by simple <code>integer</code> and
+<code>character</code> values. For more information about those please
+check <code><a href="../reference/pt2_instrument.html">pt2_instrument()</a></code> and <code><a href="../reference/pt2_note.html">pt2_note()</a></code>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
