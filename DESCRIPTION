@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.6.0001
+Version: 0.0.6.0002
 Authors@R: c(
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -50,9 +50,11 @@ Suggests:
     htmltools,
     kableExtra,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL:
     https://pepijn-devries.github.io/ProTrackR2/,
     https://github.com/pepijn-devries/ProTrackR2
 BugReports: https://github.com/pepijn-devries/ProTrackR2/issues
+Config/testthat/edition: 3
