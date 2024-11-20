@@ -58,7 +58,7 @@ mod[[2L]]
 ## Index base: one or zero?
 
 For vectors and lists, `R` uses indices starting at 1. ProTracker modules often use arrays
-of elements that starting with indices at 0 (but unfortunately consistently for everything).
+of elements that are starting with indices at 0 (but alas not consistently for everything).
 And in some case ProTracker effect commands refer to such indices (see `vignette("effect_commands")`).
 Unfortunately, this is
 a source of confusion, for which there exists no ideal solution.
