@@ -1,10 +1,15 @@
+ProTrackR2 v0.0.6.0001
+-------------
+
+ * Added codecov workflow
+
 ProTrackR2 v0.0.5
 -------------
 
  * Added functions to extract or replace
    notes, instruments and/or effects in cells
  * Added vignette about effect commands
- * Added fixes for problems detect by
+ * Added fixes for problems detected by
    clang-UBSAN, gcc-UBSAN, LTO and valgrind
 
 ProTrackR2 v0.0.4
