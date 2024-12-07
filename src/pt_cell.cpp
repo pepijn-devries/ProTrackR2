@@ -22,7 +22,7 @@ note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {
 }
 
 [[cpp11::register]]
-SEXP pt_cell_(SEXP mod, int pattern, int channel, int row) {
+list pt_cell_(SEXP mod, int pattern, int channel, int row) {
   note_t * cell = pt_cell_internal(mod, pattern, channel, row);
 
   writable::list result({
@@ -284,7 +284,7 @@ SEXP pt_cell_as_char_(
 }
 
 [[cpp11::register]]
-SEXP pt_rawcell_as_char_(raws pattern, strings padding, strings empty_char, list sformat) {
+strings pt_rawcell_as_char_(raws pattern, strings padding, strings empty_char, list sformat) {
   note_t * cell = (note_t *)RAW(as_sexp(pattern));
   int n_notes = (int)(pattern.size()/sizeof(note_t));
   writable::strings result((R_xlen_t)n_notes);
@@ -295,7 +295,7 @@ SEXP pt_rawcell_as_char_(raws pattern, strings padding, strings empty_char, list
 }
 
 [[cpp11::register]]
-SEXP pt_decode_compact_cell(raws source) {
+raws pt_decode_compact_cell(raws source) {
   int n_notes = (int)(source.size()/4);
   writable::raws celldat((R_xlen_t)(n_notes * sizeof(note_t)));
   uint8_t * src = (uint8_t *)RAW(as_sexp(source));
@@ -312,7 +312,7 @@ SEXP pt_decode_compact_cell(raws source) {
 }
 
 [[cpp11::register]]
-SEXP pt_encode_compact_cell(raws source){
+raws pt_encode_compact_cell(raws source){
   int n_notes = (int)(source.size()/sizeof(note_t));
   note_t * src  = (note_t *)RAW(as_sexp(source));
   writable::raws celldat((R_xlen_t)(n_notes * 4));
@@ -329,7 +329,7 @@ void pt_encode_compact_cell_internal(note_t * source, uint8_t * dest, uint32_t n
 }
 
 [[cpp11::register]]
-SEXP celllist_to_raw_(list celllist, bool compact) {
+raws celllist_to_raw_(list celllist, bool compact) {
   int size_out = celllist.size();
   if (compact) size_out *= 4;
   else size_out *= sizeof(note_t);
@@ -364,7 +364,7 @@ SEXP celllist_to_raw_(list celllist, bool compact) {
 }
 
 [[cpp11::register]]
-SEXP replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
+list replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
   if (idx.slice_size() < 1L)
     Rf_error("Need at least one element to replace");
 

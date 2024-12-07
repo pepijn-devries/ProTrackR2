@@ -10,7 +10,7 @@ moduleSample_t * get_mod_sampinf_internal(module_t * my_song, int idx) {
   return &my_song->samples[idx];
 }
 
-SEXP mod_sample_info_internal2(moduleSample_t * samp) {
+list mod_sample_info_internal2(moduleSample_t * samp) {
 
   writable::list attr({
     "length"_nm       = (int)samp->length,
@@ -23,12 +23,12 @@ SEXP mod_sample_info_internal2(moduleSample_t * samp) {
   return attr;
 }
 
-SEXP mod_sample_info_internal(module_t * my_song, int idx) {
+list mod_sample_info_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   return mod_sample_info_internal2(samp);
 }
 
-SEXP mod_sample_as_raw_internal(module_t * my_song, int idx) {
+raws mod_sample_as_raw_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];
   uint32_t len = samp->length;
@@ -38,19 +38,18 @@ SEXP mod_sample_as_raw_internal(module_t * my_song, int idx) {
   memcpy(sampdest, sampleData, len);
 
   SEXP attr = mod_sample_info_internal(my_song, idx);
-  sexp result = as_sexp(sampledata);
-  result.attr("class") = "pt2samp";
-  result.attr("sample_info") = attr;
-  return result;
+  sampledata.attr("class") = "pt2samp";
+  sampledata.attr("sample_info") = attr;
+  return sampledata;
 }
 
 [[cpp11::register]]
-SEXP mod_sample_as_raw_(SEXP mod, int idx) {
+raws mod_sample_as_raw_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_as_raw_internal(my_song, idx);
 }
 
-SEXP mod_sample_as_int_internal(module_t * my_song, int idx) {
+integers mod_sample_as_int_internal(module_t * my_song, int idx) {
   moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
   int8_t *sampleData = &my_song->sampleData[samp->offset];
   uint32_t len = samp->length;
@@ -60,19 +59,18 @@ SEXP mod_sample_as_int_internal(module_t * my_song, int idx) {
   }
   
   SEXP attr = mod_sample_info_internal(my_song, idx);
-  sexp result = as_sexp(sampledata);
-  result.attr("sample_info") = attr;
-  return result;
+  sampledata.attr("sample_info") = attr;
+  return sampledata;
 }
 
 [[cpp11::register]]
-SEXP mod_sample_info_(SEXP mod, int idx) {
+list mod_sample_info_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_info_internal(my_song, idx);
 }
 
 [[cpp11::register]]
-SEXP mod_sample_as_int_(SEXP mod, int idx) {
+integers mod_sample_as_int_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_as_int_internal(my_song, idx);
 }
