@@ -37,7 +37,7 @@
 #' @export
 pt2_note <- function(x, ...) {
   if (!inherits(x, c("pt2cell", "pt2celllist")))
-    stop("`x` should inherit `pt2cell`")
+    stop("`x` should inherit `pt2cell` or `pt2celllist`.")
   if (typeof(x) == "raw") {
     x <- .get_raw_fun(x)(x, compact = FALSE)
     if (inherits(x, "pt2celllist")) {
@@ -56,8 +56,6 @@ pt2_note <- function(x, ...) {
 #' @rdname pt2_note
 #' @export
 `pt2_note<-` <- function(x, silent = TRUE, ..., value) {
-  if (!inherits(x, c("pt2cell", "pt2celllist")))
-    stop("`x` should inherit `pt2cell` or `pt2celllist`.")
   if (typeof(x) == "raw") {
     cur_notation <- attributes(x)$compact_notation
     cur_class <- class(x)

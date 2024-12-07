@@ -50,6 +50,10 @@ pt2_n_pattern(mod)
 pt2_n_sample(mod)
 pt2_pattern_table(mod)
 pt2_name(mod)
+pt2_name(pt2_sample(mod, 4L))
+
+mod2 <- pt2_new_mod("new")
+pt2_length(mod) <- 3L
 }
 \author{
 Pepijn de Vries
