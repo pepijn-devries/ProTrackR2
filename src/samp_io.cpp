@@ -1,10 +1,7 @@
 #include <cpp11.hpp>
 #include <vector>
 #include "samples.h"
-#include "pt2-clone/pt2_helpers.h"
-#include "pt2-clone/pt2_config.h"
-#include "pt2-clone/pt2_structs.h"
-#include "pt2-clone/pt2_sample_loader.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 #define PLAYBACK_FREQ 16574 /* C-3, period 214 */

@@ -3,11 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include "get_mod.h"
-#include "pt2-clone/pt2_structs.h"
-#include "pt2-clone/pt2_replayer_light.h"
-#include "pt2-clone/pt2_pattern_viewer.h"
-#include "pt2-clone/pt2_tables.h"
-#include "pt2-clone/pt2_module_saver.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {

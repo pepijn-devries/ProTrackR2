@@ -1,10 +1,7 @@
 #include <cpp11.hpp>
 #include <vector>
 #include "get_mod.h"
-#include "pt2-clone/pt2_replayer_light.h"
-#include "pt2-clone/pt2_config.h"
-#include "pt2-clone/pt2_audio.h"
-#include "pt2-clone/pt2_downsample2x.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 static void calcMod2WavTotalRows(int16_t start_pos);

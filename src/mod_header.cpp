@@ -1,6 +1,6 @@
 #include <cpp11.hpp>
 #include "get_mod.h"
-#include "pt2-clone/pt2_replayer_light.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 [[cpp11::register]]

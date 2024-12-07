@@ -1,9 +1,7 @@
 #include <cpp11.hpp>
 #include "get_mod.h"
 #include "mod_header.h"
-#include "pt2-clone/pt2_module_loader.h"
-#include "pt2-clone/pt2_module_saver.h"
-#include "pt2-clone/pt2_replayer_light.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 SEXP create_mod_pointer(module_t * my_song) {
