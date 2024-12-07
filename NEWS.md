@@ -1,4 +1,4 @@
-ProTrackR2 v0.0.6.0002
+ProTrackR2 v0.0.6.0003
 -------------
 
  * Added testthat workflow
