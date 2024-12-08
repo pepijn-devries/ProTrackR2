@@ -28,13 +28,16 @@ The table below summarises the differences between ProTrackR2 and its predecesso
 
 ```{r tab-dif, echo=FALSE, message=FALSE, warning=FALSE}
 library(kableExtra)
+load("../tests/testthat/_openmpt/testcasestate.Rdata")
+testresult <- table(openmpt_testfiles$state)
 data.frame(
   Feature    = c("[Effect commands](#effect-commands)", "[Infrastructure](#infrastructure)",
                  "[File readers](#file-readers)", "[Audio output](#audio-output)", "OpenMPT test cases"),
   ProTrackR  = c("Limited set implemented", "R script", "Optimized for format preservation",
                  "tuneR S4 Wave class", "Passes 6 out of 12 selected tests"),
   ProTrackR2 = c("All PT2.3d effects implemented", "Compiled C/C++", "Optimized for PT2.3d compatibility",
-                 "audio S3 audioSample class", "Not tested yet")
+                 "audio S3 audioSample class",
+                 sprintf("Passes at least %i of the %i tests", testresult[["Success"]], sum(testresult)))
 ) |>
   kbl()
 ```
