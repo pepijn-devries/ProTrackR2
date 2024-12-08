@@ -11,7 +11,7 @@ of ProTrackR2 S3 class objects. See usage section for an overview of available m
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -235,6 +235,7 @@ values between -128 and +127.</p></li>
 <span class="r-in"><span><span class="va">cell</span>     <span class="op">&lt;-</span> <span class="va">cells</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">samples</span></span></span>
 <span class="r-in"><span><span class="va">sample</span>   <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">cmnd</span>     <span class="op">&lt;-</span> <span class="fu"><a href="pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">cell</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Let's go wild with S3 methods:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
@@ -315,6 +316,8 @@ values between -128 and +127.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample list [n=31]</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PT2 Sample 'by pepijn de vries' [1040]"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cmnd</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">A08</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "pt2mod 'intro' [01:09]"</span>
@@ -589,6 +592,8 @@ values between -128 and +127.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sample list [n=31]"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PT2 Sample 'by pepijn de vries' [1040]"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">cmnd</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "\033[32mA08\033[39m"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">pattern</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]         [,2]         [,3]         [,4]        </span>
@@ -660,6 +665,8 @@ values between -128 and +127.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C-3 01 A08" "--- 01 A08" "--- 01 A08" "--- 00 000"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">cell</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C-3 01 A08"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">cmnd</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A08"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    [1] 69 6e 74 72 6f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 62 79 20 70</span>
@@ -1118,6 +1125,8 @@ values between -128 and +127.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">C-3</span><span style="color: #555555;"> </span><span style="color: #00BBBB;">01</span><span style="color: #555555;"> </span><span style="color: #00BB00;">A08</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PT2 Sample 'by pepijn de vries' [1040]"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="va">cmnd</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">A08</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    [1]    0    0    2    2    2    2    2    2    2    2    2    2    2    2</span>
