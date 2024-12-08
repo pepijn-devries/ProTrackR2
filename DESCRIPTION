@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.6.0004
+Version: 0.0.6.0005
 Authors@R: c(
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -48,6 +48,7 @@ Imports:
 Suggests:
     av,
     cli,
+    curl,
     htmltools,
     kableExtra,
     knitr,

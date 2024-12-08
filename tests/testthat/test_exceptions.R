@@ -128,3 +128,9 @@ test_that("pt2mod has no more than 2 elements", {
     mod[[3L]]
   })
 })
+
+test_that("Cannot add more than 100 patterns to a module", {
+  expect_error({
+    mod$patterns[[101]] <- pt2_new_pattern()
+  })
+})

@@ -1,8 +1,9 @@
-ProTrackR2 v0.0.6.0004
+ProTrackR2 v0.0.6.0005
 -------------
 
  * Added testthat workflow
  * Added codecov workflow
+ * Minor fixes
 
 ProTrackR2 v0.0.5
 -------------
