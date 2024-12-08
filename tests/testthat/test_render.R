@@ -1,14 +1,14 @@
 test_that("Module renders as expected", {
-  snap <- "intro.ogg"
+  snap <- "intro.mp3"
   announce_snapshot_file(snap)
   mod <- pt2_read_mod(pt2_demo())
   tempwav <- tempfile(fileext = ".wav")
-  tempogg <- tempfile(fileext = ".ogg")
+  tempmp3 <- tempfile(fileext = ".mp3")
   rndr <- pt2_render(mod, 10)
   audio::save.wave(rndr, tempwav)
-  av::av_audio_convert(tempwav, tempogg, verbose = FALSE)
-  ogg_compare <- function(old, new) {
+  av::av_audio_convert(tempwav, tempmp3, verbose = FALSE)
+  mp3_compare <- function(old, new) {
     identical(av::read_audio_bin(old), av::read_audio_bin(new))
   }
-  expect_snapshot_file(tempogg, snap, compare = ogg_compare)
+  expect_snapshot_file(tempmp3, snap, compare = mp3_compare)
 })
