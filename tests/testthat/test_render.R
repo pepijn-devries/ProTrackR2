@@ -1,11 +1,11 @@
 test_that("Module renders as expected", {
-  snap <- "intro.gz"
+  snap <- "intro.mp3"
   announce_snapshot_file(snap)
   mod <- pt2_read_mod(pt2_demo())
-  tempgz <- tempfile(fileext = ".gz")
-  rndr <- pt2_render(mod, 0.5)
-  con <- gzfile(tempgz, "wb", compression = 9)
-  writeBin(c(rndr), con, endian = "little")
-  close(con)
-  expect_snapshot_file(tempgz, snap)
+  tempwav <- tempfile(fileext = ".wav")
+  tempmp3 <- tempfile(fileext = ".mp3")
+  rndr <- pt2_render(mod, 10)
+  audio::save.wave(rndr, tempwav)
+  av::av_audio_convert(tempwav, tempmp3, verbose = FALSE)
+  expect_snapshot_file(tempmp3, snap)
 })

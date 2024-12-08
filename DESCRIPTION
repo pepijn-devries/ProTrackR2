@@ -46,6 +46,7 @@ Collate:
 Imports:
     audio
 Suggests:
+    av,
     cli,
     htmltools,
     kableExtra,
