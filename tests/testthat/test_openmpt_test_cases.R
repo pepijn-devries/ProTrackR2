@@ -1,3 +1,6 @@
+load("_openmpt/testcasestate.Rdata")
+openmpt_test_basurl <- "https://resources.openmpt.org/player_tests/mod/"
+
 test_that("Openmpt test cases result correspond with earlier results", {
   expect_no_error({
     skip_on_cran()
@@ -7,8 +10,6 @@ test_that("Openmpt test cases result correspond with earlier results", {
     skip_if(!interactive(), "Session not interactive")
     skip_if(length(unclass(packageVersion("ProTrackR2"))[[1]]) > 3,
             "Skipping during development")
-    load("_openmpt/testcasestate.Rdata")
-    openmpt_test_basurl <- "https://resources.openmpt.org/player_tests/mod/"
     for (f in openmpt_testfiles$filename) {
       testfile <- paste0(openmpt_test_basurl, f)
       mod <- pt2_read_mod(testfile)
@@ -28,6 +29,18 @@ test_that("Openmpt test cases result correspond with earlier results", {
       }
       if (toupper(result) == "S") break
       if (toupper(result) == "N") stop("Test does not match earlier result")
+    }
+  })
+})
+
+test_that("openmpt cases render without errors", {
+  expect_no_error({
+    skip_if_offline()
+    skip_on_cran()
+    for (f in openmpt_testfiles$filename) {
+      testfile <- paste0(openmpt_test_basurl, f)
+      mod <- pt2_read_mod(testfile)
+      pt2_render(mod)
     }
   })
 })
