@@ -15,6 +15,7 @@
 \alias{format.pt2cell}
 \alias{print.pt2cell}
 \alias{as.character.pt2cell}
+\alias{as.character.pt2celllist}
 \alias{as.raw.pt2command}
 \alias{as.raw.pt2cell}
 \alias{as.raw.pt2cell.logical}
@@ -72,6 +73,8 @@
 \method{print}{pt2cell}(x, ...)
 
 \method{as.character}{pt2cell}(x, ...)
+
+\method{as.character}{pt2celllist}(x, ...)
 
 \method{as.raw}{pt2command}(x, ...)
 
@@ -152,4 +155,46 @@ values between -128 and +127.
 Implementation of basic S3 methods, such as, \code{format}, \code{print}, \code{as.raw} and \code{as.character} (
 see usage section for a complete overview). See \code{vignette('s3class')} for an overview
 of ProTrackR2 S3 class objects. See usage section for an overview of available methods.
+}
+\examples{
+# TODO
+## First create some ProTrackR2 objects to which
+## S3 methods can be applied:
+
+mod      <- pt2_read_mod(pt2_demo())
+patterns <- mod$patterns
+pattern  <- patterns[[1]]
+cells    <- pattern[1:4,1]
+cell     <- cells[[1]]
+samples  <- mod$samples
+sample   <- samples[[1]]
+
+## Let's go wild with S3 methods:
+print(mod)
+print(patterns)
+print(pattern)
+print(cells)
+print(cell)
+print(samples)
+print(sample)
+
+format(mod)
+format(patterns)
+format(pattern)
+format(cells)
+format(cell)
+format(samples)
+format(sample)
+
+as.character(pattern)
+as.character(cells)
+as.character(cell)
+
+as.raw(mod)
+as.raw(pattern)
+as.raw(cells)
+as.raw(cell)
+as.raw(sample)
+
+as.integer(sample)
 }

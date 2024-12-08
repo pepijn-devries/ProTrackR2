@@ -33,6 +33,47 @@
 #'   * `length` returns number of elements in `x`
 #' @method format pt2mod
 #' @rdname s3methods
+#' @examples
+#' # TODO
+#' ## First create some ProTrackR2 objects to which
+#' ## S3 methods can be applied:
+#' 
+#' mod      <- pt2_read_mod(pt2_demo())
+#' patterns <- mod$patterns
+#' pattern  <- patterns[[1]]
+#' cells    <- pattern[1:4,1]
+#' cell     <- cells[[1]]
+#' samples  <- mod$samples
+#' sample   <- samples[[1]]
+#' 
+#' ## Let's go wild with S3 methods:
+#' print(mod)
+#' print(patterns)
+#' print(pattern)
+#' print(cells)
+#' print(cell)
+#' print(samples)
+#' print(sample)
+#' 
+#' format(mod)
+#' format(patterns)
+#' format(pattern)
+#' format(cells)
+#' format(cell)
+#' format(samples)
+#' format(sample)
+#' 
+#' as.character(pattern)
+#' as.character(cells)
+#' as.character(cell)
+#' 
+#' as.raw(mod)
+#' as.raw(pattern)
+#' as.raw(cells)
+#' as.raw(cell)
+#' as.raw(sample)
+#' 
+#' as.integer(sample)
 #' @export
 format.pt2mod <- function(x, ...) {
   dur <- pt2_duration(x) |>
@@ -201,8 +242,15 @@ print.pt2cell <- function(x, ...) {
 as.character.pt2cell <- function(x, ...) {
   x <- format(x, ...)
   if (requireNamespace("cli", quietly = TRUE))
-    x <- apply(x, 2, cli::ansi_strip, simplify = TRUE)
+    x <- cli::ansi_strip(x)
   x
+}
+
+#' @method as.character pt2celllist
+#' @rdname s3methods
+#' @export
+as.character.pt2celllist <- function(x, ...) {
+  lapply(x, as.character, ...) |> unlist()
 }
 
 #' @method as.raw pt2command
