@@ -1,16 +1,13 @@
 #include <cpp11.hpp>
 #include <vector>
 #include "samples.h"
-#include "pt2-clone/pt2_helpers.h"
-#include "pt2-clone/pt2_config.h"
-#include "pt2-clone/pt2_structs.h"
-#include "pt2-clone/pt2_sample_loader.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 #define PLAYBACK_FREQ 16574 /* C-3, period 214 */
 
 [[cpp11::register]]
-SEXP open_samp_(raws data) {
+raws open_samp_(raws data) {
   uint8_t * buffer = (uint8_t *)RAW(as_sexp(data));
   uint32_t dat_size = data.size();
   
@@ -42,7 +39,7 @@ SEXP open_samp_(raws data) {
 }
 
 [[cpp11::register]]
-SEXP sample_file_format_(SEXP input, std::string file_type) {
+raws sample_file_format_(SEXP input, std::string file_type) {
   raws input_r(input);
   int8_t * ibuffer      = (int8_t *)RAW(input_r);
   list sample_info      = list(input_r.attr("sample_info"));

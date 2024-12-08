@@ -1,17 +1,17 @@
 #include <cpp11.hpp>
 #include "get_mod.h"
-#include "pt2-clone/pt2_replayer_light.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 [[cpp11::register]]
-SEXP mod_name_(SEXP mod) {
+strings mod_name_(SEXP mod) {
   module_t *my_song = get_mod(mod);
   writable::strings result(r_string((my_song->header).name));
   return result;
 }
 
 [[cpp11::register]]
-SEXP mod_length_(SEXP mod) {
+integers mod_length_(SEXP mod) {
   module_t *my_song = get_mod(mod);
   writable::integers result({(my_song->header).songLength});
   return result;
@@ -27,7 +27,7 @@ SEXP set_mod_length_(SEXP mod, int modlen) {
 }
 
 [[cpp11::register]]
-SEXP mod_pattab_(SEXP mod) {
+integers mod_pattab_(SEXP mod) {
   module_t *my_song = get_mod(mod);
   writable::integers result;
   result.reserve((R_xlen_t)N_PATT_SEQ);

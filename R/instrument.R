@@ -47,8 +47,6 @@ pt2_instrument <- function(x, ...) {
 #' @rdname pt2_instrument
 #' @export
 `pt2_instrument<-` <- function(x, silent = TRUE, ..., value) {
-  if (!inherits(x, c("pt2cell", "pt2celllist")))
-    stop("`x` should inherit `pt2cell` or `pt2celllist`.")
   value <- as.integer(value)
   if (any(is.na(value) | value < 0L | value > 31L))
     stop("Replacement value should not contain `NA` or values <0 or >31")

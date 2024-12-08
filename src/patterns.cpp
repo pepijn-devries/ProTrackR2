@@ -2,7 +2,7 @@
 #include "get_mod.h"
 #include "mod_header.h"
 #include "pt_cell.h"
-#include "pt2-clone/pt2_replayer_light.h"
+#include "pt2-clone.h"
 using namespace cpp11;
 
 [[cpp11::register]]
@@ -35,10 +35,9 @@ SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
     memcpy(patdest, (uint8_t *)pat, patdat.size());
   }
 
-  sexp result = as_sexp(patdat);
-  result.attr("class") = "pt2pat";
-  result.attr("compact_notation") = compact;
-  return result;
+  patdat.attr("class") = "pt2pat";
+  patdat.attr("compact_notation") = compact;
+  return patdat;
 }
 
 [[cpp11::register]]

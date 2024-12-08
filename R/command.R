@@ -64,15 +64,13 @@ pt2_command <- function(x, ...) {
     class(x) <- "pt2command"
     return(x)
   }
-  stop("`pt2_command` not implemented for '%s'",
-       paste0(union(class(x), typeof(x)), collapse = "'/'"))
+  stop(sprintf("`pt2_command` not implemented for '%s'",
+       paste0(union(class(x), typeof(x)), collapse = "'/'")))
 }
 
 #' @rdname pt2_command
 #' @export
 `pt2_command<-` <- function(x, silent = TRUE, ..., value) {
-  if (!inherits(x, c("pt2cell", "pt2celllist")))
-    stop("`x` should inherit `pt2cell` or `pt2celllist`.")
   value <-
     pt2_command(value) |>
     as.raw() |>
