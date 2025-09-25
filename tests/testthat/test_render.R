@@ -1,4 +1,5 @@
 test_that("Module renders as expected", {
+  skip_if_not_installed("av")
   snap <- "intro.mp3"
   announce_snapshot_file(snap)
   mod <- pt2_read_mod(pt2_demo())
