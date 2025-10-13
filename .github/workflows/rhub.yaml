@@ -57,11 +57,11 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
       - uses: r-hub/actions/setup-deps@v1
+      - name: Install package to rchk path
+          run: R CMD INSTALL . --library=/opt/R/devel-rchk/packages/lib
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-      - name: Install package to rchk path
-          run: R CMD INSTALL . --library=/opt/R/devel-rchk/packages/lib
       - uses: r-hub/actions/run-check@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -88,11 +88,11 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
       - uses: r-hub/actions/setup-deps@v1
+      - name: Install package to rchk path
+          run: R CMD INSTALL . --library=/opt/R/devel-rchk/packages/lib
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      - name: Install package to rchk path
-          run: R CMD INSTALL . --library=/opt/R/devel-rchk/packages/lib
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
