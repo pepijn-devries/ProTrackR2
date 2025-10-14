@@ -187,7 +187,9 @@
     x
   } else {
     values <- as.raw.pt2celllist(value, compact = FALSE)
-    replace_cells_(x, as.matrix(target_idx), values)
+    m <- replace_cells_(x, as.matrix(target_idx), values)
+    if (m != "") warning(m)
+    x
   }
 }
 

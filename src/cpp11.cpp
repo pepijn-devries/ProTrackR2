@@ -188,7 +188,7 @@ extern "C" SEXP _ProTrackR2_celllist_to_raw_(SEXP celllist, SEXP compact) {
   END_CPP11
 }
 // pt_cell.cpp
-list replace_cells_(list pattern, integers_matrix<> idx, raws replacement);
+r_string replace_cells_(list pattern, integers_matrix<> idx, raws replacement);
 extern "C" SEXP _ProTrackR2_replace_cells_(SEXP pattern, SEXP idx, SEXP replacement) {
   BEGIN_CPP11
     return cpp11::as_sexp(replace_cells_(cpp11::as_cpp<cpp11::decay_t<list>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers_matrix<>>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(replacement)));

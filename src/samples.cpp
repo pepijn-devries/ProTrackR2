@@ -4,7 +4,7 @@
 using namespace cpp11;
 
 moduleSample_t * get_mod_sampinf_internal(module_t * my_song, int idx) {
-  if (idx < 0 || idx >= MOD_SAMPLES) Rf_error("Index out of range");
+  if (idx < 0 || idx >= MOD_SAMPLES) stop("Index out of range");
   
   return &my_song->samples[idx];
 }

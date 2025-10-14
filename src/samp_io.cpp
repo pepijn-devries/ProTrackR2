@@ -12,17 +12,17 @@ raws open_samp_(raws data) {
   uint32_t dat_size = data.size();
   
   moduleSample_t *s = (moduleSample_t *)malloc(sizeof (moduleSample_t));
-  if (s == NULL) Rf_error("Out of memory");
+  if (s == NULL) stop("Out of memory");
   int8_t *smpDat = (int8_t *)malloc(config.maxSampleLength);
   if (smpDat == NULL) {
     free(s);
-    Rf_error("Out of memory");
+    stop("Out of memory");
   }
   
   if (!loadSample2(buffer, dat_size, s, smpDat) || s->length == 0) {
     free(s);
     free(smpDat);
-    Rf_error("Failed to read sample");
+    stop("Failed to read sample");
   }
   writable::raws output((R_xlen_t)(s->length));
   
@@ -193,7 +193,7 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     memcpy(buffer, &mptExtraChunk, sizeof (mptExtraChunk));
     
   } else {
-    Rf_error("Writing file type '%s' is not supported.",
+    stop("Writing file type '%s' is not supported.",
              file_type.c_str());
   }
   return output;
