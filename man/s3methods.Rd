@@ -4,6 +4,7 @@
 \alias{format.pt2mod}
 \alias{print.pt2mod}
 \alias{format.pt2pat}
+\alias{as.character.pt2command}
 \alias{format.pt2command}
 \alias{print.pt2command}
 \alias{print.pt2pat}
@@ -45,6 +46,8 @@
   fmt = getOption("pt2_cell_format"),
   ...
 )
+
+\method{as.character}{pt2command}(x, ...)
 
 \method{format}{pt2command}(x, fmt = getOption("pt2_effect_format"), ...)
 
@@ -157,7 +160,6 @@ see usage section for a complete overview). See \code{vignette('s3class')} for a
 of ProTrackR2 S3 class objects. See usage section for an overview of available methods.
 }
 \examples{
-# TODO
 ## First create some ProTrackR2 objects to which
 ## S3 methods can be applied:
 

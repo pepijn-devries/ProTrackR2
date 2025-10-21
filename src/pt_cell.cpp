@@ -6,6 +6,11 @@
 #include "pt2-clone.h"
 using namespace cpp11;
 
+[[cpp11::register]]
+int pt_cell_bytesize() {
+  return (sizeof(note_t));
+}
+
 note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {
   module_t *my_song = get_mod(mod);
   if (channel < 0 || channel >= PAULA_VOICES)
@@ -366,7 +371,7 @@ r_string replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
   if ((uint32_t)replacement.size() < sizeof(note_t) ||
       replacement.size() % sizeof(note_t) != 0)
     stop("Insufficient replacement data");
-  
+
   module_t *my_song = get_mod(pattern["mod"]);
   uint32_t i = integers(pattern["i"]).at(0); 
   if (i > MAX_PATTERNS) stop("Index out of range");

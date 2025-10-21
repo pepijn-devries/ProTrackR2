@@ -42,8 +42,8 @@ pt2_note <- function(x, ...) {
     x <- .get_raw_fun(x)(x, compact = FALSE)
     if (inherits(x, "pt2celllist")) {
       unclass(x) |>
-        matrix(ncol = 6, byrow = TRUE) |>
-        apply(1, pt_note_string_raw_, simplify = FALSE) |>
+        matrix(ncol = pt_cell_bytesize(), byrow = TRUE) |>
+        apply(1L, pt_note_string_raw_, simplify = FALSE) |>
         unlist()
     } else {
       pt_note_string_raw_(x)
@@ -65,9 +65,10 @@ pt2_note <- function(x, ...) {
     value <- note_to_period_(value, "-", 0)
     value[is.na(value)] <- 0L
     
-    idx <- (seq_len(length(x)/6L) - 1L)*6L
-    x[idx + 5L] <- bitwAnd(value, 0xff) |> as.raw()
-    x[idx + 6L] <- bitwShiftR(value, 8L) |> as.raw()
+    l <- pt_cell_bytesize()
+    idx <- (seq_len(length(x)/l) - 1L)*l
+    x[idx + l - 1L] <- bitwAnd(value, 0xff) |> as.raw()
+    x[idx + l] <- bitwShiftR(value, l + 2L) |> as.raw()
 
     class(x) <- cur_class
     attributes(x)$compact_notation <- FALSE

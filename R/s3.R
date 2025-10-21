@@ -34,7 +34,6 @@
 #' @method format pt2mod
 #' @rdname s3methods
 #' @examples
-#' # TODO
 #' ## First create some ProTrackR2 objects to which
 #' ## S3 methods can be applied:
 #' 
@@ -102,6 +101,19 @@ format.pt2pat <- function(x, padding = " ", empty_char = "-", fmt = getOption("p
     matrix(ncol = 4, byrow = T)
 }
 
+#' @method as.character pt2command
+#' @rdname s3methods
+#' @export
+as.character.pt2command <- function(x, ...) {
+  result <- character()
+  for (i in seq_len(length(x))) {
+    cmnd <- as.integer(unclass(x[[i]]))
+    cmnd <- sprintf("%X%02X", cmnd[[1]], cmnd[[2]])
+    result <- c(result, cmnd)
+  }
+  result
+}
+
 #' @method format pt2command
 #' @rdname s3methods
 #' @export
@@ -110,8 +122,6 @@ format.pt2command <- function(x, fmt = getOption("pt2_effect_format"), ...) {
     matrix(x, ncol = 2L, byrow = TRUE) |>
       apply(1, .command_format, fmt, simplify = FALSE) |>
       unlist()
-  } else if (inherits(x, "pt2celllist")) {
-    lapply(x, .command_format, fmt) |> unlist()
   } else {
     .command_format(x, fmt)
   }
@@ -182,7 +192,7 @@ as.raw.pt2celllist <- function(x, ...) {
 as.raw.pt2celllist.logical <- function(x, compact = TRUE, ...) {
   if (typeof(x) == "raw") {
     cur_notation <- attributes(x)$compact_notation
-    width <- ifelse(cur_notation, 4, 6)
+    width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
     x <-
       matrix(unclass(x), ncol = width, byrow = TRUE) |>
       apply(1, \(y) {
@@ -214,11 +224,7 @@ as.raw.pt2pat.logical <- function(x, compact = TRUE, ...) {
   if (typeof(x) == "raw") {
     cur_notation <- attributes(x)$compact_notation
     if (cur_notation == compact) return (x)
-    if (cur_notation) {
-      x <- pt_decode_compact_cell(x)
-    } else {
-      x <- pt_encode_compact_cell(x)
-    }
+    x <- pt_decode_compact_cell(x)
     class(x) <- "pt2pat"
     attributes(x)$compact_notation <- !cur_notation
     x
@@ -255,7 +261,11 @@ as.character.pt2cell <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.character.pt2celllist <- function(x, ...) {
-  lapply(x, as.character, ...) |> unlist()
+  result <- character()
+  for (i in seq_len(length(x))) {
+    result <- c(result, as.character(x[[i]]))
+  }
+  result
 }
 
 #' @method as.raw pt2command
@@ -396,7 +406,7 @@ as.integer.pt2samp <- function(x, ...) {
       unclass(x) |>
       as.integer()
     x[x > 127L] <- x[x > 127L] - 256L
-    attributes(x) <- a
+    attributes(x) <- a[!names(a) %in% "class"]
     x
   } else {
     mod_sample_as_int_(x$mod, x$i)
@@ -440,7 +450,7 @@ as.integer.pt2samp <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 length.pt2celllist <- function(x, ...) {
-  fct  <- ifelse(attributes(x)$compact_notation, 4L, 6L)
+  fct  <- ifelse(attributes(x)$compact_notation, 4L, pt_cell_bytesize())
   fct  <- ifelse(typeof(x) == "raw", fct, 1L)
   length(unclass(x))/fct
 }

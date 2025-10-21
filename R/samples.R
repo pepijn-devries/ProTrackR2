@@ -41,3 +41,14 @@ pt2_n_sample <- function(mod, ...) {
   }
   count
 }
+
+#' @export
+#' @name play
+#' @rdname play
+#' @method play pt2samp
+play.pt2samp <- function(x, duration = 5, options = pt2_render_options(), note = "C-2", ...) {
+  mod <- pt2_new_mod("play.samp")
+  mod$samples[[1]] <- x
+  mod$patterns[[1]][1,c(1,2)][[1]] <- paste0(note, " 01 F00")
+  play(x = mod, options = options, duration = duration, ...)
+}
