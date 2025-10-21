@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,6 +56,12 @@
         <dd>Format a ProTracker pattern conform OpenMPT specs</dd>
       </dl><dl><dt>
 
+          <code><a href="as_pt2cell.html">as_pt2cell()</a></code> <code><a href="as_pt2cell.html">as_pt2celllist()</a></code>
+
+        </dt>
+        <dd>Convert object into a pt2cell or pt2celllist class object</dd>
+      </dl><dl><dt>
+
           <code><a href="effect_commands.html">effect_commands</a></code>
 
         </dt>
@@ -74,10 +80,10 @@
         <dd>Read and write ProTracker modules</dd>
       </dl><dl><dt>
 
-          <code><a href="play.html">play(<i>&lt;pt2mod&gt;</i>)</a></code>
+          <code><a href="play.html">play(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="play.html">play(<i>&lt;pt2samp&gt;</i>)</a></code>
 
         </dt>
-        <dd>Play a ProTracker module</dd>
+        <dd>Play a ProTracker module or sample</dd>
       </dl><dl><dt>
 
           <code><a href="pt2_cell.html">pt2_cell()</a></code>
@@ -164,7 +170,7 @@
         <dd>Validate ProTrackR2 S3 class objects</dd>
       </dl><dl><dt>
 
-          <code><a href="s3methods.html">format(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2celllist(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2pat(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2cell(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">as.integer(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">length(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">length(<i>&lt;pt2command&gt;</i>)</a></code>
+          <code><a href="s3methods.html">format(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2celllist(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2pat(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.character(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2cell&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw.pt2cell(<i>&lt;logical&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">format(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="s3methods.html">print(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="s3methods.html">as.raw(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">as.integer(<i>&lt;pt2samp&gt;</i>)</a></code> <code><a href="s3methods.html">length(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="s3methods.html">length(<i>&lt;pt2command&gt;</i>)</a></code>
 
         </dt>
         <dd>Implementation of basic S3 methods</dd>
@@ -176,7 +182,7 @@
         <dd>Read and write ProTracker audio samples</dd>
       </dl><dl><dt>
 
-          <code><a href="select_assign.html">`$`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`$&lt;-`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code>
+          <code><a href="select_assign.html">`$`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`$&lt;-`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2mod&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2patlist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2samplist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2pat&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2celllist&gt;</i>)</a></code> <code><a href="select_assign.html">`[[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code> <code><a href="select_assign.html">`[&lt;-`(<i>&lt;pt2command&gt;</i>)</a></code>
 
         </dt>
         <dd>Select and assign operators for ProTrackR2 S3 class objects</dd>
