@@ -48,6 +48,10 @@ set_new_pattern_ <- function(mod, pattern_idx, data_new) {
   .Call(`_ProTrackR2_set_new_pattern_`, mod, pattern_idx, data_new)
 }
 
+pt_cell_bytesize <- function() {
+  .Call(`_ProTrackR2_pt_cell_bytesize`)
+}
+
 pt_cell_ <- function(mod, pattern, channel, row) {
   .Call(`_ProTrackR2_pt_cell_`, mod, pattern, channel, row)
 }

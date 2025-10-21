@@ -90,6 +90,13 @@ extern "C" SEXP _ProTrackR2_set_new_pattern_(SEXP mod, SEXP pattern_idx, SEXP da
   END_CPP11
 }
 // pt_cell.cpp
+int pt_cell_bytesize();
+extern "C" SEXP _ProTrackR2_pt_cell_bytesize() {
+  BEGIN_CPP11
+    return cpp11::as_sexp(pt_cell_bytesize());
+  END_CPP11
+}
+// pt_cell.cpp
 list pt_cell_(SEXP mod, int pattern, int channel, int row);
 extern "C" SEXP _ProTrackR2_pt_cell_(SEXP mod, SEXP pattern, SEXP channel, SEXP row) {
   BEGIN_CPP11
@@ -188,7 +195,7 @@ extern "C" SEXP _ProTrackR2_celllist_to_raw_(SEXP celllist, SEXP compact) {
   END_CPP11
 }
 // pt_cell.cpp
-list replace_cells_(list pattern, integers_matrix<> idx, raws replacement);
+r_string replace_cells_(list pattern, integers_matrix<> idx, raws replacement);
 extern "C" SEXP _ProTrackR2_replace_cells_(SEXP pattern, SEXP idx, SEXP replacement) {
   BEGIN_CPP11
     return cpp11::as_sexp(replace_cells_(cpp11::as_cpp<cpp11::decay_t<list>>(pattern), cpp11::as_cpp<cpp11::decay_t<integers_matrix<>>>(idx), cpp11::as_cpp<cpp11::decay_t<raws>>(replacement)));
@@ -277,6 +284,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_open_samp_",               (DL_FUNC) &_ProTrackR2_open_samp_,               1},
     {"_ProTrackR2_pt_cell_",                 (DL_FUNC) &_ProTrackR2_pt_cell_,                 4},
     {"_ProTrackR2_pt_cell_as_char_",         (DL_FUNC) &_ProTrackR2_pt_cell_as_char_,         7},
+    {"_ProTrackR2_pt_cell_bytesize",         (DL_FUNC) &_ProTrackR2_pt_cell_bytesize,         0},
     {"_ProTrackR2_pt_cleanup_",              (DL_FUNC) &_ProTrackR2_pt_cleanup_,              0},
     {"_ProTrackR2_pt_decode_compact_cell",   (DL_FUNC) &_ProTrackR2_pt_decode_compact_cell,   1},
     {"_ProTrackR2_pt_eff_command_",          (DL_FUNC) &_ProTrackR2_pt_eff_command_,          4},

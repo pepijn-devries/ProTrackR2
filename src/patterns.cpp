@@ -12,7 +12,7 @@ SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
 
   int npat = n_patterns_internal(mod);
   if (pattern < 0 || pattern >= npat)
-    Rf_error("Index out of range!");
+    stop("Index out of range!");
   
   note_t * pat = my_song->patterns[pattern];
   int result_size;
@@ -21,7 +21,7 @@ SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
   if (!as_pattern) {
     if (channel < 0 || channel > PAULA_VOICES ||
         row < 0 || row > MOD_ROWS)
-      Rf_error("Index out of range!");
+      stop("Index out of range!");
     offset = row*PAULA_VOICES + channel;
     cell_count = 1;
   }
@@ -44,11 +44,11 @@ SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
 SEXP set_new_pattern_(SEXP mod, int pattern_idx, raws data_new) {
   
   if (data_new.size() != sizeof(note_t)*PAULA_VOICES*MOD_ROWS)
-    Rf_error("Received incorrect amount of data for pattern");
+    stop("Received incorrect amount of data for pattern");
   
   uint32_t idx = pattern_idx;
   if (idx < 0 || idx > MAX_PATTERNS)
-    Rf_error("Pattern index out of range");
+    stop("Pattern index out of range");
   
   module_t *my_song = get_mod(mod);
   

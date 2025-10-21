@@ -37,7 +37,8 @@ pt2_instrument <- function(x, ...) {
     raw_fun <- .get_raw_fun(x)
     x <- raw_fun(x, compact = FALSE) |>
       unclass()
-    idx <- (seq_len(length(x)/6L) - 1L)*6L + 2L
+    l <- pt_cell_bytesize()
+    idx <- (seq_len(length(x)/l) - 1L)*l + 2L
     as.integer(x[idx])
   } else {
     .cell_helper(x, pt_instr_)
@@ -56,7 +57,8 @@ pt2_instrument <- function(x, ...) {
     raw_fun <- .get_raw_fun(x)
     x <- raw_fun(x, compact = FALSE) |>
       unclass()
-    idx <- (seq_len(length(x)/6L) - 1L)*6L + 2L
+    l <- pt_cell_bytesize()
+    idx <- (seq_len(length(x)/l) - 1L)*l + 2L
     x[idx] <- as.raw(value)
     class(x) <- cur_class
     attributes(x)$compact_notation <- FALSE

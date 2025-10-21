@@ -6,12 +6,17 @@
 #include "pt2-clone.h"
 using namespace cpp11;
 
+[[cpp11::register]]
+int pt_cell_bytesize() {
+  return (sizeof(note_t));
+}
+
 note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {
   module_t *my_song = get_mod(mod);
   if (channel < 0 || channel >= PAULA_VOICES)
-    Rf_error("Channel index out of range");
+    stop("Channel index out of range");
   if (row < 0 || row >= MOD_ROWS)
-    Rf_error("Row index out of range");
+    stop("Row index out of range");
   note_t *pat = my_song->patterns[pattern];
   note_t *cell = & pat[channel + row * PAULA_VOICES];
   return cell;
@@ -39,16 +44,16 @@ int cell_check_input(
       channel.size() != input_size ||
       row.size() != input_size ||
       LENGTH(mod) != input_size)
-    Rf_error("All input should have the same size");
+    stop("All input should have the same size");
   return input_size;
 }
 
 [[cpp11::register]]
 integers note_to_period_(strings note, std::string empty_char, int finetune) {
   if (empty_char.length() != 1)
-    Rf_error("`empty_char` should consist of 1 character.");
+    stop("`empty_char` should consist of 1 character.");
   if (finetune < -8 || finetune > 7)
-    Rf_error("`finetune` is out of range [-8, +7].");
+    stop("`finetune` is out of range [-8, +7].");
   if (finetune < 0) {
     finetune += 16;
   }
@@ -118,8 +123,8 @@ SEXP pt_set_note_(
     if (j + 1 >= replacement.size()) all_used = true;
   }
   if (warn) {
-    if (!all_used) Rf_warning("Not all replacement values are used");
-    if (recycled) Rf_warning("Replacement values are recycled");
+    if (!all_used) warning("Not all replacement values are used");
+    if (recycled) warning("Replacement values are recycled");
   }
   return R_NilValue;
 }
@@ -159,8 +164,8 @@ SEXP pt_set_instr_(
     if (j + 1 >= replacement.size()) all_used = true;
   }
   if (warn) {
-    if (!all_used) Rf_warning("Not all replacement values are used");
-    if (recycled) Rf_warning("Replacement values are recycled");
+    if (!all_used) warning("Not all replacement values are used");
+    if (recycled) warning("Replacement values are recycled");
   }
   return R_NilValue;
 }
@@ -188,7 +193,7 @@ SEXP pt_set_eff_command_(
   int input_size = cell_check_input(mod, pattern, channel, row);
   
   if (replacement.size() % 2 != 0)
-    Rf_error("Replacement value should consist of a multitude of 2 raws.");
+    stop("Replacement value should consist of a multitude of 2 raws.");
   int j = 0;
   bool all_used = false;
   bool recycled = false;
@@ -204,8 +209,8 @@ SEXP pt_set_eff_command_(
     if (j*2 + 1 >= replacement.size()) all_used = true;
   }
   if (warn) {
-    if (!all_used) Rf_warning("Not all replacement values are used");
-    if (recycled) Rf_warning("Replacement values are recycled");
+    if (!all_used) warning("Not all replacement values are used");
+    if (recycled) warning("Replacement values are recycled");
   }
   return R_NilValue;
 }
@@ -213,8 +218,8 @@ SEXP pt_set_eff_command_(
 SEXP pt_cell_as_char_internal(
     note_t *cell, int offset, strings padding, strings empty, list sformat) {
   if (padding.size() < 1 || empty.size() < 1)
-    Rf_error("Arguments must have at least one element");
-  if (sformat.size() != 4) Rf_error("'fmt' must have a length of 4.");
+    stop("Arguments must have at least one element");
+  if (sformat.size() != 4) stop("'fmt' must have a length of 4.");
   
   note_t * cell2 = cell + offset;
   std::string notestr = (std::string)r_string(noteNames1[periodToNote(cell2->period)]);
@@ -227,7 +232,7 @@ SEXP pt_cell_as_char_internal(
   auto gsub = package("base")["gsub"];
   if (strings(sformat["note"]).size() < 1 || strings(sformat["padding"]).size() < 1 ||
       strings(sformat["instrument"]).size() < 1 || strings(sformat["effect"]).size() < 1)
-    Rf_error("Mallformat pt2cell format");
+    stop("Mallformat pt2cell format");
   
   r_string fmt_note = strings(sformat["note"]).at(0);
   r_string fmt_inst = "%s";
@@ -335,9 +340,9 @@ raws celllist_to_raw_(list celllist, bool compact) {
   
   for (int i = 0; i < celllist.size(); i++) {
     SEXP element = celllist.at(i);
-    if (!Rf_inherits(element, "pt2cell")) Rf_error("Invalid pt2celllist.");
+    if (!Rf_inherits(element, "pt2cell")) stop("Invalid pt2celllist.");
     if (TYPEOF(element) == RAWSXP) {
-      Rf_error("Raw to raw is not implemented in C++. Contact package maintainer if you see this error");
+      stop("Raw to raw is not implemented in C++. Contact package maintainer if you see this error");
     } else {
 
       list cell = list(element);
@@ -360,32 +365,41 @@ raws celllist_to_raw_(list celllist, bool compact) {
 }
 
 [[cpp11::register]]
-list replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
+r_string replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
   if (idx.slice_size() < 1L)
-    Rf_error("Need at least one element to replace");
+    stop("Need at least one element to replace");
+  if ((uint32_t)replacement.size() < sizeof(note_t) ||
+      replacement.size() % sizeof(note_t) != 0)
+    stop("Insufficient replacement data");
 
   module_t *my_song = get_mod(pattern["mod"]);
   uint32_t i = integers(pattern["i"]).at(0); 
+  if (i > MAX_PATTERNS) stop("Index out of range");
   note_t * pat_base = my_song->patterns[i];
-  uint8_t * source = (uint8_t *)RAW(as_sexp(replacement));
+  note_t * source = (note_t *)RAW(replacement);
   
   uint32_t m = 0; // replacement index
   bool recycled = false;
-  bool allused = false;
+  bool unused = true;
   for (int32_t l = 0; l < idx.slice_size(); l++) {
     if (m == 0 && l != 0) recycled = true;
     uint32_t j = idx(l, 0);
     uint32_t k = idx(l, 1);
-    note_t  * target = pat_base + j * PAULA_VOICES + k;
-    memcpy((uint8_t *)target, source + m * sizeof(note_t), sizeof(note_t));
+    if (j >= MOD_ROWS || k >= PAULA_VOICES)
+      stop("Cell index out of range");
+    note_t * target = pat_base + j * PAULA_VOICES + k;
+    note_t * src    = source + m;
+    memcpy(target, src, sizeof(note_t));
     m++;
-    if (m >= replacement.size()/sizeof(note_t)) {
+    if ((int)(m * sizeof(note_t)) >= replacement.size()) {
       m = 0; // Recycle replacement values;
-      allused = true;
+      unused = false;
     }
   }
-  if (!allused) Rf_warning("Not all replacement values used");
-  if (recycled) Rf_warning("Replacement values are recycled");
   
-  return pattern;
+  if (unused) {
+    return "Not all replacement values used";
+  } else if (recycled) {
+    return "Replacement values are recycled";
+  } else return "";
 }

@@ -35,7 +35,7 @@ double render_prep(SEXP mod, double render_duration, list render_options, int po
   restartSong();
   int16_t mpos = (uint16_t)position;
   if (mpos < 0 || mpos >= song->header.songLength)
-    Rf_error("'position' is out of range!");
+    stop("'position' is out of range!");
   
   modSetPos(mpos, 0);
   initializeModuleChannels(song);

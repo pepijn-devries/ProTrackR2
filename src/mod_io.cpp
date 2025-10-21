@@ -5,7 +5,7 @@
 using namespace cpp11;
 
 SEXP create_mod_pointer(module_t * my_song) {
-  if (my_song == NULL) Rf_error("Failed to create module");
+  if (my_song == NULL) stop("Failed to create module");
   external_pointer<module_t, modFree2>mod(my_song);
   sexp result = as_sexp(mod);
   result.attr("class") = "pt2mod";
@@ -38,7 +38,7 @@ raws mod_as_raw_(SEXP mod) {
 
   uint32_t n_written = modSave2(my_song, rbuf, mod_size);
 
-  if (n_written != (uint32_t)mod_size) Rf_error("Unexpected data size");
+  if (n_written != (uint32_t)mod_size) stop("Unexpected data size");
 
   return buf;
 }

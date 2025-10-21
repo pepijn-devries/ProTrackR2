@@ -11,6 +11,8 @@
 \alias{[[.pt2samplist}
 \alias{[.pt2pat}
 \alias{[<-.pt2pat}
+\alias{[[<-.pt2celllist}
+\alias{[<-.pt2celllist}
 \alias{[[.pt2celllist}
 \alias{[.pt2celllist}
 \alias{[[.pt2command}
@@ -38,6 +40,10 @@
 \method{[}{pt2pat}(x, i, j, ...)
 
 \method{[}{pt2pat}(x, i, j, ...) <- value
+
+\method{[[}{pt2celllist}(x, i, ...) <- value
+
+\method{[}{pt2celllist}(x, i, ...) <- value
 
 \method{[[}{pt2celllist}(x, i, ...)
 

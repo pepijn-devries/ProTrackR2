@@ -1,9 +1,10 @@
-ProTrackR2 v0.0.6.0007
+ProTrackR2 v0.0.6.0008
 -------------
 
+ * Implemented `as_pt2cell()` and `as_pt2celllist()`
  * Added testthat workflow
  * Added codecov workflow
- * Minor fixes
+ * Fixes in (amongst others) selection and assignment operators
 
 ProTrackR2 v0.0.5
 -------------

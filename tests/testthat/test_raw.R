@@ -19,9 +19,9 @@ test_that("Raw cell and celllist can be generated from raw pattern", {
   })
 })
 
-test_that("pt2_command exists as typeof `raw` and `list`", {
+test_that("pt2_command exists as typeof `raw`", {
   expect_true({
-    typeof(pt2_command(as.raw(cell))) == "raw" && typeof(pt2_command(celllist)) == "list"
+    typeof(pt2_command(as.raw(cell))) == "raw" && typeof(pt2_command(celllist)) == "raw"
   })
 })
 

@@ -35,12 +35,14 @@ pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), 
 #' @rdname play
 NULL
 
-#' Play a ProTracker module
+#' Play a ProTracker module or sample
 #' 
-#' Renders a ProTracker module as [`audio::audioSample()`] and plays it.
+#' Renders a ProTracker module or sample as [`audio::audioSample()`] and plays it.
 #'
 #' @param x Object to be played.
 #' @inheritParams pt2_render
+#' @param note Note to be played when `x` is a `pt2samp` class object. Defaults
+#' to `"C-2"`.
 #' @param ... Arguments passed to [`pt2_render()`].
 #' @returns Returns an `[audio::`$.audioInstance`]` object which
 #' allows you to control the playback (pause, resume, rewind).
@@ -54,6 +56,10 @@ NULL
 #' 
 #' ## ctrl will contain the audioInstance that will let you control the audio playback:
 #' ctrl <- play(mod)
+#' samp <- mod$samples[[3]]
+#' play(samp, note = "C-2")
+#' play(samp, note = "E-2")
+#' play(samp, note = "G-2")
 #' }
 #' @method play pt2mod
 play.pt2mod <- function(x, duration = NA, options = pt2_render_options(), position = 0L, ...) {
