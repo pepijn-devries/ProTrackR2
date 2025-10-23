@@ -25,7 +25,7 @@ note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {
 [[cpp11::register]]
 list pt_cell_(SEXP mod, int pattern, int channel, int row) {
   note_t * cell = pt_cell_internal(mod, pattern, channel, row);
-
+  
   writable::list result({
     "param"_nm     = (int)cell->param,
       "sample"_nm     = (int)cell->sample,
@@ -253,7 +253,7 @@ SEXP pt_cell_as_char_internal(
   } else {
     instr_str = sprf(fmt_inst_temp, (int)cell2->sample);
   }
-
+  
   sexp efft_str = sprf(
     fmt_efft, writable::integers({(int)cell2->command}),
     writable::integers({(int)cell2->param})
@@ -264,7 +264,7 @@ SEXP pt_cell_as_char_internal(
   }
   
   sexp fmt = sprf("fmt"_nm = r_string("%s%s%s%s%s"),
-                   fmt_note, fmt_padd, fmt_inst, fmt_padd, efft_str);
+                  fmt_note, fmt_padd, fmt_inst, fmt_padd, efft_str);
   int second_pad = 0;
   if (padding.size() > 1) second_pad = 1;
   sexp result = sprf(
@@ -308,7 +308,7 @@ raws pt_decode_compact_cell(raws source) {
     dest->command = src[2] & 0x0F;
     dest->param = src[3];
   }
-
+  
   return celldat;
 }
 
@@ -344,7 +344,7 @@ raws celllist_to_raw_(list celllist, bool compact) {
     if (TYPEOF(element) == RAWSXP) {
       stop("Raw to raw is not implemented in C++. Contact package maintainer if you see this error");
     } else {
-
+      
       list cell = list(element);
       SEXP mod = cell["mod"];
       module_t *my_song = get_mod(mod);
@@ -371,7 +371,7 @@ r_string replace_cells_(list pattern, integers_matrix<> idx, raws replacement) {
   if ((uint32_t)replacement.size() < sizeof(note_t) ||
       replacement.size() % sizeof(note_t) != 0)
     stop("Insufficient replacement data");
-
+  
   module_t *my_song = get_mod(pattern["mod"]);
   uint32_t i = integers(pattern["i"]).at(0); 
   if (i > MAX_PATTERNS) stop("Index out of range");

@@ -69,7 +69,7 @@ pt2_note <- function(x, ...) {
     idx <- (seq_len(length(x)/l) - 1L)*l
     x[idx + l - 1L] <- bitwAnd(value, 0xff) |> as.raw()
     x[idx + l] <- bitwShiftR(value, l + 2L) |> as.raw()
-
+    
     class(x) <- cur_class
     attributes(x)$compact_notation <- FALSE
     x <- raw_fun(x, compact = cur_notation)

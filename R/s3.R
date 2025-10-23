@@ -273,7 +273,7 @@ as.character.pt2celllist <- function(x, ...) {
 #' @export
 as.raw.pt2command <- function(x, ...) {
   if (typeof(x) == "raw") return(x)
-
+  
   if (inherits(x, "pt2celllist") || is.null(names(x))) {
     mods <- lapply(x, `[[`, "mod")
     i <- lapply(x, `[[`, "i") |> unlist()

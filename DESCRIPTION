@@ -1,6 +1,6 @@
 Package: ProTrackR2
 Title: Manipulate and Play 'ProTracker' Modules
-Version: 0.0.6.0008
+Version: 0.0.6.0009
 Authors@R: c(
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -39,6 +39,7 @@ Collate:
     'note.R'
     'pattern.R'
     'render.R'
+    'play.R'
     's3.R'
     'samples.R'
     'select_ops.R'
@@ -54,6 +55,7 @@ Suggests:
     htmltools,
     kableExtra,
     knitr,
+    ProTrackR,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr

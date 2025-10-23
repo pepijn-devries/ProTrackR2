@@ -1,4 +1,4 @@
-ProTrackR2 v0.0.6.0008
+ProTrackR2 v0.0.6.0009
 -------------
 
  * Implemented `as_pt2cell()` and `as_pt2celllist()`

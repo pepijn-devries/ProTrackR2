@@ -29,45 +29,6 @@ pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), 
     audio::audioSample(rate = options$sample_rate)
 }
 
-#' @importFrom audio play
-#' @export play
-#' @name play
-#' @rdname play
-NULL
-
-#' Play a ProTracker module or sample
-#' 
-#' Renders a ProTracker module or sample as [`audio::audioSample()`] and plays it.
-#'
-#' @param x Object to be played.
-#' @inheritParams pt2_render
-#' @param note Note to be played when `x` is a `pt2samp` class object. Defaults
-#' to `"C-2"`.
-#' @param ... Arguments passed to [`pt2_render()`].
-#' @returns Returns an `[audio::`$.audioInstance`]` object which
-#' allows you to control the playback (pause, resume, rewind).
-#' @author Pepijn de Vries
-#' @export
-#' @name play
-#' @rdname play
-#' @examples
-#' \dontrun{
-#' mod <- pt2_read_mod(pt2_demo())
-#' 
-#' ## ctrl will contain the audioInstance that will let you control the audio playback:
-#' ctrl <- play(mod)
-#' samp <- mod$samples[[3]]
-#' play(samp, note = "C-2")
-#' play(samp, note = "E-2")
-#' play(samp, note = "G-2")
-#' }
-#' @method play pt2mod
-play.pt2mod <- function(x, duration = NA, options = pt2_render_options(), position = 0L, ...) {
-  x <- pt2_render(x, duration = duration, options = options, position = position, ...)
-  rate <- attributes(x)$rate
-  audio::play.audioSample(x, rate = rate)
-}
-
 #' Retrieve options for rendering
 #' 
 #' Retrieve options for rendering ProTracker modules. See also

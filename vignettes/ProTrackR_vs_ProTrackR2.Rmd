@@ -30,17 +30,15 @@ The table below summarises the differences between ProTrackR2 and its predecesso
 library(kableExtra)
 load("../tests/testthat/_openmpt/testcasestate.Rdata")
 testresult <- table(openmpt_testfiles$state)
-data.frame(
-  Feature    = c("[Effect commands](#effect-commands)", "[Infrastructure](#infrastructure)",
-                 "[File readers](#file-readers)", "[Audio output](#audio-output)", "OpenMPT test cases"),
-  ProTrackR  = c("Limited set implemented", "R script", "Optimized for format preservation",
-                 "tuneR S4 Wave class", "Passes 6 out of 12 selected tests"),
-  ProTrackR2 = c("All PT2.3d effects implemented", "Compiled C/C++", "Optimized for PT2.3d compatibility",
-                 "audio S3 audioSample class",
-                 sprintf("Passes at least %i of the %i tests", testresult[["Success"]], sum(testresult)))
-) |>
-  kbl()
 ```
+
+| Feature                             | ProTrackR                         | ProTrackR2                         |
+|-------------------------------------|-----------------------------------|------------------------------------|
+| [Effect commands](#effect-commands) | Limited set implemented           | All PT2.3d effects implemented     |
+| [Infrastructure](#infrastructure)   | R script                          | Compiled C/C++                     |
+| [File readers](#file-readers)       | Optimized for format preservation | Optimized for PT2.3d compatibility |
+| [Audio output](#audio-output)       | tuneR S4 Wave class               | audio s3 audioSample class         |
+| OpenMPT test cases                  | Passes 6 out of 12 selected tests | Passes at least `r testresult[["Success"]]` of the `r sum(testresult)` tests |
 
 ## Effect commands
 
@@ -62,11 +60,68 @@ is used in the current package. This required a slightly different approach to h
 these objects. In order to avoid confusion about the syntax, it was completely redesigned
 in the successor.
 
-<!--
-TODO
-S3 class instead of S4 etc.
-changes in syntax, some examples side by side
--->
+### Class type objects
+
+ProTrackR uses [s4 class](https://adv-r.hadley.nz/s4.html) objects. It has elegant semantics
+and due to its strict nature, has a lot of build-in safety mechanisms. But consequently,
+they are not straightforward and easy to work with.
+
+Therefore, in ProTrackR2 I chose to work with the [s3 class](https://adv-r.hadley.nz/s3.html)
+objects. They are easier to work with and perhaps more intuitive to most R users.
+If you are coming to ProTrackR2 from ProTrackR, here is an overview of equivalent classes:
+
+| ProTrackR s4 class       | ProTrackR equivalent s3 class | Description and remarks                   |
+|--------------------------|-------------------------------|-------------------------------------------|
+| `?ProTrackR::PTModule`   | `pt2_new_mod()`               | Overarching class representing a module   |
+| `ProTrackR::PTCell()`    | `pt2_cell()`                  | Smallest structure in a pattern table     |
+| No explicit class        | `pt2_note()`                  | Code representing a specific note         |
+| No explicit class        | `pt2_command()`               | Code representing sound effect or trigger |
+| `ProTrackR::PTBlock()`<br>`ProTrackR::PTTrack()` | `pt2_celllist()` | ProTrackR distinguishes between blocks (matrices) and tracks (columns) of cells. ProTrackR2 only considers a list of cells |
+| `ProTrackR::PTPattern()` | `pt2_pattern()`               | A pattern table                           |
+| `ProTrackR::PTSample()`  | `pt2_sample()`                | An audio sample                           |
+
+These different class styles also have consequences for you workflow. Below are some
+examples of how to achieve similar operations using the different packages.
+
+```{r diffs, message=FALSE}
+library(ProTrackR)
+library(ProTrackR2)
+
+## *Old* way of creating a blank module:
+mod_old <- new("PTModule")
+## *New* way of creating a blank module:
+mod_new <- pt2_new_mod("my mod")
+
+## *Old* reading a module:
+mod_old <- read.module(pt2_demo())
+## *New* way of creating a blank module:
+mod_new <- pt2_read_mod(pt2_demo())
+
+## *Old* way of getting a sample
+samp_old <- PTSample(mod_old, 1L)
+## *New* way of getting a sample
+samp_new <- mod_new$samples[[1L]]
+
+## *Old* way of getting a pattern
+patt_old <- PTPattern(mod_old, 1L)
+## *New* way of getting a pattern
+patt_new <- mod_new$patterns[[1L]]
+
+## *Old* way of getting a cell
+cell_old <- PTCell(mod_old, 1L, 1L, 1L)
+## *New* way of getting a cell
+##
+##   First cell in cell-list ---------------+
+##   First column in pattern ----------+    |
+##      First row in pattern ------+   |    |
+##             First pattern -+    |   |    |
+##                            |    |   |    |
+##                            V    V   V    V
+cell_new <- mod_new$patterns[[1L]][1L, 1L][[1L]]
+
+print(cell_old)
+print(cell_new)
+```
 
 ### Benchmark
 

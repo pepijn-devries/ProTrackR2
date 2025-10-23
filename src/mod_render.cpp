@@ -19,7 +19,7 @@ void reset_speed(list render_options) {
 
 double render_prep(SEXP mod, double render_duration, list render_options, int position) {
   module_t *my_song = get_mod(mod);
-
+  
   config.mod2WavOutputFreq = audio.outputRate = integers(render_options["sample_rate"]).at(0);
   config.stereoSeparation = integers(render_options["stereo_separation"]).at(0);
   config.amigaModel = MODEL_A500;
@@ -69,11 +69,11 @@ integers render_mod_(SEXP mod, double render_duration, list render_options, int 
   uint64_t samplesToMixFrac = 0;
   
   setLEDFilter(logicals(render_options["led_filter"]).at(0));
-
+  
   int16_t mpos = (uint16_t)position;
   modSetPos(mpos, 0);
   reset_speed(render_options);
-
+  
   initializeModuleChannels(song);
   modSetPattern(song->header.patternTable[mpos]);
   
@@ -194,7 +194,7 @@ static void calcMod2WavTotalRows(int16_t start_pos)
         else if (n_loopcount[ch] == 0)
         {
           n_loopcount[ch] = pos;
-
+          
           pBreakPosition = n_pattpos[ch];
           pBreakFlag = true;
           
@@ -218,17 +218,19 @@ static void calcMod2WavTotalRows(int16_t start_pos)
     
     modRow++;
     song->rowsInTotal++;
-
+    
     uint32_t samplesToMix = audio.samplesPerTickInt;
     
     samplesToMixFrac += audio.samplesPerTickFrac;
     if (samplesToMixFrac >= BPM_FRAC_SCALE) {
+      // Rprintf("TODO Kom ik hier?\n");
       samplesToMixFrac &= BPM_FRAC_MASK;
       samplesToMix++;
     }
     
     sample_count += samplesToMix * song->currSpeed * (delayTicks + 1);
-
+    // Rprintf("TODO sample count %i delayticks %i speed %i %.3e %.3e\n", sample_count, delayTicks, song->currSpeed, (double)samplesToMixFrac, (double)BPM_FRAC_SCALE);
+    
     if (pBreakFlag)
     {
       modRow = pBreakPosition;
