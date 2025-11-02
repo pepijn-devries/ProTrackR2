@@ -25,6 +25,9 @@ double render_prep(SEXP mod, double render_duration, list render_options, int po
   config.amigaModel = MODEL_A500;
   if (strings(render_options["amiga_filter"]).at(0) == r_string("A1200"))
     config.amigaModel = MODEL_A1200;
+  editor.timingMode = TEMPO_MODE_VBLANK;
+  if (strings(render_options["timing_mode"]).at(0) == r_string("cia"))
+    editor.timingMode = TEMPO_MODE_CIA;
   
   setAmigaFilterModel(config.amigaModel);
   audioSetStereoSeparation(config.stereoSeparation);
@@ -77,7 +80,7 @@ integers render_mod_(SEXP mod, double render_duration, list render_options, int 
   initializeModuleChannels(song);
   modSetPattern(song->header.patternTable[mpos]);
   
-  for (int i = 0; i < (int)song->currSpeed; i++) {
+  for (int i = 1; i < (int)song->currSpeed; i++) {
     intMusic(); // skip currSpeed ticks as they are empty.
   }
   
@@ -223,14 +226,12 @@ static void calcMod2WavTotalRows(int16_t start_pos)
     
     samplesToMixFrac += audio.samplesPerTickFrac;
     if (samplesToMixFrac >= BPM_FRAC_SCALE) {
-      // Rprintf("TODO Kom ik hier?\n");
       samplesToMixFrac &= BPM_FRAC_MASK;
       samplesToMix++;
     }
     
     sample_count += samplesToMix * song->currSpeed * (delayTicks + 1);
-    // Rprintf("TODO sample count %i delayticks %i speed %i %.3e %.3e\n", sample_count, delayTicks, song->currSpeed, (double)samplesToMixFrac, (double)BPM_FRAC_SCALE);
-    
+
     if (pBreakFlag)
     {
       modRow = pBreakPosition;
@@ -261,4 +262,9 @@ static void calcMod2WavTotalRows(int16_t start_pos)
       CALC__END_OF_SONG
     }
   }
+}
+
+[[cpp11::register]]
+int pt_get_PAL_hz() {
+  return AMIGA_PAL_CCK_HZ;
 }

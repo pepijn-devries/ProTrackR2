@@ -337,7 +337,8 @@ raws celllist_to_raw_(list celllist, bool compact) {
   
   writable::raws data_out((R_xlen_t)size_out);
   uint8_t * celldst = (uint8_t *)RAW(as_sexp(data_out));
-  
+  int nr = integers(celllist.attr("celldim"))[0];
+  int nc = integers(celllist.attr("celldim"))[1];
   for (int i = 0; i < celllist.size(); i++) {
     SEXP element = celllist.at(i);
     if (!Rf_inherits(element, "pt2cell")) stop("Invalid pt2celllist.");
@@ -360,6 +361,7 @@ raws celllist_to_raw_(list celllist, bool compact) {
     }
   }
   data_out.attr("class") = "pt2celllist";
+  data_out.attr("celldim") = writable::integers({nr, nc});
   data_out.attr("compact_notation") = compact;
   return data_out;
 }

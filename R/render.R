@@ -1,4 +1,4 @@
-#' Render ProTracker modules to a playable format
+#' Render ProTracker modules and other objects to a playable format
 #' 
 #' Renders a 16bit pulse-code modulation waveform from a ProTracker module.
 #' The rendered format can be played on a modern machine.
@@ -9,11 +9,16 @@
 #' [`pt2_render_options()`] to obtain default options, or modify them.
 #' @param position Starting position in the pattern sequence table (`pt2_pattern_table()`).
 #' Should be a non negative value smaller than the mule length (`pt2_length()`).
+#' @param note Note to be played when `x` is a `pt2samp` class object. Defaults
+#' to `"C-3"`.
+#' @param samples When rendering or playing patterns (or elements of it), samples are needed
+#' to interpret the pattern. Pass the samples as a sample list (class `pt2samplist`).
 #' @param ... Ignored
 #' @returns Rendered audio inheriting the [`audio::audioSample()`] class.
 #' @examples
 #' mod <- pt2_read_mod(pt2_demo())
 #' aud <- pt2_render(mod)
+#' aud_samp <- pt2_render(mod$samples[[1]])
 #' @author Pepijn de Vries
 #' @export
 pt2_render <- function(x, duration = NA, options = pt2_render_options(), ...) {
@@ -27,6 +32,64 @@ pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), 
   render_mod_(x, as.numeric(duration), options, as.integer(position)) |>
     matrix(nrow = 2, byrow = FALSE) |>
     audio::audioSample(rate = options$sample_rate)
+}
+
+#' @rdname pt2_render
+#' @name pt2_render
+#' @export
+pt2_render.pt2samp <- function(x, duration = 5, options = pt2_render_options(), note = "C-3", ...) {
+  mod <- pt2_new_mod("render.samp")
+  mod$samples[[1]] <- x
+  mod$patterns[[1]][1,c(1,2)] <- paste0(note, " 01 F00")
+  pt2_render(mod, duration, options, 0L, ...)
+}
+
+#' @rdname pt2_render
+#' @name pt2_render
+#' @export
+pt2_render.pt2patlist <- function(x, duration = NA, options = pt2_render_options(), samples, ...) {
+  mod <- pt2_new_mod("render.patlist")
+  mod$samples <- samples
+  idx <- seq_len(length(x))
+  mod$patterns[idx] <- x
+  pt2_length(mod) <- length(x)
+  pt2_pattern_table(mod)[idx] <- idx - 1L
+  pt2_render(mod, duration, options, 0L, ...)
+}
+
+#' @rdname pt2_render
+#' @name pt2_render
+#' @export
+pt2_render.pt2pat <- function(x, duration = NA, options = pt2_render_options(), samples, ...) {
+  mod <- pt2_new_mod("render.pat")
+  mod$samples <- samples
+  mod$patterns[[1]] <- x
+  pt2_render(mod, duration, options, 0L, ...)
+}
+
+#' @rdname pt2_render
+#' @name pt2_render
+#' @export
+pt2_render.pt2celllist <- function(x, duration = 5, options = pt2_render_options(), samples, ...) {
+  d <- attr(x, "celldim")
+  mod <- pt2_new_mod("render.pat")
+  mod$samples <- samples
+  if (is.null(d)) {
+    mod$patterns[[1]][1:64, 1:4][seq_len(length(x))] <- x
+  } else {
+    mod$patterns[[1]][seq_len(d[[1]]), seq_len(d[[2]])] <- x
+  }
+  pt2_render(mod, duration, options, 0L, ...)
+}
+
+#' @rdname pt2_render
+#' @name pt2_render
+#' @export
+pt2_render.pt2cell <- function(x, duration = 5, options = pt2_render_options(), samples, ...) {
+  mod <- pt2_new_mod("render.pat")
+  mod$samples <- samples
+  mod$patterns[[1]][1,1][[1]] <- x
+  pt2_render(mod, duration, options, 0L, ...)
 }
 
 #' Retrieve options for rendering
@@ -49,6 +112,13 @@ pt2_render.pt2mod <- function(x, duration = NA, options = pt2_render_options(), 
 #'   * `tempo`: An integer value specifying the initial tempo of the module. When speed is set
 #'     to `6`, it measures the tempo as beats per minute. Should be in the range of `32` and `255`
 #'   * `led_filter`: A `logical` value specifying the state of the hardware LED filter to be emultated.
+#'   * `timing_mode`: on the original Commodore Amiga timing in tracker modules could be
+#'     handled using different approaches. The first is the 'vertical blanking' method, were timing
+#'     was based on each time the monitor blanks (before being redrawn). This method thus depends
+#'     on the monitor that was used. PAL monitors operated at approximately 50 Hz, wereas NTCS monitors
+#'     used 60 Hz. Alternatively, the Complex Interface Adapter (CIA) offer hardware-level timing and
+#'     was system independent. You can set the timing mode by specifying `"cia"` (default) here, or
+#'     `"vblank"` (currently, only PAL is supported).
 #' @author Pepijn de Vries
 #' @examples
 #' pt2_render_options(stereo_separation = 100)
@@ -62,7 +132,8 @@ pt2_render_options <- function(...) {
     amiga_filter = "A500",
     speed = 6L,
     tempo = 125L,
-    led_filter = FALSE
+    led_filter = FALSE,
+    timing_mode = "cia"
   )
   for (i in names(defaults)) {
     if (is.null(result[[i]])) result[[i]] <- defaults[[i]]

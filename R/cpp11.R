@@ -20,6 +20,10 @@ update_pattern_sequence_ <- function(mod, ptn_sequence) {
   .Call(`_ProTrackR2_update_pattern_sequence_`, mod, ptn_sequence)
 }
 
+set_mod_name_ <- function(mod, name) {
+  .Call(`_ProTrackR2_set_mod_name_`, mod, name)
+}
+
 open_mod_ <- function(data) {
   .Call(`_ProTrackR2_open_mod_`, data)
 }
@@ -38,6 +42,10 @@ render_mod_ <- function(mod, render_duration, render_options, position) {
 
 mod_duration <- function(mod, render_options, position) {
   .Call(`_ProTrackR2_mod_duration`, mod, render_options, position)
+}
+
+pt_get_PAL_hz <- function() {
+  .Call(`_ProTrackR2_pt_get_PAL_hz`)
 }
 
 cells_as_raw_ <- function(mod, pattern, compact, as_pattern, row, channel) {

@@ -3,7 +3,12 @@
 \name{pt2_render}
 \alias{pt2_render}
 \alias{pt2_render.pt2mod}
-\title{Render ProTracker modules to a playable format}
+\alias{pt2_render.pt2samp}
+\alias{pt2_render.pt2patlist}
+\alias{pt2_render.pt2pat}
+\alias{pt2_render.pt2celllist}
+\alias{pt2_render.pt2cell}
+\title{Render ProTracker modules and other objects to a playable format}
 \usage{
 pt2_render(x, duration = NA, options = pt2_render_options(), ...)
 
@@ -14,6 +19,16 @@ pt2_render(x, duration = NA, options = pt2_render_options(), ...)
   position = 0L,
   ...
 )
+
+\method{pt2_render}{pt2samp}(x, duration = 5, options = pt2_render_options(), note = "C-3", ...)
+
+\method{pt2_render}{pt2patlist}(x, duration = NA, options = pt2_render_options(), samples, ...)
+
+\method{pt2_render}{pt2pat}(x, duration = NA, options = pt2_render_options(), samples, ...)
+
+\method{pt2_render}{pt2celllist}(x, duration = 5, options = pt2_render_options(), samples, ...)
+
+\method{pt2_render}{pt2cell}(x, duration = 5, options = pt2_render_options(), samples, ...)
 }
 \arguments{
 \item{x}{The object to be rendered}
@@ -28,6 +43,12 @@ the duration of the module is calculated and used for rendering.}
 
 \item{position}{Starting position in the pattern sequence table (\code{pt2_pattern_table()}).
 Should be a non negative value smaller than the mule length (\code{pt2_length()}).}
+
+\item{note}{Note to be played when \code{x} is a \code{pt2samp} class object. Defaults
+to \code{"C-3"}.}
+
+\item{samples}{When rendering or playing patterns (or elements of it), samples are needed
+to interpret the pattern. Pass the samples as a sample list (class \code{pt2samplist}).}
 }
 \value{
 Rendered audio inheriting the \code{\link[audio:audioSample]{audio::audioSample()}} class.
@@ -39,6 +60,7 @@ The rendered format can be played on a modern machine.
 \examples{
 mod <- pt2_read_mod(pt2_demo())
 aud <- pt2_render(mod)
+aud_samp <- pt2_render(mod$samples[[1]])
 }
 \author{
 Pepijn de Vries

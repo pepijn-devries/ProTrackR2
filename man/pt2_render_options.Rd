@@ -25,6 +25,13 @@ per row. Should be in range of \code{1} and \code{31}.
 \item \code{tempo}: An integer value specifying the initial tempo of the module. When speed is set
 to \code{6}, it measures the tempo as beats per minute. Should be in the range of \code{32} and \code{255}
 \item \code{led_filter}: A \code{logical} value specifying the state of the hardware LED filter to be emultated.
+\item \code{timing_mode}: on the original Commodore Amiga timing in tracker modules could be
+handled using different approaches. The first is the 'vertical blanking' method, were timing
+was based on each time the monitor blanks (before being redrawn). This method thus depends
+on the monitor that was used. PAL monitors operated at approximately 50 Hz, wereas NTCS monitors
+used 60 Hz. Alternatively, the Complex Interface Adapter (CIA) offer hardware-level timing and
+was system independent. You can set the timing mode by specifying \code{"cia"} (default) here, or
+\code{"vblank"} (currently, only PAL is supported).
 }
 }
 \description{

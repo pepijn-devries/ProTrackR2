@@ -372,8 +372,6 @@ void generateBpmTable(double dAudioFreq, bool vblankTimingFlag)
     double dSamplesPerTickInt;
     double dSamplesPerTickFrac = modf(dSamplesPerTick, &dSamplesPerTickInt);
     
-//    printf("TODO generate bpm %i %.2e %.2e %.2e\n", i, dSamplesPerTick, dSamplesPerTickInt,
-//            dSamplesPerTickFrac);
     audio.samplesPerTickIntTab[i] = (uint32_t)dSamplesPerTickInt;
     audio.samplesPerTickFracTab[i] = (uint64_t)((dSamplesPerTickFrac * BPM_FRAC_SCALE) + 0.5); // rounded
   }
