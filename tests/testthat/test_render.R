@@ -7,7 +7,7 @@ test_that("Module renders as expected", {
   tempmp3 <- tempfile(fileext = ".mp3")
   rndr <- pt2_render(mod, 10)
   audio::save.wave(rndr, tempwav)
-  av::av_audio_convert(tempwav, tempmp3, verbose = FALSE)
+  av::av_audio_convert(tempwav, tempmp3, bit_rate = 124000, verbose = FALSE)
   mp3_compare <- function(old, new) {
     bn <- av::read_audio_bin(new)
     bo <- av::read_audio_bin(old)

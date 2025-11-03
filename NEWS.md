@@ -9,6 +9,7 @@ ProTrackR2 v0.0.6.0009
    * `pt2_volume()`
    * `pt2_loop_start()` and `pt2_loop_length()`
    * `pt2_is_looped()`
+   * `pt_sample_to_audio()`
  * Added testthat workflow
  * Added codecov workflow
  * Fixes in (amongst others) selection and assignment operators

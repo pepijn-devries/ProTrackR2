@@ -6,6 +6,8 @@
 #include "pt2-clone.h"
 using namespace cpp11;
 
+#define CELL_FORMAT_BUFFER_SIZE 100
+
 [[cpp11::register]]
 int pt_cell_bytesize() {
   return (sizeof(note_t));
@@ -26,14 +28,18 @@ note_t * pt_cell_internal(SEXP mod, int pattern, int channel, int row) {
 list pt_cell_(SEXP mod, int pattern, int channel, int row) {
   note_t * cell = pt_cell_internal(mod, pattern, channel, row);
   
-  writable::list result({
-    "param"_nm     = (int)cell->param,
-      "sample"_nm     = (int)cell->sample,
-      "command"_nm    = (int)cell->command,
-      "period"_nm     = (int)cell->period,
-      "note"_nm       = (int)periodToNote(cell->period),
-      "note_nm"_nm    = r_string(noteNames1[periodToNote(cell->period)])
+  writable::strings cellnames ({
+    "param", "sample", "command", "period", "note", "note_nm"
   });
+  writable::list result({
+    as_sexp((int)cell->param),
+    as_sexp((int)cell->sample),
+    as_sexp((int)cell->command),
+    as_sexp((int)cell->period),
+    as_sexp((int)periodToNote(cell->period)),
+    r_string(noteNames1[periodToNote(cell->period)])
+  });
+  result.attr("names") = cellnames;
   return result;
 }
 
@@ -220,7 +226,6 @@ SEXP pt_cell_as_char_internal(
   if (padding.size() < 1 || empty.size() < 1)
     stop("Arguments must have at least one element");
   if (sformat.size() != 4) stop("'fmt' must have a length of 4.");
-  
   note_t * cell2 = cell + offset;
   std::string notestr = (std::string)r_string(noteNames1[periodToNote(cell2->period)]);
   std::string sempt = (std::string)empty.at(0);
@@ -228,54 +233,59 @@ SEXP pt_cell_as_char_internal(
   if (notestr.c_str()[0] == '-')
     std::replace(notestr.begin(), notestr.end(), '-', empt[0]);
   
-  auto sprf = package("base")["sprintf"];
-  auto gsub = package("base")["gsub"];
   if (strings(sformat["note"]).size() < 1 || strings(sformat["padding"]).size() < 1 ||
       strings(sformat["instrument"]).size() < 1 || strings(sformat["effect"]).size() < 1)
     stop("Mallformat pt2cell format");
   
-  r_string fmt_note = strings(sformat["note"]).at(0);
-  r_string fmt_inst = "%s";
-  r_string fmt_inst_temp = strings(sformat["instrument"]).at(0);
-  r_string fmt_efft = strings(sformat["effect"]).at(0);
-  r_string fmt_padd = strings(sformat["padding"]).at(0);
+  char buf[CELL_FORMAT_BUFFER_SIZE + 2] = {0};
+  std::string fmt_note = strings(sformat["note"])[0];
+  std::string fmt_inst = "%s";
+  std::string fmt_inst_temp = strings(sformat["instrument"])[0];
+  std::string fmt_efft = strings(sformat["effect"])[0];
+  std::string fmt_padd = strings(sformat["padding"])[0];
   
-  if (!notestr.rfind((std::string)empty.at(0), 0) &&
+  if (!notestr.rfind((std::string)empty[0], 0) &&
       strings(sformat["note"]).size() > 1)
-    fmt_note = strings(sformat["note"]).at(1);
+    fmt_note = strings(sformat["note"])[1];
   if ((int)cell2->command == 0 && (int)cell2->param == 0 &&
       strings(sformat["effect"]).size() > 1)
-    fmt_efft = strings(sformat["effect"]).at(1);
-  
-  sexp instr_str;
+    fmt_efft = strings(sformat["effect"])[1];
+  size_t sz;
+  std::string instr_str;
   if ((int)cell2->sample == 0 && empty.size() > 1) {
-    instr_str = writable::strings(r_string((std::string)empty.at(1) + (std::string)empty.at(1)));
+    instr_str = (std::string)empty[1] + (std::string)empty[1];
   } else {
-    instr_str = sprf(fmt_inst_temp, (int)cell2->sample);
+    sz = snprintf(buf, CELL_FORMAT_BUFFER_SIZE + 1,
+                  fmt_inst_temp.c_str(), (int)cell2->sample);
+    instr_str = std::string(buf);
   }
-  
-  sexp efft_str = sprf(
-    fmt_efft, writable::integers({(int)cell2->command}),
-    writable::integers({(int)cell2->param})
-  );
-  
+
+  sz = snprintf(buf, CELL_FORMAT_BUFFER_SIZE + 1, fmt_efft.c_str(),
+                (int)cell2->command, (int)cell2->param);
+  std::string efft_str = std::string(buf);
+
   if ((int)cell2->command == 0 && (int)cell2->param == 0 && empty.size() > 2) {
-    efft_str = gsub("0", empty.at(2), efft_str, "perl"_nm = true);
+    std::replace(efft_str.begin(), efft_str.end(), '0',
+                 ((std::string)empty[2]).c_str()[0]);
   }
+
+  std::string fmt = fmt_note + fmt_padd + fmt_inst + fmt_padd + efft_str;
   
-  sexp fmt = sprf("fmt"_nm = r_string("%s%s%s%s%s"),
-                  fmt_note, fmt_padd, fmt_inst, fmt_padd, efft_str);
   int second_pad = 0;
   if (padding.size() > 1) second_pad = 1;
-  sexp result = sprf(
-    "fmt"_nm = strings(fmt),
-    r_string(notestr),
-    padding.at(0), instr_str,
-    padding.at(second_pad));
-  return result;
+  sz = snprintf(buf, CELL_FORMAT_BUFFER_SIZE + 1, fmt.c_str(),
+                notestr.c_str(),
+                ((std::string)padding[0]).c_str(),
+                instr_str.c_str(),
+                ((std::string)padding[second_pad]).c_str());
+  if (sz > CELL_FORMAT_BUFFER_SIZE)
+    stop("Cannot format cells to strings with more than %i characters",
+         CELL_FORMAT_BUFFER_SIZE);
+  r_string result = buf;
+  writable::strings result_r(result);
+  return result_r;
 }
 
-[[cpp11::register]]
 SEXP pt_cell_as_char_(
     SEXP mod, int pattern, int channel, int row, strings padding,
     strings empty_char, list sformat) {

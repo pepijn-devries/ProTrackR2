@@ -12,14 +12,18 @@ moduleSample_t * get_mod_sampinf_internal(module_t * my_song, int idx) {
 list mod_sample_info_internal2(moduleSample_t * samp) {
   int ft = 0xf & samp->fineTune;
   if (ft > 7) ft = -16 + ft;
-  writable::list attr({
-    "length"_nm       = (int)samp->length,
-      "loopStart"_nm  = (int)samp->loopStart,
-      "loopLength"_nm = (int)samp->loopLength,
-      "fineTune"_nm   = ft,
-      "volume"_nm     = (int)samp->volume,
-      "text"_nm       = r_string(samp->text)
+  writable::strings info_names({
+    "length", "loopStart", "loopLength", "fineTune", "volume", "text"
   });
+  writable::list attr({
+    as_sexp((int)samp->length),
+    as_sexp((int)samp->loopStart),
+    as_sexp((int)samp->loopLength),
+    as_sexp(ft),
+    as_sexp((int)samp->volume),
+    writable::strings(r_string(samp->text))
+  });
+  attr.attr("names") = info_names;
   return attr;
 }
 

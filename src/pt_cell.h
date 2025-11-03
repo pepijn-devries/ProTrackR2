@@ -2,6 +2,7 @@
 
 #include <cpp11.hpp>
 #include "pt2-clone.h"
+
 using namespace cpp11;
 
 raws pt_encode_compact_cell(raws source);

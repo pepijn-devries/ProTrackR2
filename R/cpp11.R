@@ -96,10 +96,6 @@ pt_set_eff_command_ <- function(mod, pattern, channel, row, replacement, warn) {
   .Call(`_ProTrackR2_pt_set_eff_command_`, mod, pattern, channel, row, replacement, warn)
 }
 
-pt_cell_as_char_ <- function(mod, pattern, channel, row, padding, empty_char, sformat) {
-  .Call(`_ProTrackR2_pt_cell_as_char_`, mod, pattern, channel, row, padding, empty_char, sformat)
-}
-
 pt_rawcell_as_char_ <- function(pattern, padding, empty_char, sformat) {
   .Call(`_ProTrackR2_pt_rawcell_as_char_`, pattern, padding, empty_char, sformat)
 }
