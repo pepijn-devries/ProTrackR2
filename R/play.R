@@ -9,15 +9,27 @@
 #' allows you to control the playback (pause, resume, rewind).
 #' @author Pepijn de Vries
 #' @examples
-#' \dontrun{
-#' mod <- pt2_read_mod(pt2_demo())
+#' if (interactive()) {
+#'   mod <- pt2_read_mod(pt2_demo())
 #' 
-#' ## ctrl will contain the audioInstance that will let you control the audio playback:
-#' ctrl <- play(mod)
-#' samp <- mod$samples[[3]]
-#' play(samp, note = "C-2")
-#' play(samp, note = "E-2")
-#' play(samp, note = "G-2")
+#'   ## ctrl will contain the audioInstance that will let
+#'   ## you control the audio playback:
+#'   ctrl <- play(mod)
+#' 
+#'   ## You can also play individual samples
+#'   samp <- mod$samples[[3]]
+#'   play(samp, note = "C-2")
+#'   play(samp, note = "E-2")
+#'   play(samp, note = "G-2")
+#'   
+#'   ## As well as an individual pattern
+#'   play(mod$patterns[[1]], samples = mod$samples)
+#'   
+#'   ## Or a subset of a pattern
+#'   play(mod$patterns[[1]][17:32, 1:2], samples = mod$samples)
+#'   
+#'   ## Or even an individual cell
+#'   play(mod$patterns[[1]][1, 1][[1]], samples = mod$samples)
 #' }
 #' @importFrom audio play
 #' @export play
