@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
 <li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
     <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
-    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
+    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assigning ProTrackR2 objects</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -73,15 +73,21 @@
     
     
 <div class="section level2">
-<h2 id="what-are-effect-commands">What are effect commands<a class="anchor" aria-label="anchor" href="#what-are-effect-commands"></a>
+<h2 id="what">What are effect commands<a class="anchor" aria-label="anchor" href="#what"></a>
 </h2>
 <p>A pattern table is composed of cells telling the tracker which notes
 to play in which order. It also has a field for effect commands. It is
 often represented as a three digit hexadecimal value. The first hex
 digit represents the effect command, the latter represent parameter
-values used by the command. The table below summarises all available
-effects in ProTracker<!--TODO and is followed
-by sections describing them in more detail and providing examples-->.</p>
+values used by the command. The table below (based on
+<code>data(effect_commands)</code>) summarises all available effects in
+ProTracker.</p>
+<p>More details on the tracker pattern structure can be found in
+<code><a href="../articles/s3class.html">vignette("s3class")</a></code>. Some examples of the effects that can
+be applied are <a href="#examples">provided below</a>. Note that this
+vignette does not intend to be a complete tutorial. It merely addresses
+how you can manipulate ProTracker modules programmatically in R. For
+more in depth information please check the <a href="#references">references</a>.</p>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -466,7 +472,7 @@ combination.
 </table>
 </div>
 <div class="section level2">
-<h2 id="extracting-and-updating-effect-commands">Extracting and updating effect commands<a class="anchor" aria-label="anchor" href="#extracting-and-updating-effect-commands"></a>
+<h2 id="updating">Extracting and updating effect commands<a class="anchor" aria-label="anchor" href="#updating"></a>
 </h2>
 <p>To get an effect command from a ProTracker module, you can simply
 call <code><a href="../reference/pt2_command.html">pt2_command()</a></code> to a <code>pt2cell</code> or
@@ -477,7 +483,9 @@ are several ways of extracting cells as documented in
 way shown of getting the effect commands of the first 8 rows of the
 second column in the third pattern.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co">## load the demo-mod included with the package</span></span>
+<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span></span>
 <span>  <span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span> <span class="fl">3</span> <span class="op">]</span><span class="op">]</span> <span class="op">[</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="fl">2</span> <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">C40</span></span></span>
@@ -493,8 +501,104 @@ this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span></span>
 <span>  <span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span> <span class="fl">3</span> <span class="op">]</span><span class="op">]</span> <span class="op">[</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="fl">2</span> <span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"C10"</span></span></code></pre></div>
-<!-- TODO combination with instrument number -->
-<!-- TODO include details and examples -->
+</div>
+<div class="section level2">
+<h2 id="examples">Examples of some common effects<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>Using the description in the <a href="#what">table above</a>, and the
+assignment procedure <a href="#updating">explained above</a>, some
+examples are implemented below:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">## create a new mod te demonstrate commands</span></span>
+<span><span class="va">mod_command</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_mod.html">pt2_new_mod</a></span><span class="op">(</span><span class="st">"commands"</span><span class="op">)</span></span>
+<span><span class="co">## copy the samples from the mod above</span></span>
+<span><span class="va">mod_command</span><span class="op">$</span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">mod</span><span class="op">$</span><span class="va">samples</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 01 000"</span></span>
+<span>  <span class="co">## Reduce sample volume</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"C10"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
+<span>  <span class="co">## Simulate major chord:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"047"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co">## Simulate minor chord</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"037"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">## Porta up:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"101"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">## Porta down:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"201"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co">## Porta to note:</span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">64</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"E-3 03 000"</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">64</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"301"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_pattern.html">pt2_new_pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># reset pattern</span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
+<span>  <span class="co">## Vibrato:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"464"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co">## Tremolo:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"743"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co">## Fade out:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"A01"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 C00"</span></span>
+<span>  <span class="co">## Fade in:</span></span>
+<span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">63</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"A10"</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="effect-of-instrument-number-on-effects">Effect of instrument number on effects<a class="anchor" aria-label="anchor" href="#effect-of-instrument-number-on-effects"></a>
+</h2>
+<p>The cells in a ProTracker pattern also hold information on the
+instrument number. The function <code><a href="../reference/pt2_instrument.html">pt2_instrument()</a></code> can be
+used to get or set an instrument number. The reason for mentioning it
+here is that setting (or omitting) the instrument number can affect how
+a <code><a href="../reference/pt2_command.html">pt2_command()</a></code> is interpreted.</p>
+<p>By setting the instrument number in combination with an effect
+command, can cause the player to reset the sample’s previous state. I’m
+not going to show all features as there are many. But just as an example
+see what happens when you apply a volume slide in combination with
+setting the instrument number. The volume is reset each row of the
+pattern:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_pattern.html">pt2_new_pattern</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
+<span><span class="co">## Slide the volume down in the entire track:</span></span>
+<span><span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"A08"</span></span>
+<span><span class="co">## Reset the volume each row by setting the sample</span></span>
+<span><span class="co">## number for the entire track</span></span>
+<span><span class="fu"><a href="../reference/pt2_instrument.html">pt2_instrument</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">3L</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLVoRT-Mqwas9gvmCRtOusCQSKNQNf6lTc" class="external-link">YouTube
+tutorial</a></li>
+<li><a href="https://wiki.openmpt.org/Manual:_Effect_Reference" class="external-link">OpenMPT
+documentation on effects</a></li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

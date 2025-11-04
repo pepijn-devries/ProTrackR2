@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
     <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
-    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
+    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assigning ProTrackR2 objects</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -39,9 +39,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.6.0008" id="protrackr2-v0060008">ProTrackR2 v0.0.6.0008<a class="anchor" aria-label="anchor" href="#protrackr2-v0060008"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.6.0010" id="protrackr2-v0060010">ProTrackR2 v0.0.6.0010<a class="anchor" aria-label="anchor" href="#protrackr2-v0060010"></a></h2>
 <ul><li>Implemented <code><a href="../reference/as_pt2cell.html">as_pt2cell()</a></code> and <code><a href="../reference/as_pt2cell.html">as_pt2celllist()</a></code>
 </li>
+<li>Implemented replacement function <code>pt2_pattern_table&lt;-()</code> and <code>pt2_name&lt;-()</code>
+</li>
+<li>Implemented several new <code><a href="../reference/play.html">play()</a></code> and <code><a href="../reference/pt2_render.html">pt2_render()</a></code> methods</li>
+<li>Implemented sample handling functions:
+<ul><li><code><a href="../reference/sample_properties.html">pt2_finetune()</a></code></li>
+<li><code><a href="../reference/sample_properties.html">pt2_volume()</a></code></li>
+<li>
+<code><a href="../reference/sample_properties.html">pt2_loop_start()</a></code> and <code><a href="../reference/sample_properties.html">pt2_loop_length()</a></code>
+</li>
+<li><code><a href="../reference/sample_properties.html">pt2_is_looped()</a></code></li>
+<li><code>pt_sample_to_audio()</code></li>
+</ul></li>
 <li>Added testthat workflow</li>
 <li>Added codecov workflow</li>
 <li>Fixes in (amongst others) selection and assignment operators</li>

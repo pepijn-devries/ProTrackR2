@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
 <li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
     <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
-    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
+    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assigning ProTrackR2 objects</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -60,7 +60,7 @@
 
 
 
-<script src="ProTrackR_vs_ProTrackR2_files/kePrint-0.0.1/kePrint.js"></script><link href="ProTrackR_vs_ProTrackR2_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>ProTrackR vs ProTrackR2</h1>
@@ -87,72 +87,41 @@ some design changes which are worth mentioning here.</p>
 <p>The table below summarises the differences between ProTrackR2 and its
 predecessor.</p>
 <table class="table">
-<thead><tr>
-<th style="text-align:left;">
-Feature
-</th>
-<th style="text-align:left;">
-ProTrackR
-</th>
-<th style="text-align:left;">
-ProTrackR2
-</th>
+<colgroup>
+<col width="34%">
+<col width="32%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th>Feature</th>
+<th>ProTrackR</th>
+<th>ProTrackR2</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-<a href="#effect-commands">Effect commands</a>
-</td>
-<td style="text-align:left;">
-Limited set implemented
-</td>
-<td style="text-align:left;">
-All PT2.3d effects implemented
-</td>
+<tr class="odd">
+<td><a href="#effect-commands">Effect commands</a></td>
+<td>Limited set implemented</td>
+<td>All PT2.3d effects implemented</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-<a href="#infrastructure">Infrastructure</a>
-</td>
-<td style="text-align:left;">
-R script
-</td>
-<td style="text-align:left;">
-Compiled C/C++
-</td>
+<tr class="even">
+<td><a href="#infrastructure">Infrastructure</a></td>
+<td>R script</td>
+<td>Compiled C/C++</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-<a href="#file-readers">File readers</a>
-</td>
-<td style="text-align:left;">
-Optimized for format preservation
-</td>
-<td style="text-align:left;">
-Optimized for PT2.3d compatibility
-</td>
+<tr class="odd">
+<td><a href="#file-readers">File readers</a></td>
+<td>Optimized for format preservation</td>
+<td>Optimized for PT2.3d compatibility</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-<a href="#audio-output">Audio output</a>
-</td>
-<td style="text-align:left;">
-tuneR S4 Wave class
-</td>
-<td style="text-align:left;">
-audio S3 audioSample class
-</td>
+<tr class="even">
+<td><a href="#audio-output">Audio output</a></td>
+<td>tuneR S4 Wave class</td>
+<td>audio s3 audioSample class</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-OpenMPT test cases
-</td>
-<td style="text-align:left;">
-Passes 6 out of 12 selected tests
-</td>
-<td style="text-align:left;">
-Passes at least 17 of the 23 tests
-</td>
+<tr class="odd">
+<td>OpenMPT test cases</td>
+<td>Passes 6 out of 12 selected tests</td>
+<td>Passes at least 17 of the 23 tests</td>
 </tr>
 </tbody>
 </table>
@@ -181,11 +150,113 @@ the module was represented by a vector of <code>raw</code> data, an
 current package. This required a slightly different approach to handle
 these objects. In order to avoid confusion about the syntax, it was
 completely redesigned in the successor.</p>
-<!--
-TODO
-S3 class instead of S4 etc.
-changes in syntax, some examples side by side
--->
+<div class="section level3">
+<h3 id="class-type-objects">Class type objects<a class="anchor" aria-label="anchor" href="#class-type-objects"></a>
+</h3>
+<p>ProTrackR uses <a href="https://adv-r.hadley.nz/s4.html" class="external-link">s4 class</a>
+objects. It has elegant semantics and due to its strict nature, has a
+lot of build-in safety mechanisms. But consequently, they are not
+straightforward and easy to work with.</p>
+<p>Therefore, in ProTrackR2 I chose to work with the <a href="https://adv-r.hadley.nz/s3.html" class="external-link">s3 class</a> objects. They are
+easier to work with and perhaps more intuitive to most R users. If you
+are coming to ProTrackR2 from ProTrackR, here is an overview of
+equivalent classes:</p>
+<table class="table">
+<colgroup>
+<col width="26%">
+<col width="31%">
+<col width="43%">
+</colgroup>
+<thead><tr class="header">
+<th>ProTrackR s4 class</th>
+<th>ProTrackR equivalent s3 class</th>
+<th>Description and remarks</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTModule-class.html" class="external-link">?ProTrackR::PTModule</a></code></td>
+<td><code><a href="../reference/pt2_new_mod.html">pt2_new_mod()</a></code></td>
+<td>Overarching class representing a module</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTCell-class.html" class="external-link">ProTrackR::PTCell()</a></code></td>
+<td><code><a href="../reference/pt2_cell.html">pt2_cell()</a></code></td>
+<td>Smallest structure in a pattern table</td>
+</tr>
+<tr class="odd">
+<td>No explicit class</td>
+<td><code><a href="../reference/pt2_note.html">pt2_note()</a></code></td>
+<td>Code representing a specific note</td>
+</tr>
+<tr class="even">
+<td>No explicit class</td>
+<td><code><a href="../reference/pt2_command.html">pt2_command()</a></code></td>
+<td>Code representing sound effect or trigger</td>
+</tr>
+<tr class="odd">
+<td>
+<code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTBlock.html" class="external-link">ProTrackR::PTBlock()</a></code><br><code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTTrack-class.html" class="external-link">ProTrackR::PTTrack()</a></code>
+</td>
+<td><code>pt2_celllist()</code></td>
+<td>ProTrackR distinguishes between blocks (matrices) and tracks
+(columns) of cells. ProTrackR2 only considers a list of cells</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTPattern-class.html" class="external-link">ProTrackR::PTPattern()</a></code></td>
+<td><code><a href="../reference/pt2_pattern.html">pt2_pattern()</a></code></td>
+<td>A pattern table</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTSample-class.html" class="external-link">ProTrackR::PTSample()</a></code></td>
+<td><code><a href="../reference/pt2_sample.html">pt2_sample()</a></code></td>
+<td>An audio sample</td>
+</tr>
+</tbody>
+</table>
+<p>These different class styles also have consequences for you workflow.
+Below are some examples of how to achieve similar operations using the
+different packages.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pepijn-devries.github.io/ProTrackR/" class="external-link">ProTrackR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pepijn-devries.github.io/ProTrackR2/">ProTrackR2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## *Old* way of creating a blank module:</span></span>
+<span><span class="va">mod_old</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"PTModule"</span><span class="op">)</span></span>
+<span><span class="co">## *New* way of creating a blank module:</span></span>
+<span><span class="va">mod_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_mod.html">pt2_new_mod</a></span><span class="op">(</span><span class="st">"my mod"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## *Old* reading a module:</span></span>
+<span><span class="va">mod_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/read.module.html" class="external-link">read.module</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## *New* way of creating a blank module:</span></span>
+<span><span class="va">mod_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## *Old* way of getting a sample</span></span>
+<span><span class="va">samp_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTSample-class.html" class="external-link">PTSample</a></span><span class="op">(</span><span class="va">mod_old</span>, <span class="fl">1L</span><span class="op">)</span></span>
+<span><span class="co">## *New* way of getting a sample</span></span>
+<span><span class="va">samp_new</span> <span class="op">&lt;-</span> <span class="va">mod_new</span><span class="op">$</span><span class="va">samples</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## *Old* way of getting a pattern</span></span>
+<span><span class="va">patt_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTPattern-class.html" class="external-link">PTPattern</a></span><span class="op">(</span><span class="va">mod_old</span>, <span class="fl">1L</span><span class="op">)</span></span>
+<span><span class="co">## *New* way of getting a pattern</span></span>
+<span><span class="va">patt_new</span> <span class="op">&lt;-</span> <span class="va">mod_new</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## *Old* way of getting a cell</span></span>
+<span><span class="va">cell_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/PTCell-class.html" class="external-link">PTCell</a></span><span class="op">(</span><span class="va">mod_old</span>, <span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">1L</span><span class="op">)</span></span>
+<span><span class="co">## *New* way of getting a cell</span></span>
+<span><span class="co">##</span></span>
+<span><span class="co">##   First cell in cell-list ---------------+</span></span>
+<span><span class="co">##   First column in pattern ----------+    |</span></span>
+<span><span class="co">##      First row in pattern ------+   |    |</span></span>
+<span><span class="co">##             First pattern -+    |   |    |</span></span>
+<span><span class="co">##                            |    |   |    |</span></span>
+<span><span class="co">##                            V    V   V    V</span></span>
+<span><span class="va">cell_new</span> <span class="op">&lt;-</span> <span class="va">mod_new</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1L</span>, <span class="fl">1L</span><span class="op">]</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cell_old</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "C-3 01 A08"</span></span>
+<span><span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cell_new</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">C-3</span><span style="color: #555555;"> </span><span style="color: #00BBBB;">01</span><span style="color: #555555;"> </span><span style="color: #00BB00;">A08</span></span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="benchmark">Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"></a>
 </h3>
@@ -226,7 +297,7 @@ easier to handle than the stricter and formal <code>S4</code> class
 objects from ‘tuneR’. If you wish to use the advanced features from the
 ‘tuneR’ package, this is still possible as both formats can be converted
 relatively easy.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Load demo module</span></span>
 <span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -236,7 +307,7 @@ relatively easy.</p>
 <span><span class="co">## Convert from 'audio::audioSample' to 'tuneR::Wave' object:</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"tuneR"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">mod_tuneR</span> <span class="op">&lt;-</span></span>
-<span>    <span class="fu">tuneR</span><span class="fu">::</span><span class="fu">Wave</span><span class="op">(</span></span>
+<span>    <span class="fu">tuneR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/Wave.html" class="external-link">Wave</a></span><span class="op">(</span></span>
 <span>      left      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">15</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      right     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">15</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      samp.rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">mod_audio</span><span class="op">)</span><span class="op">$</span><span class="va">rate</span>,</span>

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
 <li><a class="dropdown-item" href="../articles/effect_commands.html">Effect commands</a></li>
     <li><a class="dropdown-item" href="../articles/ProTrackR_vs_ProTrackR2.html">ProTrackR vs ProTrackR2</a></li>
     <li><a class="dropdown-item" href="../articles/s3class.html">ProTrackR2 S3 class objects</a></li>
-    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assinging ProTrackR2 objects</a></li>
+    <li><a class="dropdown-item" href="../articles/sel_assign.html">Selecting and assigning ProTrackR2 objects</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -278,14 +278,11 @@ to count the number of non-empty samples in a module use
 </h3>
 <p>ProTracker uses pulse-code modulation (PCM) mono audio samples with 8
 bit depth. In this package it’s represented by the <code>pt2samp</code>
-class. It can either by a list where the first element is a
-<code>pt2samplelist</code> object and the second is an
-<code>integer</code> index of the sample in the list. It can also be a
-vector of <code>raw</code> values, where each value is a PCM sample. The
-<code>raw</code> form will also hold an attribute named
-<code>"sample_info"</code> used to interpret the sample. The attribute
-<code>"sample_info"</code> is a named list containing the following
-elements:</p>
+class. It is a vector of <code>raw</code> values, where each value is an
+8 bit PCM sample. The <code>raw</code> form will also hold an attribute
+named <code>"sample_info"</code> used to interpret the sample. The
+attribute <code>"sample_info"</code> is a named list containing the
+following elements:</p>
 <ul>
 <li>
 <code>length</code>: should be identical to the length of the vector
@@ -437,11 +434,9 @@ for more details <code><a href="../articles/effect_commands.html">vignette("effe
 </tbody>
 </table>
 <p>A ProTracker pattern is represented by the <code>pt2pat</code> class.
-It can be a <code>list</code> where the first element is its parent
-module (<code>pt2mod</code>) and the second element is the index in the
-pattern list. It can also be a <code>vector</code> of <code>raw</code>
-values that either represents the file structure of a pattern or its
-representation in memory used by the play back routine.</p>
+It is a <code>vector</code> of <code>raw</code> values that either
+represents the file structure of a pattern or its representation in
+memory used by the play back routine.</p>
 <p>A pattern can be initiated with <code><a href="../reference/pt2_new_pattern.html">pt2_new_pattern()</a></code>. This
 produces a <code>raw</code> representation of a pattern. Here the
 <code>logical</code> argument <code>compact</code> determines if the
@@ -477,13 +472,10 @@ information about which note to play (blue fields in
 <a href="#tab-pat-example">Table 1</a>), which instrument (sample cyan
 fields in <a href="#tab-pat-example">Table 1</a>) and what kind of
 effect to apply (green fields in <a href="#tab-pat-example">Table
-1</a>). It is represented by the <code>pt2cell</code> class and can
-consist of a <code>list</code>, where the first element is a
-<code>pt2mod</code> object and followed by three indices <code>i</code>
-(pattern id), <code>j</code> (pattern row) and <code>k</code> (channel
-id). It can also be represented by a vector of <code>raw</code> values
-as stored in file (compact) or in memory (not compact). A cell can be
-selected from a cell list as shown below.</p>
+1</a>). It is represented by the <code>pt2cell</code> class and is
+represented by a vector of <code>raw</code> values as stored in file
+(compact) or in memory (not compact). A cell can be selected from a cell
+list as shown below.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_cells</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">C-3</span><span style="color: #555555;"> </span><span style="color: #00BBBB;">01</span><span style="color: #555555;"> </span><span style="color: #00BB00;">A08</span></span></span></code></pre></div>
