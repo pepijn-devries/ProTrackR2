@@ -5,9 +5,15 @@
 \alias{pt2_length<-}
 \alias{pt2_n_pattern}
 \alias{pt2_pattern_table}
+\alias{pt2_pattern_table<-}
 \alias{pt2_name}
+\alias{pt2_name<-}
 \alias{pt2_name.pt2mod}
+\alias{pt2_name<-.pt2mod}
 \alias{pt2_name.pt2samp}
+\alias{pt2_name<-.pt2samp}
+\alias{pt2_name.pt2samplist}
+\alias{pt2_name<-.pt2samplist}
 \alias{pt2_n_sample}
 \title{Obtain ProTracker module information}
 \usage{
@@ -19,19 +25,36 @@ pt2_n_pattern(mod, ...)
 
 pt2_pattern_table(mod, ...)
 
+pt2_pattern_table(mod, ...) <- value
+
 pt2_name(x, ...)
+
+pt2_name(x, ...) <- value
 
 \method{pt2_name}{pt2mod}(x, ...)
 
+\method{pt2_name}{pt2mod}(x, ...) <- value
+
 \method{pt2_name}{pt2samp}(x, ...)
+
+\method{pt2_name}{pt2samp}(x, ...) <- value
+
+\method{pt2_name}{pt2samplist}(x, ...)
+
+\method{pt2_name}{pt2samplist}(x, ...) <- value
 
 pt2_n_sample(mod, ...)
 }
 \arguments{
 \item{...}{Ignored}
 
-\item{value}{New length of a module in number of patterns in the pattern
-sequence table.}
+\item{value}{Replacement value. In case of:
+\itemize{
+\item \verb{pt2_length<-}: new length of a module in number of patterns in the pattern
+\item \verb{pt2_pattern_table<-}: a new patter table. A 128 long vector of integers between
+0 and 99.
+\item \verb{pt2_name<-}: a new name (or names) for x
+}}
 
 \item{x, mod}{A \code{pt2mod} class object for which to obtain information. For \code{x}
 also samples of class \code{pt2samp} are allowed as input.}
@@ -40,7 +63,25 @@ also samples of class \code{pt2samp} are allowed as input.}
 Returns information about the specified ProTracker module
 }
 \description{
-Obtain information about a protracker module or embedded samples.
+Obtain information about a ProTracker module or embedded samples.
+}
+\details{
+You can use the following functions to get or set information on
+a ProTracker modules (represented by \code{pt2mod} class objects):
+\itemize{
+\item \code{pt2_length()}: get or set the length the pattern table.
+\item \code{pt2_n_pattern()}: number of distinct patterns. Same as
+\code{length(mod$patterns)}.
+\item \code{pt2_pattern_table()}: get or set table of pattern indexes. Patterns
+will be played in this order. Normally, only the first \code{pt2_length()}
+number of listed patterns are played. Patterns beyond this length are
+only played if you explicitly start the module at that position,
+or the module contains jump commands.
+\item \code{pt2_name()}: get or set the name of a module. Can also be used
+on samples in a module. Names in a ProTracker module are limited.
+Module names are automatically truncated to 20 UTF8 characters.
+For samples, the names are truncated to 22 characters.
+}
 }
 \examples{
 mod <- pt2_read_mod(pt2_demo())
@@ -53,7 +94,9 @@ pt2_name(mod)
 pt2_name(pt2_sample(mod, 4L))
 
 mod2 <- pt2_new_mod("new")
-pt2_length(mod) <- 3L
+pt2_length(mod2) <- 3L
+pt2_pattern_table(mod2)[1L:3L] <- c(0L, 2L, 1L)
+pt2_name(mod2) <- "foobar"
 }
 \author{
 Pepijn de Vries

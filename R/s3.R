@@ -190,6 +190,7 @@ as.raw.pt2celllist <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.raw.pt2celllist.logical <- function(x, compact = TRUE, ...) {
+  d <- attr(x, "celldim")
   if (typeof(x) == "raw") {
     cur_notation <- attributes(x)$compact_notation
     width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
@@ -203,9 +204,7 @@ as.raw.pt2celllist.logical <- function(x, compact = TRUE, ...) {
   } else {
     x <- lapply(x, \(y) as.raw.pt2cell(y, compact = compact, ...)) |> unlist()
   }
-  class(x) <- "pt2celllist"
-  attributes(x)$compact_notation <- compact
-  x
+  structure(x, class = "pt2celllist", celldim = d, compact_notation = compact)
 }
 
 #' @method as.raw pt2pat
@@ -273,7 +272,7 @@ as.character.pt2celllist <- function(x, ...) {
 #' @export
 as.raw.pt2command <- function(x, ...) {
   if (typeof(x) == "raw") return(x)
-
+  
   if (inherits(x, "pt2celllist") || is.null(names(x))) {
     mods <- lapply(x, `[[`, "mod")
     i <- lapply(x, `[[`, "i") |> unlist()

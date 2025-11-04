@@ -19,12 +19,15 @@ void reset_speed(list render_options) {
 
 double render_prep(SEXP mod, double render_duration, list render_options, int position) {
   module_t *my_song = get_mod(mod);
-
+  
   config.mod2WavOutputFreq = audio.outputRate = integers(render_options["sample_rate"]).at(0);
   config.stereoSeparation = integers(render_options["stereo_separation"]).at(0);
   config.amigaModel = MODEL_A500;
   if (strings(render_options["amiga_filter"]).at(0) == r_string("A1200"))
     config.amigaModel = MODEL_A1200;
+  editor.timingMode = TEMPO_MODE_VBLANK;
+  if (strings(render_options["timing_mode"]).at(0) == r_string("cia"))
+    editor.timingMode = TEMPO_MODE_CIA;
   
   setAmigaFilterModel(config.amigaModel);
   audioSetStereoSeparation(config.stereoSeparation);
@@ -69,15 +72,15 @@ integers render_mod_(SEXP mod, double render_duration, list render_options, int 
   uint64_t samplesToMixFrac = 0;
   
   setLEDFilter(logicals(render_options["led_filter"]).at(0));
-
+  
   int16_t mpos = (uint16_t)position;
   modSetPos(mpos, 0);
   reset_speed(render_options);
-
+  
   initializeModuleChannels(song);
   modSetPattern(song->header.patternTable[mpos]);
   
-  for (int i = 0; i < (int)song->currSpeed; i++) {
+  for (int i = 1; i < (int)song->currSpeed; i++) {
     intMusic(); // skip currSpeed ticks as they are empty.
   }
   
@@ -194,7 +197,7 @@ static void calcMod2WavTotalRows(int16_t start_pos)
         else if (n_loopcount[ch] == 0)
         {
           n_loopcount[ch] = pos;
-
+          
           pBreakPosition = n_pattpos[ch];
           pBreakFlag = true;
           
@@ -218,7 +221,7 @@ static void calcMod2WavTotalRows(int16_t start_pos)
     
     modRow++;
     song->rowsInTotal++;
-
+    
     uint32_t samplesToMix = audio.samplesPerTickInt;
     
     samplesToMixFrac += audio.samplesPerTickFrac;
@@ -259,4 +262,9 @@ static void calcMod2WavTotalRows(int16_t start_pos)
       CALC__END_OF_SONG
     }
   }
+}
+
+[[cpp11::register]]
+int pt_get_PAL_hz() {
+  return AMIGA_PAL_CCK_HZ;
 }

@@ -11,7 +11,7 @@ extern "C" {
 #include "pt2_structs.h"
 
 module_t *modLoad2(uint8_t *data, uint32_t *data_size);
-void setupLoadedMod(void);
+// void setupLoadedMod(void);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,5 @@
 ---
-title: "Selecting and assinging ProTrackR2 objects"
+title: "Selecting and assigning ProTrackR2 objects"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Selecting and assinging ProTrackR2 objects}

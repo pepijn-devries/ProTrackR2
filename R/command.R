@@ -76,22 +76,16 @@ pt2_command <- function(x, ...) {
     as.raw() |>
     matrix(ncol = 2, byrow = TRUE)
   
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    cur_class <- class(x)
-    raw_fun <- .get_raw_fun(x)
-    x <- raw_fun(x, compact = FALSE)
-    x <- matrix(x, ncol = 6, byrow = TRUE)
-    x[,3] <- value[,1]
-    x[,1] <- value[,2]
-    x <- c(t(x))
-    class(x) <- cur_class
-    attributes(x)$compact_notation <- FALSE
-    x <- raw_fun(x, compact = cur_notation)
-    return(x)
-  } else {
-    .cell_helper(x, pt_set_eff_command_, replacement = value, warn = !silent)
-  }
-
-  x
+  cur_notation <- attributes(x)$compact_notation
+  cur_class <- class(x)
+  raw_fun <- .get_raw_fun(x)
+  x <- raw_fun(x, compact = FALSE)
+  x <- matrix(x, ncol = 6, byrow = TRUE)
+  x[,3] <- value[,1]
+  x[,1] <- value[,2]
+  x <- c(t(x))
+  class(x) <- cur_class
+  attributes(x)$compact_notation <- FALSE
+  x <- raw_fun(x, compact = cur_notation)
+  return(x)
 }

@@ -1,7 +1,15 @@
-ProTrackR2 v0.0.6.0008
+ProTrackR2 v0.0.6.0010
 -------------
 
  * Implemented `as_pt2cell()` and `as_pt2celllist()`
+ * Implemented replacement function  `pt2_pattern_table<-()` and `pt2_name<-()`
+ * Implemented several new `play()` and `pt2_render()` methods
+ * Implemented sample handling functions:
+   * `pt2_finetune()`
+   * `pt2_volume()`
+   * `pt2_loop_start()` and `pt2_loop_length()`
+   * `pt2_is_looped()`
+   * `pt_sample_to_audio()`
  * Added testthat workflow
  * Added codecov workflow
  * Fixes in (amongst others) selection and assignment operators

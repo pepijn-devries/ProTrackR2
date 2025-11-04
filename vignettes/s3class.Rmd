@@ -91,7 +91,6 @@ table.tab_patt {
   font-family: monospace;
 }
 ```
-
 ## Outline of ProTrackR2 objects
 
 The ProTrackR2 package has defined a number of hierarchical classes to represent ProTracker modules.
@@ -147,9 +146,8 @@ If you want to count the number of non-empty samples in a module use `pt2_n_samp
 ### Sample objects (`pt2samp`)
 
 ProTracker uses pulse-code modulation (PCM) mono audio samples with 8 bit depth. In this package it's
-represented by the `pt2samp` class. It can either by a list where the first element is a
-`pt2samplelist` object and the second is an `integer` index of the sample in the list.
-It can also be a vector of `raw` values, where each value is a PCM sample. The `raw` form
+represented by the `pt2samp` class. It is a vector of `raw` values, where each value is an 8 bit PCM
+sample. The `raw` form
 will also hold an attribute named `"sample_info"` used to interpret the sample. The attribute
 `"sample_info"` is a named list containing the following elements:
 
@@ -242,10 +240,8 @@ sprintf("<table class='tab_patt'>%s\n\n%s\n<tbody>\n%s\n</tbody>\n</table>",
   htmltools::HTML()
 ```
 
-A ProTracker pattern is represented by the `pt2pat` class. It can be a `list` 
-where the first element is its parent module (`pt2mod`) and the second element is 
-the index in the pattern list. It can also be a `vector` of `raw` values that either
-represents the file structure of a pattern or its representation in memory used by
+A ProTracker pattern is represented by the `pt2pat` class. It is a `vector` of `raw` values
+that either represents the file structure of a pattern or its representation in memory used by
 the play back routine.
 
 A pattern can be initiated with `pt2_new_pattern()`. This produces a `raw` representation
@@ -282,8 +278,7 @@ A cell is an elementary unit in a pattern table and contains information about w
 which instrument (sample cyan fields in <a href="#tab-pat-example">Table 1</a>)
 and what kind of effect to apply (green fields in <a href="#tab-pat-example">Table 1</a>).
 It is represented by the `pt2cell` class
-and can consist of a `list`, where the first element is a `pt2mod` object and followed by three indices
-`i` (pattern id), `j` (pattern row) and `k` (channel id). It can also be represented by a vector of
+and is represented by a vector of
 `raw` values as stored in file (compact) or in memory (not compact). A cell can be selected from
 a cell list as shown below.
 

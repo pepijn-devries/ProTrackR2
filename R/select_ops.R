@@ -60,6 +60,7 @@
   } else if (i == 2L || toupper(i) == "SAMPLES") {
     for (j in seq_len(length(value))) {
       if (is.raw(value[[j]])) {
+        if (!validate_sample_raw_(value[[j]])) stop(sprintf("Not a valid sample at index %i", j))
         mod_set_sample_(x, as.integer(j - 1L), value[[j]])
       }
     }
@@ -157,6 +158,7 @@
     x <- mapply(\(y, i, j) pt2_cell(x, i, j), i = idx[,"i"], j = idx[,"j"], SIMPLIFY = FALSE)
   }
   class(x) <- "pt2celllist"
+  attr(x, "celldim") <- c(length(i), length(j))
   as.raw.pt2celllist(x, compact = TRUE)
 }
 
@@ -216,12 +218,13 @@
   
   if (typeof(x) == "raw") {
     cpt <- attr(x, "compact_notation")
+    d <- attr(x, "celldim")
     value <- as.raw.pt2celllist(value, compact = cpt)
     sz <- ifelse(cpt, 4L, pt_cell_bytesize())
     idx <- rep((i - 1L)*sz, each = sz) + seq_len(sz)
     x <- unclass(x)
     x[idx] <- unclass(value)
-    x <- structure(x, class = "pt2celllist", compact_notation = cpt)
+    x <- structure(x, class = "pt2celllist", celldim = d, compact_notation = cpt)
   } else {
     replace_cells_(x, as.integer(i), as.raw.pt2celllist(value, compact = FALSE))
   }

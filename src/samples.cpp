@@ -10,15 +10,20 @@ moduleSample_t * get_mod_sampinf_internal(module_t * my_song, int idx) {
 }
 
 list mod_sample_info_internal2(moduleSample_t * samp) {
-
-  writable::list attr({
-    "length"_nm       = (int)samp->length,
-      "loopStart"_nm  = (int)samp->loopStart,
-      "loopLength"_nm = (int)samp->loopLength,
-      "fineTune"_nm   = (int)samp->fineTune,
-      "volume"_nm     = (int)samp->volume,
-      "text"_nm       = r_string(samp->text)
+  int ft = 0xf & samp->fineTune;
+  if (ft > 7) ft = -16 + ft;
+  writable::strings info_names({
+    "length", "loopStart", "loopLength", "fineTune", "volume", "text"
   });
+  writable::list attr({
+    as_sexp((int)samp->length),
+    as_sexp((int)samp->loopStart),
+    as_sexp((int)samp->loopLength),
+    as_sexp(ft),
+    as_sexp((int)samp->volume),
+    writable::strings(r_string(samp->text))
+  });
+  attr.attr("names") = info_names;
   return attr;
 }
 
@@ -88,21 +93,12 @@ logicals validate_sample_raw_(raws smp_data) {
   // Sample size should be even
   result = result &&
     !(length % 2 == 1 || smp_data.size() != length || length < 0 || length > config.maxSampleLength);
-
-  result = result &&
-    !(loopStart % 2 == 1 || loopStart < 0 || loopStart > length);
-
-  result = result &&
-    !(loopLength % 2 == 1 || loopLength < 2 || (loopStart + loopLength) > length);
-
-  result = result &&
-    !(fineTune < 0 || fineTune > 0xf);
-
-  result = result &&
-    !(volume < 0 || volume > 64);
-
-  result = result &&
-    !(text.size() > 22);
+  result = result && !(loopStart % 2 == 1 || loopStart < 0 || loopStart > length);
+  result = result && !(loopLength % 2 == 1 || loopLength < 2);
+  result = result && !(length > 0 && (loopStart + loopLength) > length);
+  result = result && !(fineTune < -8 || fineTune > 7);
+  result = result && !(volume < 0 || volume > 64);
+  result = result && !(text.size() > 22);
 
   writable::logicals result_sexp((R_xlen_t)1);
   result_sexp.at(0) = result;
@@ -119,7 +115,6 @@ SEXP mod_set_sample_(SEXP mod, int idx, raws smp_data) {
   validate_sample_raw_(smp_data);
   
   list my_attr = list(smp_data.attr("sample_info"));
-  
   memset(&samp->text, 0, 22);
   
   if (my_attr == R_NilValue) {
@@ -129,10 +124,11 @@ SEXP mod_set_sample_(SEXP mod, int idx, raws smp_data) {
     samp->fineTune   = 0;
     samp->volume     = 64;
   } else {
+    int ft = 0xf & writable::integers(my_attr["fineTune"]).at(0);
     samp->length     = writable::integers(my_attr["length"]).at(0);
     samp->loopStart  = writable::integers(my_attr["loopStart"]).at(0);
     samp->loopLength = writable::integers(my_attr["loopLength"]).at(0);
-    samp->fineTune   = writable::integers(my_attr["fineTune"]).at(0);
+    samp->fineTune   = ft;
     samp->volume     = writable::integers(my_attr["volume"]).at(0);
     r_string name    = writable::strings(my_attr["text"]).at(0);
     int len = name.size();

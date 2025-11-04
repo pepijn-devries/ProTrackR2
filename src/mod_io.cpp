@@ -44,7 +44,7 @@ raws mod_as_raw_(SEXP mod) {
 }
 
 [[cpp11::register]]
-SEXP new_mod_(strings name) {
+SEXP new_mod_(std::string name) {
   module_t * my_song = createEmptyMod();
   set_mod_name_internal(my_song, name);
   return create_mod_pointer(my_song);
