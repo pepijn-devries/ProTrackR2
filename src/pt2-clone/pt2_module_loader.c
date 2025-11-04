@@ -187,45 +187,45 @@ static void fixZeroesInString(char *str, uint32_t maxLength)
 	}
 }
 
-void setupLoadedMod(void)
-{
-	moduleSample_t *s = song->samples;
-	for (int32_t i = 0; i < MOD_SAMPLES; i++, s++)
-		fillSampleRedoBuffer((uint8_t)i);
-
-	modSetPos(0, 0);
-	modSetPattern(0); // set pattern to 00 instead of first order's pattern
-
-
-	// calculate MOD size
-	// ui.updateSongSize = true;
-
-	editor.muted[0] = false;
-	editor.muted[1] = false;
-	editor.muted[2] = false;
-	editor.muted[3] = false;
-
-	editor.editMoveAdd = 1;
-	editor.currSample = 0;
-
-	editor.playbackSeconds = 0;
-	editor.playbackSecondsFrac = 0;
-
-	editor.modLoaded = true;
-	editor.blockMarkFlag = false;
-	editor.sampleZero = false;
-	editor.hiLowInstr = 0;
-
-	// disable LED filter after module load (real PT doesn't do this)
-	setLEDFilter(false);
-
-
-	editor.timingMode = TEMPO_MODE_CIA;
-	updateReplayerTimingMode();
-
-	modSetSpeed(6);
-	modSetTempo(song->header.initialTempo, false); // 125 for normal MODs, custom value for certain STK/UST MODs
-
-	editor.samplePos = 0;
-}
-
+// void setupLoadedMod(void)
+// {
+// 	moduleSample_t *s = song->samples;
+// 	for (int32_t i = 0; i < MOD_SAMPLES; i++, s++)
+// 		fillSampleRedoBuffer((uint8_t)i);
+// 
+// 	modSetPos(0, 0);
+// 	modSetPattern(0); // set pattern to 00 instead of first order's pattern
+// 
+// 
+// 	// calculate MOD size
+// 	// ui.updateSongSize = true;
+// 
+// 	editor.muted[0] = false;
+// 	editor.muted[1] = false;
+// 	editor.muted[2] = false;
+// 	editor.muted[3] = false;
+// 
+// 	editor.editMoveAdd = 1;
+// 	editor.currSample = 0;
+// 
+// 	editor.playbackSeconds = 0;
+// 	editor.playbackSecondsFrac = 0;
+// 
+// 	editor.modLoaded = true;
+// 	editor.blockMarkFlag = false;
+// 	editor.sampleZero = false;
+// 	editor.hiLowInstr = 0;
+// 
+// 	// disable LED filter after module load (real PT doesn't do this)
+// 	setLEDFilter(false);
+// 
+// 
+// 	editor.timingMode = TEMPO_MODE_CIA;
+// 	updateReplayerTimingMode();
+// 
+// 	modSetSpeed(6);
+// 	modSetTempo(song->header.initialTempo, false); // 125 for normal MODs, custom value for certain STK/UST MODs
+// 
+// 	editor.samplePos = 0;
+// }
+// 
