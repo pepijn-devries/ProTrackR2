@@ -1,8 +1,9 @@
+mod <- pt2_read_mod(pt2_demo())
+
 test_that("Module renders as expected", {
   skip_if_not_installed("av")
   snap <- "intro.mp3"
   announce_snapshot_file(snap)
-  mod <- pt2_read_mod(pt2_demo())
   tempwav <- tempfile(fileext = ".wav")
   tempmp3 <- tempfile(fileext = ".mp3")
   rndr <- pt2_render(mod, 10)
@@ -18,4 +19,20 @@ test_that("Module renders as expected", {
     return (result[[1]]/sum(result, na.rm = TRUE) < 0.25)
   }
   expect_snapshot_file(tempmp3, snap, compare = mp3_compare)
+})
+
+test_that("Sample, cell, cell list, pattern and pattern list render without errors", {
+  expect_no_error({
+    pt2_render(mod$samples[[1L]], samples = mod$samples)
+    pt2_render(mod$patterns[1L:2L], samples = mod$samples)
+    pt2_render(mod$patterns[[1L]], samples = mod$samples)
+    pt2_render(mod$patterns[[1L]][1L:8L,1L], samples = mod$samples)
+    pt2_render(mod$patterns[[1L]][1L,1L][[1L]], samples = mod$samples)
+  })
+})
+
+test_that("Duration is calculated correctly", {
+  expect_equal({
+    pt2_duration(mod) |> as.numeric()
+  }, 69.12204, tolerance = 1e-3)
 })

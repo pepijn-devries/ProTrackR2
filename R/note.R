@@ -38,46 +38,37 @@
 pt2_note <- function(x, ...) {
   if (!inherits(x, c("pt2cell", "pt2celllist")))
     stop("`x` should inherit `pt2cell` or `pt2celllist`.")
-  if (typeof(x) == "raw") {
-    x <- .get_raw_fun(x)(x, compact = FALSE)
-    if (inherits(x, "pt2celllist")) {
-      unclass(x) |>
-        matrix(ncol = pt_cell_bytesize(), byrow = TRUE) |>
-        apply(1L, pt_note_string_raw_, simplify = FALSE) |>
-        unlist()
-    } else {
-      pt_note_string_raw_(x)
-    }
+  x <- .get_raw_fun(x)(x, compact = FALSE)
+  if (inherits(x, "pt2celllist")) {
+    unclass(x) |>
+      matrix(ncol = pt_cell_bytesize(), byrow = TRUE) |>
+      apply(1L, pt_note_string_raw_, simplify = FALSE) |>
+      unlist()
   } else {
-    .cell_helper(x, pt_note_string_)
+    pt_note_string_raw_(x)
   }
 }
 
 #' @rdname pt2_note
 #' @export
 `pt2_note<-` <- function(x, silent = TRUE, ..., value) {
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    cur_class <- class(x)
-    raw_fun <- .get_raw_fun(x)
-    x <- raw_fun(x, compact = FALSE) |>
-      unclass()
-    value <- note_to_period_(value, "-", 0)
-    value[is.na(value)] <- 0L
-    
-    l <- pt_cell_bytesize()
-    idx <- (seq_len(length(x)/l) - 1L)*l
-    x[idx + l - 1L] <- bitwAnd(value, 0xff) |> as.raw()
-    x[idx + l] <- bitwShiftR(value, l + 2L) |> as.raw()
-    
-    class(x) <- cur_class
-    attributes(x)$compact_notation <- FALSE
-    x <- raw_fun(x, compact = cur_notation)
-    return(x)
-  } else {
-    .cell_helper(x, pt_set_note_, replacement = value, warn = !silent)
-  }
-  x
+  cur_notation <- attributes(x)$compact_notation
+  cur_class <- class(x)
+  raw_fun <- .get_raw_fun(x)
+  x <- raw_fun(x, compact = FALSE) |>
+    unclass()
+  value <- note_to_period_(value, "-", 0)
+  value[is.na(value)] <- 0L
+  
+  l <- pt_cell_bytesize()
+  idx <- (seq_len(length(x)/l) - 1L)*l
+  x[idx + l - 1L] <- bitwAnd(value, 0xff) |> as.raw()
+  x[idx + l] <- bitwShiftR(value, l + 2L) |> as.raw()
+  
+  class(x) <- cur_class
+  attributes(x)$compact_notation <- FALSE
+  x <- raw_fun(x, compact = cur_notation)
+  return(x)
 }
 
 #' Get a corresponding period value from a note string

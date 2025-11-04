@@ -33,16 +33,12 @@
 pt2_instrument <- function(x, ...) {
   if (!inherits(x, c("pt2cell", "pt2celllist")))
     stop("`x` should inherit `pt2cell` or `pt2celllist`")
-  if (typeof(x) == "raw") {
-    raw_fun <- .get_raw_fun(x)
-    x <- raw_fun(x, compact = FALSE) |>
-      unclass()
-    l <- pt_cell_bytesize()
-    idx <- (seq_len(length(x)/l) - 1L)*l + 2L
-    as.integer(x[idx])
-  } else {
-    .cell_helper(x, pt_instr_)
-  }
+  raw_fun <- .get_raw_fun(x)
+  x <- raw_fun(x, compact = FALSE) |>
+    unclass()
+  l <- pt_cell_bytesize()
+  idx <- (seq_len(length(x)/l) - 1L)*l + 2L
+  as.integer(x[idx])
 }
 
 #' @rdname pt2_instrument
@@ -51,21 +47,16 @@ pt2_instrument <- function(x, ...) {
   value <- as.integer(value)
   if (any(is.na(value) | value < 0L | value > 31L))
     stop("Replacement value should not contain `NA` or values <0 or >31")
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    cur_class <- class(x)
-    raw_fun <- .get_raw_fun(x)
-    x <- raw_fun(x, compact = FALSE) |>
-      unclass()
-    l <- pt_cell_bytesize()
-    idx <- (seq_len(length(x)/l) - 1L)*l + 2L
-    x[idx] <- as.raw(value)
-    class(x) <- cur_class
-    attributes(x)$compact_notation <- FALSE
-    x <- raw_fun(x, compact = cur_notation)
-    return(x)
-  } else {
-    .cell_helper(x, pt_set_instr_, replacement = value, warn = !silent)
-  }
-  x
+  cur_notation <- attributes(x)$compact_notation
+  cur_class <- class(x)
+  raw_fun <- .get_raw_fun(x)
+  x <- raw_fun(x, compact = FALSE) |>
+    unclass()
+  l <- pt_cell_bytesize()
+  idx <- (seq_len(length(x)/l) - 1L)*l + 2L
+  x[idx] <- as.raw(value)
+  class(x) <- cur_class
+  attributes(x)$compact_notation <- FALSE
+  x <- raw_fun(x, compact = cur_notation)
+  return(x)
 }
