@@ -52,7 +52,7 @@ raws sample_file_format_(SEXP input, std::string file_type) {
   
   writable::raws output((R_xlen_t)0);
   
-  if (file_type.compare("IFF")) {
+  if (file_type == "IFF") {
     // IFF file size
     // FORM + 8SVX + VHDR + 20 + NAME + namelen + ANNO + ProTrackR2 + BODY + samplelen
     uint32_t file_size = 16 * 4 + 8 + 20 + 10 + sampleLength + (sampleLength & 1);
@@ -122,7 +122,8 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     
     if (sampleLength & 1) buffer[0] = 0;
     output.resize(file_size);
-  } else if (file_type.compare("WAV")) {
+    return output;
+  } else if (file_type == "WAV") {
     wavHeader_t wavHeader;
     samplerChunk_t samplerChunk;
     mptExtraChunk_t mptExtraChunk;
@@ -144,7 +145,7 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     wavHeader.byteRate = wavHeader.sampleRate * wavHeader.numChannels * wavHeader.bitsPerSample / 8;
     wavHeader.blockAlign = wavHeader.numChannels * wavHeader.bitsPerSample / 8;
     
-    if (loopStart+loopLength > 2) // loop enabled?
+    if (loopStart + loopLength > 2) // loop enabled?
     {
       wavHeader.chunkSize += sizeof (samplerChunk_t);
       samplerChunk.chunkID = 0x6C706D73; // "smpl"
@@ -191,10 +192,10 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     }
     
     memcpy(buffer, &mptExtraChunk, sizeof (mptExtraChunk));
-    
+    return output;
   } else {
     stop("Writing file type '%s' is not supported.",
-             file_type.c_str());
+         file_type.c_str());
   }
-  return output;
+  return R_NilValue;
 }
