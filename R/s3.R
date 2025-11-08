@@ -118,13 +118,9 @@ as.character.pt2command <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 format.pt2command <- function(x, fmt = getOption("pt2_effect_format"), ...) {
-  if (typeof(x) == "raw") {
-    matrix(x, ncol = 2L, byrow = TRUE) |>
-      apply(1, .command_format, fmt, simplify = FALSE) |>
-      unlist()
-  } else {
-    .command_format(x, fmt)
-  }
+  matrix(x, ncol = 2L, byrow = TRUE) |>
+    apply(1, .command_format, fmt, simplify = FALSE) |>
+    unlist()
 }
 
 #' @method print pt2command
@@ -191,19 +187,15 @@ as.raw.pt2celllist <- function(x, ...) {
 #' @export
 as.raw.pt2celllist.logical <- function(x, compact = TRUE, ...) {
   d <- attr(x, "celldim")
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
-    x <-
-      matrix(unclass(x), ncol = width, byrow = TRUE) |>
-      apply(1, \(y) {
-        class(y) <- "pt2cell"
-        attributes(y)$compact_notation <- cur_notation
-        as.raw.pt2cell(y, compact = compact)
-      }, simplify = FALSE) |> unlist()
-  } else {
-    x <- lapply(x, \(y) as.raw.pt2cell(y, compact = compact, ...)) |> unlist()
-  }
+  cur_notation <- attributes(x)$compact_notation
+  width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
+  x <-
+    matrix(unclass(x), ncol = width, byrow = TRUE) |>
+    apply(1, \(y) {
+      class(y) <- "pt2cell"
+      attributes(y)$compact_notation <- cur_notation
+      as.raw.pt2cell(y, compact = compact)
+    }, simplify = FALSE) |> unlist()
   structure(x, class = "pt2celllist", celldim = d, compact_notation = compact)
 }
 

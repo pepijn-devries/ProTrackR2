@@ -15,6 +15,12 @@ test_that("Sample name can be set", {
   }, "foobar")
 })
 
+test_that("Sample name replacement should have same number of elements as its source", {
+  expect_error({
+    pt2_name(mod$samples) <- "foobar"
+  })
+})
+
 test_that("Sample list name can be set", {
   expect_identical({
     pt2_name(mod$samples) <- rep("foobar", 31)
@@ -51,6 +57,9 @@ test_that("Sample properties can be changed", {
     
     pt2_is_looped(mod$samples[[2]])
     pt2_is_looped(mod$samples[[2]]) <- TRUE
+
+    pt2_is_looped(mod$samples[[2]]) <- FALSE
+
   })
 })
 
@@ -58,4 +67,10 @@ test_that("Sample can be coerced", {
   expect_s3_class({
     pt2_sample_to_audio(mod$samples[[1]])
   }, "audioSample")
+})
+
+test_that("You can select a subset of samples", {
+  expect_equal({
+    mod$samples[1:2] |> length()
+  }, 2L)
 })

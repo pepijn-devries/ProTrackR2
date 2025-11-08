@@ -66,7 +66,7 @@
     }
     
   } else {
-    stop("Index out of range")
+    stop("Unknown module element")
   }
   x
 }
@@ -145,18 +145,13 @@
 `[.pt2pat` <- function(x, i, j, ...) {
   if (missing(i)) i <- 1L:64L
   if (missing(j)) j <- 1L:4L
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
-    idx <- outer(i - 1L, j - 1L, \(y, z) y*width * 4L + z*width) |> c()
-    idx <- outer(1:width, idx, `+`) |> c()
-    x <- unclass(x)
-    x <- x[idx]
-    attributes(x)$compact_notation <- cur_notation
-  } else {
-    idx <- expand.grid(i = i - 1L, j = j - 1L)
-    x <- mapply(\(y, i, j) pt2_cell(x, i, j), i = idx[,"i"], j = idx[,"j"], SIMPLIFY = FALSE)
-  }
+  cur_notation <- attributes(x)$compact_notation
+  width <- ifelse(cur_notation, 4L, pt_cell_bytesize())
+  idx <- outer(i - 1L, j - 1L, \(y, z) y*width * 4L + z*width) |> c()
+  idx <- outer(1:width, idx, `+`) |> c()
+  x <- unclass(x)
+  x <- x[idx]
+  attributes(x)$compact_notation <- cur_notation
   class(x) <- "pt2celllist"
   attr(x, "celldim") <- c(length(i), length(j))
   as.raw.pt2celllist(x, compact = TRUE)
@@ -174,26 +169,19 @@
   target_idx <-
     expand.grid(as.integer(i) - 1L, as.integer(j) - 1L)
   
-  if (typeof(x) == "raw") {
-    values <- as.raw.pt2celllist(value, compact = attributes(x)$compact_notation)
-    compact <- attributes(x)$compact_notation
-    size <- ifelse(compact, 4L, pt_cell_bytesize())
-    x <- x |> unclass()
-    target_idx <-
-      target_idx |>
-      apply(1, \(z) size * (z[1] * 4L + z[2])) |>
-      lapply(`+`, seq_len(size)) |>
-      unlist()
-    x[target_idx] <- unlist(values)
-    class(x) <- "pt2pat"
-    attributes(x)$compact_notation <- compact
-    x
-  } else {
-    values <- as.raw.pt2celllist(value, compact = FALSE)
-    m <- replace_cells_(x, as.matrix(target_idx), values)
-    if (m != "") warning(m)
-    x
-  }
+  values <- as.raw.pt2celllist(value, compact = attributes(x)$compact_notation)
+  compact <- attributes(x)$compact_notation
+  size <- ifelse(compact, 4L, pt_cell_bytesize())
+  x <- x |> unclass()
+  target_idx <-
+    target_idx |>
+    apply(1, \(z) size * (z[1] * 4L + z[2])) |>
+    lapply(`+`, seq_len(size)) |>
+    unlist()
+  x[target_idx] <- unlist(values)
+  class(x) <- "pt2pat"
+  attributes(x)$compact_notation <- compact
+  x
 }
 
 #' @rdname select_assign
@@ -216,18 +204,14 @@
   
   if (length(list(...)) != 0) warning("Ignoring arguments passed to dots")
   
-  if (typeof(x) == "raw") {
-    cpt <- attr(x, "compact_notation")
-    d <- attr(x, "celldim")
-    value <- as.raw.pt2celllist(value, compact = cpt)
-    sz <- ifelse(cpt, 4L, pt_cell_bytesize())
-    idx <- rep((i - 1L)*sz, each = sz) + seq_len(sz)
-    x <- unclass(x)
-    x[idx] <- unclass(value)
-    x <- structure(x, class = "pt2celllist", celldim = d, compact_notation = cpt)
-  } else {
-    replace_cells_(x, as.integer(i), as.raw.pt2celllist(value, compact = FALSE))
-  }
+  cpt <- attr(x, "compact_notation")
+  d <- attr(x, "celldim")
+  value <- as.raw.pt2celllist(value, compact = cpt)
+  sz <- ifelse(cpt, 4L, pt_cell_bytesize())
+  idx <- rep((i - 1L)*sz, each = sz) + seq_len(sz)
+  x <- unclass(x)
+  x[idx] <- unclass(value)
+  x <- structure(x, class = "pt2celllist", celldim = d, compact_notation = cpt)
   x
 }
 
@@ -249,25 +233,17 @@
 #' @rdname select_assign
 #' @export
 `[[.pt2celllist` <- function(x, i, ...) {
-  if (typeof(x) == "raw") {
-    cur_class    <- class(x)
-    x <- .raw_sel_celllist(x, i)
-    class(x) <- union("pt2cell", setdiff(cur_class, "pt2cellist"))
-    x
-  } else {
-    NextMethod()
-  }
+  cur_class    <- class(x)
+  x <- .raw_sel_celllist(x, i)
+  class(x) <- union("pt2cell", setdiff(cur_class, "pt2cellist"))
+  x
 }
 
 #' @rdname select_assign
 #' @export
 `[.pt2celllist` <- function(x, i, ...) {
   cur_class <- class(x)
-  if (typeof(x) == "raw") {
-    x <- .raw_sel_celllist(x, i)
-  } else {
-    x <- NextMethod()
-  }
+  x <- .raw_sel_celllist(x, i)
   class(x) <- cur_class
   x
 }
@@ -275,24 +251,16 @@
 #' @rdname select_assign
 #' @export
 `[[.pt2command` <- function(x, i, ...) {
-  if (typeof(x) == "raw") {
-    x <- .raw_sel_command(x, i)
-    class(x) <- "pt2command"
-    x
-  } else {
-    NextMethod()
-  }
+  x <- .raw_sel_command(x, i)
+  class(x) <- "pt2command"
+  x
 }
 
 #' @rdname select_assign
 #' @export
 `[.pt2command` <- function(x, i, ...) {
   cur_class <- class(x)
-  if (typeof(x) == "raw") {
-    x <- .raw_sel_command(x, i)
-  } else {
-    x <- NextMethod()
-  }
+  x <- .raw_sel_command(x, i)
   class(x) <- cur_class
   x
 }
