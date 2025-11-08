@@ -19,10 +19,11 @@ if (!requireNamespace("ProTrackR")) {
     dur2 <- c(dur2, as.numeric(endtime - starttime, "secs"))
   }
   mean(dur1)/mean(dur2)
-  ProTrackR2::pt2_write_sample(mod2$samples[[1]], "data-raw/test-sample.wav")
-  ProTrackR2::pt2_write_sample(mod2$samples[[1]], "data-raw/test-sample.iff")
   if (requireNamespace("av")) {
-    samp <- av::read_audio_bin("data-raw/test-sample.wav")
-    av::av_audio_convert("data-raw/test-sample.wav", "data-raw/test-sample.aiff")
+    tempsmp <- tempfile(fileext = ".wav")
+    pt2_write_sample(mod2$samples[[1]], tempsmp)
+    samp <- av::read_audio_bin(tempsmp)
+    av::av_audio_convert(
+      tempsmp, "data-raw/test-sample.aiff", format = "u8")
   }
 }
