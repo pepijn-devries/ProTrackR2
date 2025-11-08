@@ -271,17 +271,7 @@ as.character.pt2celllist <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.raw.pt2command <- function(x, ...) {
-  if (typeof(x) == "raw") return(x)
-  
-  if (inherits(x, "pt2celllist") || is.null(names(x))) {
-    mods <- lapply(x, `[[`, "mod")
-    i <- lapply(x, `[[`, "i") |> unlist()
-    j <- lapply(x, `[[`, "j") |> unlist()
-    k <- lapply(x, `[[`, "k") |> unlist()
-    pt_eff_command_(mods, i, k, j)
-  } else {
-    pt_eff_command_(list(x$mod), x$i, x$k, x$j)
-  }
+  x # pt2command is already raw
 }
 
 #' @method as.raw pt2cell
@@ -297,37 +287,25 @@ as.raw.pt2cell <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.raw.pt2cell.logical <- function(x, compact = TRUE, ...) {
-  if (typeof(x) == "raw") {
-    cur_notation <- attributes(x)$compact_notation
-    if (is.null(cur_notation))
-      stop("Unknown notation of `pt2cell`")
-    if (cur_notation == compact) return (x)
-    if (cur_notation) {
-      x <- pt_decode_compact_cell(x)
-    } else {
-      x <- pt_encode_compact_cell(x)
-    }
-    class(x) <- "pt2cell"
-    attributes(x)$compact_notation <- !cur_notation
-    x
+  cur_notation <- attributes(x)$compact_notation
+  if (is.null(cur_notation))
+    stop("Unknown notation of `pt2cell`")
+  if (cur_notation == compact) return (x)
+  if (cur_notation) {
+    x <- pt_decode_compact_cell(x)
   } else {
-    result <-
-      cells_as_raw_(x$mod, as.integer(x$i), compact, FALSE,
-                    as.integer(x$j), as.integer(x$k))
-    class(result) <- "pt2cell"
-    result
+    x <- pt_encode_compact_cell(x)
   }
+  class(x) <- "pt2cell"
+  attributes(x)$compact_notation <- !cur_notation
+  x
 }
 
 #' @method format pt2samp
 #' @rdname s3methods
 #' @export
 format.pt2samp <- function(x, ...) {
-  si <- if (typeof(x) == "raw") {
-    attributes(x)$sample_info
-  } else {
-    mod_sample_info_(x$mod, as.integer(x$i))
-  }
+  si <- attributes(x)$sample_info
   sprintf("PT2 Sample '%s' [%i]", si$text, si$length)
 }
 
@@ -399,17 +377,13 @@ as.raw.pt2samp <- function(x, ...) {
 #' @rdname s3methods
 #' @export
 as.integer.pt2samp <- function(x, ...) {
-  if (typeof(x) == "raw") {
-    a <- attributes(x)
-    x <-
-      unclass(x) |>
-      as.integer()
-    x[x > 127L] <- x[x > 127L] - 256L
-    attributes(x) <- a[!names(a) %in% "class"]
-    x
-  } else {
-    mod_sample_as_int_(x$mod, x$i)
-  }
+  a <- attributes(x)
+  x <-
+    unclass(x) |>
+    as.integer()
+  x[x > 127L] <- x[x > 127L] - 256L
+  attributes(x) <- a[!names(a) %in% "class"]
+  x
 }
 
 .command_format <- function(x, fmt = getOption("pt2_effect_format")) {

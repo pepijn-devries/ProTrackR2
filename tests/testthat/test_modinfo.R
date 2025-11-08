@@ -21,3 +21,9 @@ test_that("Mod name can be set", {
     pt2_name(mod)
   }, "foobar")
 })
+
+test_that("Pattern can be coerced to modplug", {
+  expect_equal({
+    mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))[[1]]
+  }, "ModPlug Tracker MOD")
+})

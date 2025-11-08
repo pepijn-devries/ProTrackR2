@@ -7,3 +7,9 @@ test_that("Can add a 100th pattern to a mod", {
   })
 })
 
+test_that("Commands can be extracted", {
+  expect_no_error({
+    comm <- pt2_command(mod$patterns[[1]][])
+    pt2_command(comm)
+  })
+})
