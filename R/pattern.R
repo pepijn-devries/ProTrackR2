@@ -16,7 +16,8 @@ pt2_pattern <- function(mod, i, ...) {
   structure(
     list(mod = mod, i = as.integer(i)),
     class = "pt2pat"
-  )
+  ) |>
+    as.raw.pt2pat(compact = TRUE)
 }
 
 #' Create a new ProTracker pattern

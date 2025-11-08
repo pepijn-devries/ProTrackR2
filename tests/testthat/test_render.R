@@ -1,7 +1,8 @@
 mod <- pt2_read_mod(pt2_demo())
 
 test_that("Module renders as expected", {
-  skip_if(Sys.getenv("THIS_IS_RHUB") == "yes", "Skip this test on RHUB as the `av` package leaks memory")
+  skip_if(grepl("valgrind", Sys.getenv("CHECK_ARGS", ""), ignore.case = TRUE),
+   "Skip this test on RHUB as the `av` package leaks memory")
   skip_on_cran()
   skip_if_not_installed("av")
   snap <- "intro.mp3"

@@ -54,13 +54,17 @@ raws sample_file_format_(SEXP input, std::string file_type) {
   
   if (file_type == "IFF") {
     // IFF file size
-    // FORM + 8SVX + VHDR + 20 + NAME + namelen + ANNO + ProTrackR2 + BODY + samplelen
-    uint32_t file_size = 16 * 4 + 8 + 20 + 10 + sampleLength + (sampleLength & 1);
+    // FORM + 8SVX + VHDR + 20 + (NAME + namelen) + ANNO + ProTrackR2 + BODY + samplelen
+    // 6 chunk headers of which 5 have also length 6 * 4 + 5 * 4
+    // VHDR always has 20 bytes
+    // ANNO always has 10 bytes
+    // NAME and BODY have variable length
+    uint32_t file_size = 6 * 4 + 5 * 4 + 20 + 10 + sampleLength + (sampleLength & 1);
     if (namelen > 0) {
-      file_size += 16 + (namelen + (namelen&1));
+      file_size += (namelen + (namelen&1));
     }
     
-    int32_t align = ((uint32_t)(file_size/4))*4;
+    int32_t align = ((uint32_t)(file_size/2))*2;
     
     writable::raws output((R_xlen_t)align);
     uint8_t * buffer = (uint8_t *)RAW(as_sexp(output));

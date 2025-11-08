@@ -18,7 +18,8 @@ pt2_sample <- function(mod, i, ...) {
   structure(
     list(mod = mod, i = as.integer(i)),
     class = "pt2samp"
-  )
+  ) |>
+    as.raw()
 }
 
 #' @rdname mod_info
