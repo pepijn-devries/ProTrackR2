@@ -94,6 +94,7 @@
 #' @rdname select_assign
 #' @export
 `[.pt2patlist` <- function(x, i, ...) {
+  if (missing(i)) i <- seq_along(x)
   x <- unclass(x)
   x <- NextMethod()
   class(x) <- "pt2patlist"
@@ -125,6 +126,7 @@
 #' @rdname select_assign
 #' @export
 `[.pt2samplist` <- function(x, i, ...) {
+  if (missing(i)) i <- seq_along(x)
   x <- unclass(x)
   x <- NextMethod()
   class(x) <- "pt2samplist"
@@ -161,8 +163,6 @@
 #' @export
 `[<-.pt2pat` <- function(x, i, j, ..., value) {
   if (is.character(value)) value <- as_pt2celllist(value)
-  if (!inherits(value, "pt2celllist"))
-    stop("`values` should be of class `pt2celllist`")
   
   if (missing(i)) i <- 1L:64L
   if (missing(j)) j <- 1L:4L
@@ -242,6 +242,7 @@
 #' @rdname select_assign
 #' @export
 `[.pt2celllist` <- function(x, i, ...) {
+  if (missing(i)) i <- seq_along(x)
   cur_class <- class(x)
   x <- .raw_sel_celllist(x, i)
   class(x) <- cur_class
@@ -259,6 +260,7 @@
 #' @rdname select_assign
 #' @export
 `[.pt2command` <- function(x, i, ...) {
+  if (missing(i)) i <- seq_along(x)
   cur_class <- class(x)
   x <- .raw_sel_command(x, i)
   class(x) <- cur_class
@@ -268,50 +270,26 @@
 #' @rdname select_assign
 #' @export
 `[[<-.pt2command` <- function(x, i, ..., value) {
-  if (inherits(x, c("pt2cell", "pt2celllist"))) {
-    
-    class(x) <- setdiff(class(x), "pt2command")
-    pt2_command(x[[i]]) <- value
-    class(x) <- union("pt2command", class(x))
-    
-  } else if (typeof(x) == "raw") {
-    
-    x <- .command_list(x)
-    value <- pt2_command(value) |>
-      as.raw() |>
-      .command_list()
-    x[[i]] <- value
-    x <- unlist(x)
-    class(x) <- "pt2command"
-    
-  } else {
-    stop("Replacement method not implemented")
-  }
+  x <- .command_list(x)
+  value <- pt2_command(value) |>
+    as.raw() |>
+    .command_list()
+  x[[i]] <- value
+  x <- unlist(x)
+  class(x) <- "pt2command"    
   x
 }
 
 #' @rdname select_assign
 #' @export
 `[<-.pt2command` <- function(x, i, ..., value) {
-  if (inherits(x, c("pt2cell", "pt2celllist"))) {
-    
-    class(x) <- setdiff(class(x), "pt2command")
-    pt2_command(x[i]) <- value
-    class(x) <- union("pt2command", class(x))
-    
-  } else if (typeof(x) == "raw") {
-    
-    x <- .command_list(x)
-    value <- pt2_command(value) |>
-      as.raw() |>
-      .command_list()
-    x[i] <- value
-    x <- unlist(x)
-    class(x) <- "pt2command"
-    
-  } else {
-    stop("Replacement method not implemented")
-  }
+  x <- .command_list(x)
+  value <- pt2_command(value) |>
+    as.raw() |>
+    .command_list()
+  x[i] <- value
+  x <- unlist(x)
+  class(x) <- "pt2command"
   x
 }
 

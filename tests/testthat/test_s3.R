@@ -1,7 +1,8 @@
+mod <- pt2_read_mod(pt2_demo())
+
 test_that("S3 methods don't throw errors", {
   expect_no_error({
     sink(tempfile())
-    mod      <- pt2_read_mod(pt2_demo())
     patterns <- mod$patterns
     pattern  <- patterns[[1]]
     cells    <- pattern[1:4,1]
@@ -42,6 +43,13 @@ test_that("S3 methods don't throw errors", {
     as.raw(cmnd)
     
     as.integer(sample)
+    
     sink()
+  })
+})
+
+test_that("Select and replace operators work OK", {
+  expect_no_error({
+    mod$patterns[[1]][] <- "--- 01 111"
   })
 })
