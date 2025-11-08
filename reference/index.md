@@ -1,0 +1,129 @@
+# Package index
+
+## All functions
+
+- [`as_modplug_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_modplug_pattern.md)
+  : Format a ProTracker pattern conform OpenMPT specs
+- [`as_pt2cell()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_pt2cell.md)
+  [`as_pt2celllist()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_pt2cell.md)
+  : Convert object into a pt2cell or pt2celllist class object
+- [`effect_commands`](https://pepijn-devries.github.io/ProTrackR2/reference/effect_commands.md)
+  : Effect commands (data.frame)
+- [`pt2_length()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`` `pt2_length<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`pt2_n_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`pt2_pattern_table()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`` `pt2_pattern_table<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`pt2_name()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`` `pt2_name<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  [`pt2_n_sample()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_info.md)
+  : Obtain ProTracker module information
+- [`pt2_read_mod()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_io.md)
+  [`pt2_write_mod()`](https://pepijn-devries.github.io/ProTrackR2/reference/mod_io.md)
+  : Read and write ProTracker modules
+- [`play(`*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  [`play(`*`<pt2samp>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  [`play(`*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  [`play(`*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  [`play(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  [`play(`*`<pt2cell>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/play.md)
+  : Play a ProTrackR2 class objects as audio
+- [`pt2_cell()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_cell.md)
+  : Select a cell from a ProTracker pattern table
+- [`pt2_command()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_command.md)
+  [`` `pt2_command<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_command.md)
+  : Extract effect commands from a ProTracker module
+- [`pt2_demo()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_demo.md)
+  : Path to demonstration ProTracker module file
+- [`pt2_duration()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_duration.md)
+  : Calculate the duration of the module
+- [`pt2_instrument()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_instrument.md)
+  [`` `pt2_instrument<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_instrument.md)
+  : Extract or replace a sample index from a ProTracker pattern
+- [`pt2_new_mod()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_mod.md)
+  : Create a new (empty) ProTracker module
+- [`pt2_new_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.md)
+  : Create a new ProTracker pattern
+- [`pt2_note()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note.md)
+  [`` `pt2_note<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note.md)
+  : Extract a note from a ProTracker module
+- [`pt2_note_to_period()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note_to_period.md)
+  : Get a corresponding period value from a note string
+- [`pt2_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_pattern.md)
+  : Retrieve a pattern from a ProTracker module
+- [`pt2_render()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render.md)
+  : Render ProTracker modules and other objects to a playable format
+- [`pt2_render_options()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render_options.md)
+  : Retrieve options for rendering
+- [`pt2_sample()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_sample.md)
+  : Obtain sample data and info from a ProTracker module
+- [`pt2_sample_to_audio()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_sample_to_audio.md)
+  : Coerce ProTracker sample to audio sample
+- [`pt2_validate()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_validate.md)
+  : Validate ProTrackR2 S3 class objects
+- [`format(`*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.character(`*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.character(`*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw.pt2celllist(`*`<logical>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw.pt2pat(`*`<logical>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2cell>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2cell>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.character(`*`<pt2cell>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.character(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2cell>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw.pt2cell(`*`<logical>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2samp>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2samp>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`format(`*`<pt2samplist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`print(`*`<pt2samplist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.raw(`*`<pt2samp>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`as.integer(`*`<pt2samp>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`length(`*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  [`length(`*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/s3methods.md)
+  : Implementation of basic S3 methods
+- [`pt2_read_sample()`](https://pepijn-devries.github.io/ProTrackR2/reference/samp_io.md)
+  [`pt2_write_sample()`](https://pepijn-devries.github.io/ProTrackR2/reference/samp_io.md)
+  : Read and write ProTracker audio samples
+- [`pt2_finetune()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`` `pt2_finetune<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`pt2_volume()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`` `pt2_volume<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`pt2_loop_start()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`` `pt2_loop_start<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`pt2_loop_length()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`` `pt2_loop_length<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`pt2_is_looped()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  [`` `pt2_is_looped<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
+  : Get or set ProTracker sample properties
+- [`` `$`( ``*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `$<-`( ``*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[`( ``*`<pt2mod>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[`( ``*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[`( ``*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[<-`( ``*`<pt2patlist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[`( ``*`<pt2samplist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[`( ``*`<pt2samplist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[`( ``*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[<-`( ``*`<pt2pat>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[<-`( ``*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[<-`( ``*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[`( ``*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[`( ``*`<pt2celllist>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[`( ``*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[`( ``*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[[<-`( ``*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  [`` `[<-`( ``*`<pt2command>`*`)`](https://pepijn-devries.github.io/ProTrackR2/reference/select_assign.md)
+  : Select and assign operators for ProTrackR2 S3 class objects
