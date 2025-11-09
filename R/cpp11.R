@@ -48,8 +48,8 @@ pt_get_PAL_hz <- function() {
   .Call(`_ProTrackR2_pt_get_PAL_hz`)
 }
 
-cells_as_raw_ <- function(mod, pattern, compact, as_pattern, row, channel) {
-  .Call(`_ProTrackR2_cells_as_raw_`, mod, pattern, compact, as_pattern, row, channel)
+cells_as_raw_ <- function(mod, pattern, compact, row, channel) {
+  .Call(`_ProTrackR2_cells_as_raw_`, mod, pattern, compact, row, channel)
 }
 
 set_new_pattern_ <- function(mod, pattern_idx, data_new) {
@@ -60,40 +60,12 @@ pt_cell_bytesize <- function() {
   .Call(`_ProTrackR2_pt_cell_bytesize`)
 }
 
-pt_cell_ <- function(mod, pattern, channel, row) {
-  .Call(`_ProTrackR2_pt_cell_`, mod, pattern, channel, row)
-}
-
 note_to_period_ <- function(note, empty_char, finetune) {
   .Call(`_ProTrackR2_note_to_period_`, note, empty_char, finetune)
 }
 
-pt_note_string_ <- function(mod, pattern, channel, row) {
-  .Call(`_ProTrackR2_pt_note_string_`, mod, pattern, channel, row)
-}
-
 pt_note_string_raw_ <- function(data) {
   .Call(`_ProTrackR2_pt_note_string_raw_`, data)
-}
-
-pt_set_note_ <- function(mod, pattern, channel, row, replacement, warn) {
-  .Call(`_ProTrackR2_pt_set_note_`, mod, pattern, channel, row, replacement, warn)
-}
-
-pt_instr_ <- function(mod, pattern, channel, row) {
-  .Call(`_ProTrackR2_pt_instr_`, mod, pattern, channel, row)
-}
-
-pt_set_instr_ <- function(mod, pattern, channel, row, replacement, warn) {
-  .Call(`_ProTrackR2_pt_set_instr_`, mod, pattern, channel, row, replacement, warn)
-}
-
-pt_eff_command_ <- function(mod, pattern, channel, row) {
-  .Call(`_ProTrackR2_pt_eff_command_`, mod, pattern, channel, row)
-}
-
-pt_set_eff_command_ <- function(mod, pattern, channel, row, replacement, warn) {
-  .Call(`_ProTrackR2_pt_set_eff_command_`, mod, pattern, channel, row, replacement, warn)
 }
 
 pt_rawcell_as_char_ <- function(pattern, padding, empty_char, sformat) {
@@ -106,14 +78,6 @@ pt_decode_compact_cell <- function(source) {
 
 pt_encode_compact_cell <- function(source) {
   .Call(`_ProTrackR2_pt_encode_compact_cell`, source)
-}
-
-celllist_to_raw_ <- function(celllist, compact) {
-  .Call(`_ProTrackR2_celllist_to_raw_`, celllist, compact)
-}
-
-replace_cells_ <- function(pattern, idx, replacement) {
-  .Call(`_ProTrackR2_replace_cells_`, pattern, idx, replacement)
 }
 
 pt_cleanup_ <- function() {

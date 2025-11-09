@@ -220,7 +220,7 @@ as.raw.pt2pat.logical <- function(x, compact = TRUE, ...) {
     attributes(x)$compact_notation <- !cur_notation
     x
   } else {
-    cells_as_raw_(x$mod, as.integer(x$i), compact, TRUE, 0L, 0L)
+    cells_as_raw_(x$mod, as.integer(x$i), compact, 0L, 0L)
   }
 }
 

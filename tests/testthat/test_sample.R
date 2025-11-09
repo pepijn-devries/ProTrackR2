@@ -74,3 +74,9 @@ test_that("You can select a subset of samples", {
     mod$samples[1:2] |> length()
   }, 2L)
 })
+
+test_that("Sample from demo mod is valid", {
+  expect_true({
+    pt2_validate(mod$samples[[1]])
+  })
+})
