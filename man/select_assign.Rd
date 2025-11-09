@@ -3,12 +3,16 @@
 \name{$.pt2mod}
 \alias{$.pt2mod}
 \alias{$<-.pt2mod}
+\alias{[[<-.pt2mod}
 \alias{[[.pt2mod}
 \alias{[.pt2patlist}
 \alias{[[.pt2patlist}
 \alias{[[<-.pt2patlist}
 \alias{[.pt2samplist}
 \alias{[[.pt2samplist}
+\alias{[[<-.pt2samplist}
+\alias{[[.pt2pat}
+\alias{[[<-.pt2pat}
 \alias{[.pt2pat}
 \alias{[<-.pt2pat}
 \alias{[[<-.pt2celllist}
@@ -25,6 +29,8 @@
 
 \method{$}{pt2mod}(x, i) <- value
 
+\method{[[}{pt2mod}(x, i) <- value
+
 \method{[[}{pt2mod}(x, i, ...)
 
 \method{[}{pt2patlist}(x, i, ...)
@@ -36,6 +42,12 @@
 \method{[}{pt2samplist}(x, i, ...)
 
 \method{[[}{pt2samplist}(x, i, ...)
+
+\method{[[}{pt2samplist}(x, i) <- value
+
+\method{[[}{pt2pat}(x, i, ...)
+
+\method{[[}{pt2pat}(x, i) <- value
 
 \method{[}{pt2pat}(x, i, j, ...)
 

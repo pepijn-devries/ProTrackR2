@@ -50,6 +50,13 @@ test_that("S3 methods don't throw errors", {
 
 test_that("Select and replace operators work OK", {
   expect_no_error({
-    mod$patterns[[1]][] <- "--- 01 111"
+    pat <- mod$patterns[[1]]
+    pat[]
+    pat[][]
+    pat[[1]][]
+    pat[] <- "--- 01 111"
+    pat[][] <- "--- 01 111"
+    comm <- pt2_command(mod$patterns[[1]])
+    comm[] <- "AAA"
   })
 })

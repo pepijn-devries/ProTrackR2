@@ -18,6 +18,19 @@
 #' @rdname select_assign
 #' @export
 `$<-.pt2mod` <- function(x, i, value) {
+  x[[i]] <- value
+  x
+}
+
+#' @rdname select_assign
+#' @export
+`[[<-.pt2mod` <- function(x, i, value) {
+  what <- if (i == 1L || toupper(i) == "PATTERNS") "patterns" else if (i == 2L || toupper(i) == "SAMPLES") "samples" else
+    "unknown"
+  if (what == "samples" && !inherits(value, "pt2samplist"))
+    stop("Can only replace a sample list with an object of class `pt2samplist`")
+  if (what == "patterns" && !inherits(value, "pt2patlist"))
+    stop("Can only replace a pattern list with an object of class `pt2patlist`")
   value <-
     value |>
     length() |>
@@ -34,7 +47,7 @@
       }
     })
   
-  if (i == 1L || toupper(i) == "PATTERNS") {
+  if (what == "patterns") {
     if (length(value) > 100L)
       stop("A ProTracker module cannot hold more than 100 patterns.")
     n_pat <- pt2_n_pattern(x)
@@ -57,7 +70,7 @@
         set_new_pattern_(x, as.integer(j - 1L), unclass(value[[j]]))
       }
     }
-  } else if (i == 2L || toupper(i) == "SAMPLES") {
+  } else if (what == "samples") {
     for (j in seq_len(length(value))) {
       if (is.raw(value[[j]])) {
         if (!validate_sample_raw_(value[[j]])) stop(sprintf("Not a valid sample at index %i", j))
@@ -65,8 +78,6 @@
       }
     }
     
-  } else {
-    stop("Unknown module element")
   }
   x
 }
@@ -87,7 +98,7 @@
     class(result) <- "pt2samplist"
     result
   } else {
-    stop("Index out of range")
+    stop("Unknown module element")
   }
 }
 
@@ -144,6 +155,30 @@
 
 #' @rdname select_assign
 #' @export
+`[[<-.pt2samplist` <- function(x, i, value) {
+  if (!inherits(value, "pt2samp"))
+    stop("Can only replace a sample in a sample list by an object of class `pt2samp`")
+  x <- unclass(x)
+  x[[i]] <- value
+  class(x) <- "pt2samplist"
+  x
+}
+
+#' @rdname select_assign
+#' @export
+`[[.pt2pat` <- function(x, i, ...) {
+  x[][[i]]
+}
+
+#' @rdname select_assign
+#' @export
+`[[<-.pt2pat` <- function(x, i, value) {
+  x[][[i]] <- value
+  x
+}
+
+#' @rdname select_assign
+#' @export
 `[.pt2pat` <- function(x, i, j, ...) {
   if (missing(i)) i <- 1L:64L
   if (missing(j)) j <- 1L:4L
@@ -162,7 +197,7 @@
 #' @rdname select_assign
 #' @export
 `[<-.pt2pat` <- function(x, i, j, ..., value) {
-  if (is.character(value)) value <- as_pt2celllist(value)
+  value <- as_pt2celllist(value)
   
   if (missing(i)) i <- 1L:64L
   if (missing(j)) j <- 1L:4L
@@ -199,6 +234,7 @@
 #' @rdname select_assign
 #' @export
 `[<-.pt2celllist` <- function(x, i, ..., value) {
+  if (missing(i)) i <- seq_along(x)
   if (!inherits(value, c("pt2cell", "pt2celllist")))
     value <- as_pt2celllist(value)
   
@@ -233,6 +269,7 @@
 #' @rdname select_assign
 #' @export
 `[[.pt2celllist` <- function(x, i, ...) {
+  if (missing(i)) i <- seq_along(x)
   cur_class    <- class(x)
   x <- .raw_sel_celllist(x, i)
   class(x) <- union("pt2cell", setdiff(cur_class, "pt2cellist"))

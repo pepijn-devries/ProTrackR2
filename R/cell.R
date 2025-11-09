@@ -91,6 +91,12 @@ as_pt2celllist <- function(x, ...) {
   UseMethod("as_pt2celllist")
 }
 
+#' @method as_pt2celllist pt2celllist
+#' @export
+as_pt2celllist.pt2celllist <- function(x, ...) {
+  x
+}
+
 #' @method as_pt2celllist character
 #' @export
 as_pt2celllist.character <- function(x, ...) {
