@@ -19,25 +19,25 @@
 
 sampler_t sampler; // globalized
 
-void killSample(void)
-{
-	if (editor.sampleZero)
-		return;
-
-	turnOffVoices();
-	moduleSample_t *s = &song->samples[editor.currSample];
-
-	s->fineTune = 0;
-	s->volume = 0;
-	s->length = 0;
-	s->loopStart = 0;
-	s->loopLength = 2;
-
-	memset(s->text, 0, sizeof (s->text));
-	memset(&song->sampleData[(editor.currSample * config.maxSampleLength)], 0, config.maxSampleLength);
-
-	editor.samplePos = 0;
-}
+// void killSample(void)
+// {
+// 	if (editor.sampleZero)
+// 		return;
+// 
+// 	turnOffVoices();
+// 	moduleSample_t *s = &song->samples[editor.currSample];
+// 
+// 	s->fineTune = 0;
+// 	s->volume = 0;
+// 	s->length = 0;
+// 	s->loopStart = 0;
+// 	s->loopLength = 2;
+// 
+// 	memset(s->text, 0, sizeof (s->text));
+// 	memset(&song->sampleData[(editor.currSample * config.maxSampleLength)], 0, config.maxSampleLength);
+// 
+// 	editor.samplePos = 0;
+// }
 
 void upSample(void)
 {
@@ -130,31 +130,31 @@ void fixSampleBeep(moduleSample_t *s)
   fixSampleBeep2(s, song->sampleData);
 }
 
-void updateSamplePos(void)
-{
-	moduleSample_t *s;
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-	if (editor.currSample >= 0 && editor.currSample <= 30)
-	{
-		s = &song->samples[editor.currSample];
-		if (editor.samplePos > s->length)
-			editor.samplePos = s->length;
-
-	}
-}
-
-void fillSampleFilterUndoBuffer(void)
-{
-	moduleSample_t *s;
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-	if (editor.currSample >= 0 && editor.currSample <= 30)
-	{
-		s = &song->samples[editor.currSample];
-		memcpy(sampler.sampleUndoCopy, &song->sampleData[s->offset], s->length);
-	}
-}
+// void updateSamplePos(void)
+// {
+// 	moduleSample_t *s;
+// 
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 	if (editor.currSample >= 0 && editor.currSample <= 30)
+// 	{
+// 		s = &song->samples[editor.currSample];
+// 		if (editor.samplePos > s->length)
+// 			editor.samplePos = s->length;
+// 
+// 	}
+// }
+// 
+// void fillSampleFilterUndoBuffer(void)
+// {
+// 	moduleSample_t *s;
+// 
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 	if (editor.currSample >= 0 && editor.currSample <= 30)
+// 	{
+// 		s = &song->samples[editor.currSample];
+// 		memcpy(sampler.sampleUndoCopy, &song->sampleData[s->offset], s->length);
+// 	}
+// }
 
 // static int8_t getScaledSample(int32_t index)
 // {
@@ -343,61 +343,61 @@ void lowPassSample(int32_t cutOff)
 	fixSampleBeep(s);
 }
 
-void redoSampleData(int8_t sample)
-{
-	if (editor.sampleZero)
-		return;
-
-	assert(sample >= 0 && sample <= 30);
-	moduleSample_t *s = &song->samples[sample];
-
-	turnOffVoices();
-
-	if (editor.smpRedoBuffer[sample] != NULL && editor.smpRedoLengths[sample] > 0)
-	{
-		memcpy(&song->sampleData[s->offset], editor.smpRedoBuffer[sample], editor.smpRedoLengths[sample]);
-
-		if (editor.smpRedoLengths[sample] < config.maxSampleLength)
-			memset(&song->sampleData[s->offset + editor.smpRedoLengths[sample]], 0, config.maxSampleLength - editor.smpRedoLengths[sample]);
-	}
-	else
-	{
-		memset(&song->sampleData[s->offset], 0, config.maxSampleLength);
-	}
-
-	s->fineTune = editor.smpRedoFinetunes[sample];
-	s->volume = editor.smpRedoVolumes[sample];
-	s->length = editor.smpRedoLengths[sample];
-	s->loopStart = editor.smpRedoLoopStarts[sample];
-	s->loopLength = (editor.smpRedoLoopLengths[sample] < 2) ? 2 : editor.smpRedoLoopLengths[sample];
-
-	editor.samplePos = 0;
-}
-
-void fillSampleRedoBuffer(int8_t sample)
-{
-	assert(sample >= 0 && sample <= 30);
-	moduleSample_t *s = &song->samples[sample];
-
-	if (editor.smpRedoBuffer[sample] != NULL)
-	{
-		free(editor.smpRedoBuffer[sample]);
-		editor.smpRedoBuffer[sample] = NULL;
-	}
-
-	editor.smpRedoFinetunes[sample] = s->fineTune;
-	editor.smpRedoVolumes[sample] = s->volume;
-	editor.smpRedoLengths[sample] = s->length;
-	editor.smpRedoLoopStarts[sample] = s->loopStart;
-	editor.smpRedoLoopLengths[sample] = s->loopLength;
-
-	if (s->length > 0)
-	{
-		editor.smpRedoBuffer[sample] = (int8_t *)malloc(s->length);
-		if (editor.smpRedoBuffer[sample] != NULL)
-			memcpy(editor.smpRedoBuffer[sample], &song->sampleData[s->offset], s->length);
-	}
-}
+// void redoSampleData(int8_t sample)
+// {
+// 	if (editor.sampleZero)
+// 		return;
+// 
+// 	assert(sample >= 0 && sample <= 30);
+// 	moduleSample_t *s = &song->samples[sample];
+// 
+// 	turnOffVoices();
+// 
+// 	if (editor.smpRedoBuffer[sample] != NULL && editor.smpRedoLengths[sample] > 0)
+// 	{
+// 		memcpy(&song->sampleData[s->offset], editor.smpRedoBuffer[sample], editor.smpRedoLengths[sample]);
+// 
+// 		if (editor.smpRedoLengths[sample] < config.maxSampleLength)
+// 			memset(&song->sampleData[s->offset + editor.smpRedoLengths[sample]], 0, config.maxSampleLength - editor.smpRedoLengths[sample]);
+// 	}
+// 	else
+// 	{
+// 		memset(&song->sampleData[s->offset], 0, config.maxSampleLength);
+// 	}
+// 
+// 	s->fineTune = editor.smpRedoFinetunes[sample];
+// 	s->volume = editor.smpRedoVolumes[sample];
+// 	s->length = editor.smpRedoLengths[sample];
+// 	s->loopStart = editor.smpRedoLoopStarts[sample];
+// 	s->loopLength = (editor.smpRedoLoopLengths[sample] < 2) ? 2 : editor.smpRedoLoopLengths[sample];
+// 
+// 	editor.samplePos = 0;
+// }
+// 
+// void fillSampleRedoBuffer(int8_t sample)
+// {
+// 	assert(sample >= 0 && sample <= 30);
+// 	moduleSample_t *s = &song->samples[sample];
+// 
+// 	if (editor.smpRedoBuffer[sample] != NULL)
+// 	{
+// 		free(editor.smpRedoBuffer[sample]);
+// 		editor.smpRedoBuffer[sample] = NULL;
+// 	}
+// 
+// 	editor.smpRedoFinetunes[sample] = s->fineTune;
+// 	editor.smpRedoVolumes[sample] = s->volume;
+// 	editor.smpRedoLengths[sample] = s->length;
+// 	editor.smpRedoLoopStarts[sample] = s->loopStart;
+// 	editor.smpRedoLoopLengths[sample] = s->loopLength;
+// 
+// 	if (s->length > 0)
+// 	{
+// 		editor.smpRedoBuffer[sample] = (int8_t *)malloc(s->length);
+// 		if (editor.smpRedoBuffer[sample] != NULL)
+// 			memcpy(editor.smpRedoBuffer[sample], &song->sampleData[s->offset], s->length);
+// 	}
+// }
 
 bool allocSamplerVars(void) // must be called after config is loaded
 {
@@ -725,142 +725,142 @@ void filterSample(int32_t sample, bool ignoreMark)
 	fixSampleBeep(s);
 }
 
-void samplerSamCopy(void)
-{
-	if (editor.sampleZero)
-		return;
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-	moduleSample_t *s = &song->samples[editor.currSample];
-
-	if (s->length == 0)
-		return;
-
-	if (editor.markStartOfs == -1)
-		return;
-
-	if (editor.markEndOfs-editor.markStartOfs <= 0)
-		return;
-
-	sampler.copyBufSize = editor.markEndOfs - editor.markStartOfs;
-
-	if ((int32_t)(editor.markStartOfs + sampler.copyBufSize) > config.maxSampleLength)
-		return;
-
-	memcpy(sampler.copyBuf, &song->sampleData[s->offset+editor.markStartOfs], sampler.copyBufSize);
-}
-
-void samplerSamPaste(void)
-{
-	if (editor.sampleZero)
-		return;
-
-	if (sampler.copyBuf == NULL || sampler.copyBufSize == 0)
-		return;
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-
-	moduleSample_t *s = &song->samples[editor.currSample];
-	if (s->length > 0 && editor.markStartOfs == -1)
-		return;
-
-	int32_t markStart = editor.markStartOfs;
-	if (s->length == 0)
-		markStart = 0;
-
-	if (s->length+sampler.copyBufSize > config.maxSampleLength)
-		return;
-
-	int8_t *tmpBuf = (int8_t *)malloc(config.maxSampleLength);
-	if (tmpBuf == NULL)
-		return;
-
-	uint32_t readPos = 0;
-	turnOffVoices();
-
-	// copy start part
-	if (markStart > 0)
-	{
-		memcpy(&tmpBuf[readPos], &song->sampleData[s->offset], markStart);
-		readPos += markStart;
-	}
-
-	// copy actual buffer
-	memcpy(&tmpBuf[readPos], sampler.copyBuf, sampler.copyBufSize);
-
-	// copy end part
-	if (markStart >= 0)
-	{
-		readPos += sampler.copyBufSize;
-
-		if (s->length-markStart > 0)
-			memcpy(&tmpBuf[readPos], &song->sampleData[s->offset+markStart], s->length - markStart);
-	}
-
-	int32_t newLength = (s->length + sampler.copyBufSize) & ~1;
-	if (newLength > config.maxSampleLength)
-		newLength = config.maxSampleLength;
-
-	sampler.samLength = s->length = newLength;
-
-	if (s->loopLength > 2) // loop enabled?
-	{
-		if (markStart > s->loopStart)
-		{
-			if (markStart < s->loopStart+s->loopLength)
-			{
-				// we pasted data inside the loop, increase loop length
-
-				if (s->loopLength+sampler.copyBufSize > config.maxSampleLength)
-				{
-					s->loopStart = 0;
-					s->loopLength = 2;
-				}
-				else
-				{
-					s->loopLength = (s->loopLength + sampler.copyBufSize) & config.maxSampleLength;
-					if (s->loopStart+s->loopLength > s->length)
-					{
-						s->loopStart = 0;
-						s->loopLength = 2;
-					}
-				}
-			}
-
-			// we pasted data after the loop, don't modify loop points
-		}
-		else
-		{
-			// we pasted data before the loop, adjust loop start point
-			if (s->loopStart+sampler.copyBufSize > config.maxSampleLength)
-			{
-				s->loopStart = 0;
-				s->loopLength = 2;
-			}
-			else
-			{
-				s->loopStart = (s->loopStart + sampler.copyBufSize) & config.maxSampleLength;
-				if (s->loopStart+s->loopLength > s->length)
-				{
-					s->loopStart = 0;
-					s->loopLength = 2;
-				}
-			}
-		}
-	}
-
-	memcpy(&song->sampleData[s->offset], tmpBuf, s->length);
-
-	// clear data after sample's length (if present)
-	if (s->length < config.maxSampleLength)
-		memset(&song->sampleData[s->offset+s->length], 0, config.maxSampleLength - s->length);
-
-	free(tmpBuf);
-
-	editor.markStartOfs = -1;
-
-	fixSampleBeep(s);
-}
+// void samplerSamCopy(void)
+// {
+// 	if (editor.sampleZero)
+// 		return;
+// 
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 	moduleSample_t *s = &song->samples[editor.currSample];
+// 
+// 	if (s->length == 0)
+// 		return;
+// 
+// 	if (editor.markStartOfs == -1)
+// 		return;
+// 
+// 	if (editor.markEndOfs-editor.markStartOfs <= 0)
+// 		return;
+// 
+// 	sampler.copyBufSize = editor.markEndOfs - editor.markStartOfs;
+// 
+// 	if ((int32_t)(editor.markStartOfs + sampler.copyBufSize) > config.maxSampleLength)
+// 		return;
+// 
+// 	memcpy(sampler.copyBuf, &song->sampleData[s->offset+editor.markStartOfs], sampler.copyBufSize);
+// }
+// 
+// void samplerSamPaste(void)
+// {
+// 	if (editor.sampleZero)
+// 		return;
+// 
+// 	if (sampler.copyBuf == NULL || sampler.copyBufSize == 0)
+// 		return;
+// 
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 
+// 	moduleSample_t *s = &song->samples[editor.currSample];
+// 	if (s->length > 0 && editor.markStartOfs == -1)
+// 		return;
+// 
+// 	int32_t markStart = editor.markStartOfs;
+// 	if (s->length == 0)
+// 		markStart = 0;
+// 
+// 	if (s->length+sampler.copyBufSize > config.maxSampleLength)
+// 		return;
+// 
+// 	int8_t *tmpBuf = (int8_t *)malloc(config.maxSampleLength);
+// 	if (tmpBuf == NULL)
+// 		return;
+// 
+// 	uint32_t readPos = 0;
+// 	turnOffVoices();
+// 
+// 	// copy start part
+// 	if (markStart > 0)
+// 	{
+// 		memcpy(&tmpBuf[readPos], &song->sampleData[s->offset], markStart);
+// 		readPos += markStart;
+// 	}
+// 
+// 	// copy actual buffer
+// 	memcpy(&tmpBuf[readPos], sampler.copyBuf, sampler.copyBufSize);
+// 
+// 	// copy end part
+// 	if (markStart >= 0)
+// 	{
+// 		readPos += sampler.copyBufSize;
+// 
+// 		if (s->length-markStart > 0)
+// 			memcpy(&tmpBuf[readPos], &song->sampleData[s->offset+markStart], s->length - markStart);
+// 	}
+// 
+// 	int32_t newLength = (s->length + sampler.copyBufSize) & ~1;
+// 	if (newLength > config.maxSampleLength)
+// 		newLength = config.maxSampleLength;
+// 
+// 	sampler.samLength = s->length = newLength;
+// 
+// 	if (s->loopLength > 2) // loop enabled?
+// 	{
+// 		if (markStart > s->loopStart)
+// 		{
+// 			if (markStart < s->loopStart+s->loopLength)
+// 			{
+// 				// we pasted data inside the loop, increase loop length
+// 
+// 				if (s->loopLength+sampler.copyBufSize > config.maxSampleLength)
+// 				{
+// 					s->loopStart = 0;
+// 					s->loopLength = 2;
+// 				}
+// 				else
+// 				{
+// 					s->loopLength = (s->loopLength + sampler.copyBufSize) & config.maxSampleLength;
+// 					if (s->loopStart+s->loopLength > s->length)
+// 					{
+// 						s->loopStart = 0;
+// 						s->loopLength = 2;
+// 					}
+// 				}
+// 			}
+// 
+// 			// we pasted data after the loop, don't modify loop points
+// 		}
+// 		else
+// 		{
+// 			// we pasted data before the loop, adjust loop start point
+// 			if (s->loopStart+sampler.copyBufSize > config.maxSampleLength)
+// 			{
+// 				s->loopStart = 0;
+// 				s->loopLength = 2;
+// 			}
+// 			else
+// 			{
+// 				s->loopStart = (s->loopStart + sampler.copyBufSize) & config.maxSampleLength;
+// 				if (s->loopStart+s->loopLength > s->length)
+// 				{
+// 					s->loopStart = 0;
+// 					s->loopLength = 2;
+// 				}
+// 			}
+// 		}
+// 	}
+// 
+// 	memcpy(&song->sampleData[s->offset], tmpBuf, s->length);
+// 
+// 	// clear data after sample's length (if present)
+// 	if (s->length < config.maxSampleLength)
+// 		memset(&song->sampleData[s->offset+s->length], 0, config.maxSampleLength - s->length);
+// 
+// 	free(tmpBuf);
+// 
+// 	editor.markStartOfs = -1;
+// 
+// 	fixSampleBeep(s);
+// }
 
 // static void playCurrSample(uint8_t chn, int32_t startOffset, int32_t endOffset, bool playWaveformFlag)
 // {
@@ -919,49 +919,49 @@ void samplerSamPaste(void)
 // 
 // }
 
-void samplerLoopToggle(void)
-{
-	if (editor.sampleZero)
-		return;
-
-	assert(editor.currSample >= 0 && editor.currSample <= 30);
-
-	moduleSample_t *s = &song->samples[editor.currSample];
-	if (s->length < 2)
-		return;
-
-	turnOffVoices();
-
-	if (s->loopStart+s->loopLength > 2)
-	{
-		// disable loop
-
-		sampler.tmpLoopStart = s->loopStart;
-		sampler.tmpLoopLength = s->loopLength;
-
-		s->loopStart = 0;
-		s->loopLength = 2;
-	}
-	else
-	{
-		// enable loop
-
-		if (sampler.tmpLoopStart == 0 && sampler.tmpLoopLength == 0)
-		{
-			s->loopStart = 0;
-			s->loopLength = s->length;
-		}
-		else
-		{
-			s->loopStart = sampler.tmpLoopStart;
-			s->loopLength = sampler.tmpLoopLength;
-
-			if (s->loopStart+s->loopLength > s->length)
-			{
-				s->loopStart = 0;
-				s->loopLength = s->length;
-			}
-		}
-	}
-	updatePaulaLoops();
-}
+// void samplerLoopToggle(void)
+// {
+// 	if (editor.sampleZero)
+// 		return;
+// 
+// 	assert(editor.currSample >= 0 && editor.currSample <= 30);
+// 
+// 	moduleSample_t *s = &song->samples[editor.currSample];
+// 	if (s->length < 2)
+// 		return;
+// 
+// 	turnOffVoices();
+// 
+// 	if (s->loopStart+s->loopLength > 2)
+// 	{
+// 		// disable loop
+// 
+// 		sampler.tmpLoopStart = s->loopStart;
+// 		sampler.tmpLoopLength = s->loopLength;
+// 
+// 		s->loopStart = 0;
+// 		s->loopLength = 2;
+// 	}
+// 	else
+// 	{
+// 		// enable loop
+// 
+// 		if (sampler.tmpLoopStart == 0 && sampler.tmpLoopLength == 0)
+// 		{
+// 			s->loopStart = 0;
+// 			s->loopLength = s->length;
+// 		}
+// 		else
+// 		{
+// 			s->loopStart = sampler.tmpLoopStart;
+// 			s->loopLength = sampler.tmpLoopLength;
+// 
+// 			if (s->loopStart+s->loopLength > s->length)
+// 			{
+// 				s->loopStart = 0;
+// 				s->loopLength = s->length;
+// 			}
+// 		}
+// 	}
+// 	updatePaulaLoops();
+// }
