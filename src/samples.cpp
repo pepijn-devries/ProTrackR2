@@ -53,30 +53,10 @@ raws mod_sample_as_raw_(SEXP mod, int idx) {
   return mod_sample_as_raw_internal(my_song, idx);
 }
 
-integers mod_sample_as_int_internal(module_t * my_song, int idx) {
-  moduleSample_t * samp = get_mod_sampinf_internal(my_song, idx);
-  int8_t *sampleData = &my_song->sampleData[samp->offset];
-  uint32_t len = samp->length;
-  writable::integers sampledata((R_xlen_t)len);
-  for (uint32_t j = 0; j < len; j++) {
-    sampledata.at((int)j) = (int)sampleData[j];
-  }
-  
-  SEXP attr = mod_sample_info_internal(my_song, idx);
-  sampledata.attr("sample_info") = attr;
-  return sampledata;
-}
-
 [[cpp11::register]]
 list mod_sample_info_(SEXP mod, int idx) {
   module_t *my_song = get_mod(mod);
   return mod_sample_info_internal(my_song, idx);
-}
-
-[[cpp11::register]]
-integers mod_sample_as_int_(SEXP mod, int idx) {
-  module_t *my_song = get_mod(mod);
-  return mod_sample_as_int_internal(my_song, idx);
 }
 
 [[cpp11::register]]

@@ -20,6 +20,7 @@ test_that("Writing raw samples will warn user", {
 })
 
 test_that("Reading sample works", {
+  skip_if_offline()
   expect_no_error({
     samp_raw <- pt2_read_sample(smpfile_raw)
     samp_iff <- pt2_read_sample(smpfile_iff)
