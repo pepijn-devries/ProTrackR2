@@ -1,4 +1,4 @@
-ProTrackR2 v0.0.6.0013
+ProTrackR2 v0.0.6.0014
 -------------
 
  * Implemented `as_pt2cell()` and `as_pt2celllist()`
@@ -10,9 +10,11 @@ ProTrackR2 v0.0.6.0013
    * `pt2_loop_start()` and `pt2_loop_length()`
    * `pt2_is_looped()`
    * `pt_sample_to_audio()`
+ * Fixes in (amongst others):
+    * Selection and assignment operators
+    * Sample read and write functions
  * Added testthat workflow
  * Added codecov workflow
- * Fixes in (amongst others) selection and assignment operators
 
 ProTrackR2 v0.0.5
 -------------

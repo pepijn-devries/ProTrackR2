@@ -104,10 +104,6 @@ mod_sample_info_ <- function(mod, idx) {
   .Call(`_ProTrackR2_mod_sample_info_`, mod, idx)
 }
 
-mod_sample_as_int_ <- function(mod, idx) {
-  .Call(`_ProTrackR2_mod_sample_as_int_`, mod, idx)
-}
-
 validate_sample_raw_ <- function(smp_data) {
   .Call(`_ProTrackR2_validate_sample_raw_`, smp_data)
 }
