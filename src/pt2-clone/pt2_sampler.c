@@ -206,7 +206,7 @@ void highPassSample(int32_t cutOff)
 	if (dSampleData == NULL)
 		return;
 
-	fillSampleFilterUndoBuffer();
+	//fillSampleFilterUndoBuffer();
 
 	// setup filter coefficients
 
@@ -291,7 +291,7 @@ void lowPassSample(int32_t cutOff)
 	if (dSampleData == NULL)
 		return;
 
-	fillSampleFilterUndoBuffer();
+	//fillSampleFilterUndoBuffer();
 
 	// setup filter coefficients
 
