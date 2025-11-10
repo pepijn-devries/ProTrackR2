@@ -14,13 +14,13 @@ Source:
 [`DESCRIPTION`](https://github.com/pepijn-devries/ProTrackR2/blob/master/DESCRIPTION)
 
 de Vries P, Sørensen O (2025). *ProTrackR2: Manipulate and Play
-'ProTracker' Modules*. R package version 0.0.6.0014,
+'ProTracker' Modules*. R package version 0.0.6.0015,
 <https://pepijn-devries.github.io/ProTrackR2/>.
 
     @Manual{,
       title = {ProTrackR2: Manipulate and Play 'ProTracker' Modules},
       author = {Pepijn {de Vries} and Olav Sørensen},
       year = {2025},
-      note = {R package version 0.0.6.0014},
+      note = {R package version 0.0.6.0015},
       url = {https://pepijn-devries.github.io/ProTrackR2/},
     }

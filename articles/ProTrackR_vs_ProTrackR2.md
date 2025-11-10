@@ -74,7 +74,12 @@ mod_old <- new("PTModule")
 mod_new <- pt2_new_mod("my mod")
 
 ## *Old* reading a module:
-mod_old <- read.module(pt2_demo())
+## Note that `ProTrackR` does not support compressed modules,
+## so we first need to create a file that the old library can read:
+file_decompressed <- tempfile()
+pt2_write_mod(pt2_read_mod(pt2_demo()), file_decompressed)
+## Now the old library can actually read it
+mod_old <- read.module(file_decompressed)
 ## *New* way of creating a blank module:
 mod_new <- pt2_read_mod(pt2_demo())
 

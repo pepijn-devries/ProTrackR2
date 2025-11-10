@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0014</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.0015</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -226,7 +226,12 @@ different packages.</p>
 <span><span class="va">mod_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_mod.html">pt2_new_mod</a></span><span class="op">(</span><span class="st">"my mod"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## *Old* reading a module:</span></span>
-<span><span class="va">mod_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/read.module.html" class="external-link">read.module</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Note that `ProTrackR` does not support compressed modules,</span></span>
+<span><span class="co">## so we first need to create a file that the old library can read:</span></span>
+<span><span class="va">file_decompressed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mod_io.html">pt2_write_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="va">file_decompressed</span><span class="op">)</span></span>
+<span><span class="co">## Now the old library can actually read it</span></span>
+<span><span class="va">mod_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pepijn-devries.github.io/ProTrackR/reference/read.module.html" class="external-link">read.module</a></span><span class="op">(</span><span class="va">file_decompressed</span><span class="op">)</span></span>
 <span><span class="co">## *New* way of creating a blank module:</span></span>
 <span><span class="va">mod_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="../reference/pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
