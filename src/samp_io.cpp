@@ -164,7 +164,7 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     // set ModPlug Tracker chunk (used for sample volume only in this case)
     wavHeader.chunkSize += sizeof (mptExtraChunk);
     mptExtraChunk.chunkID = 0x61727478; // "xtra"
-    mptExtraChunk.chunkSize = sizeof (mptExtraChunk) - 4 - 4;
+    mptExtraChunk.chunkSize = sizeof (mptExtraChunk) - 2*sizeof(uint32_t); // -8 because it doesn't include chunkID and chunkSize
     mptExtraChunk.defaultPan = 128; // 0..255
     mptExtraChunk.defaultVolume = volume * 4; // 0..256
     mptExtraChunk.globalVolume = 64; // 0..64

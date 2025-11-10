@@ -15,5 +15,3 @@ test_that("Dash can be missing when coercing to pt2cell", {
     as_pt2celllist("C201A10") |> as.character()
   }, "C-2 01 A10")
 })
-
-as_pt2cell("C201A10") |> as.character()
