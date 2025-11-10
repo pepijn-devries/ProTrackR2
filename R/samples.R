@@ -27,9 +27,7 @@ pt2_sample <- function(mod, i, ...) {
 #' @method pt2_name pt2samp
 #' @export
 pt2_name.pt2samp <- function(x, ...) {
-  if (typeof(x) == "raw")
-    attributes(x)$sample_info$text else
-      mod_sample_info_(x$mod, as.integer(x$i))$sample_info$text
+  attributes(x)$sample_info$text
 }
 
 #' @rdname mod_info
@@ -74,10 +72,6 @@ pt2_n_sample <- function(mod, ...) {
     if (mod_sample_info_(mod, i)$length > 0) count = count + 1
   }
   count
-}
-
-.test_rawsample <- function(sample) {
-    if (typeof(sample) != "raw") stop("Function only supports raw samples")
 }
 
 #' Get or set ProTracker sample properties
@@ -130,14 +124,12 @@ pt2_n_sample <- function(mod, ...) {
 #' @rdname sample_properties
 #' @export
 pt2_finetune <- function(sample, ...) {
-  .test_rawsample(sample)
   return(attr(sample, "sample_info")$fineTune)
 }
 
 #' @rdname sample_properties
 #' @export
 `pt2_finetune<-` <- function(sample, ..., value) {
-  .test_rawsample(sample)
   attr(sample, "sample_info")$fineTune <- as.integer(value)
   validate_sample_raw_(sample)
   return(sample)
@@ -146,14 +138,12 @@ pt2_finetune <- function(sample, ...) {
 #' @rdname sample_properties
 #' @export
 pt2_volume <- function(sample, ...) {
-  .test_rawsample(sample)
   return(attr(sample, "sample_info")$volume)
 }
 
 #' @rdname sample_properties
 #' @export
 `pt2_volume<-` <- function(sample, ..., value) {
-  .test_rawsample(sample)
   attr(sample, "sample_info")$volume <- as.integer(value)
   validate_sample_raw_(sample)
   return(sample)
@@ -162,14 +152,12 @@ pt2_volume <- function(sample, ...) {
 #' @rdname sample_properties
 #' @export
 pt2_loop_start <- function(sample, ...) {
-  .test_rawsample(sample)
   return(attr(sample, "sample_info")$loopStart)
 }
 
 #' @rdname sample_properties
 #' @export
 `pt2_loop_start<-` <- function(sample, ..., value) {
-  .test_rawsample(sample)
   attr(sample, "sample_info")$loopStart <- as.integer(value - (value %% 2))
   validate_sample_raw_(sample)
   return(sample)
@@ -178,14 +166,12 @@ pt2_loop_start <- function(sample, ...) {
 #' @rdname sample_properties
 #' @export
 pt2_loop_length <- function(sample, ...) {
-  .test_rawsample(sample)
   return(attr(sample, "sample_info")$loopLength)
 }
 
 #' @rdname sample_properties
 #' @export
 `pt2_loop_length<-` <- function(sample, ..., value) {
-  .test_rawsample(sample)
   attr(sample, "sample_info")$loopLength <- as.integer(value - (value %% 2L))
   validate_sample_raw_(sample)
   return(sample)
@@ -194,7 +180,6 @@ pt2_loop_length <- function(sample, ...) {
 #' @rdname sample_properties
 #' @export
 pt2_is_looped <- function(sample, ...) {
-  .test_rawsample(sample)
   si <- attr(sample, "sample_info")
   return(!(si$loopStart == 0L && si$loopLength == 2L))
 }
@@ -204,7 +189,6 @@ pt2_is_looped <- function(sample, ...) {
 `pt2_is_looped<-` <- function(sample, ..., value) {
   if (!is.logical(value) || length(value) != 1)
     stop("Replacement value needs to be a single logical value")
-  .test_rawsample(sample)
   is_looped <- pt2_is_looped(sample)
   if (is_looped && !value) {
     attr(sample, "sample_info")$loopStart <- 0L

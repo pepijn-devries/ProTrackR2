@@ -29,11 +29,13 @@ bool loadWAVSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_
   uint32_t xtraPtr = 0; uint32_t xtraLen = 0;
   uint32_t smplPtr = 0; uint32_t smplLen = 0;
 
-  uint32_t pos = 12;  
+  uint32_t pos = 12;
+  if (pos > filesize) return false;
   uint32_t bytesRead = 0;
   while (bytesRead < (uint32_t)filesize-12)
   {
     uint32_t chunkID, chunkSize;
+	if ((pos + 8) > filesize) return false;
     chunkID = ((uint32_t *)(input + pos))[0];
     chunkSize = ((uint32_t *)(input + pos + 4))[0];
     pos += 8;
@@ -58,6 +60,7 @@ bool loadWAVSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_
     {
       if (chunkSize >= 4)
     {
+	  if ((pos + 4) > filesize) return false;
       chunkID = ((uint32_t *)(input + pos))[0];
       pos += 4;
       if (chunkID == 0x4F464E49) // "INFO"
@@ -65,6 +68,7 @@ bool loadWAVSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_
         bytesRead = 0;
         while (bytesRead < chunkSize)
         {
+		  if ((pos + 8) > filesize) return false;
           chunkID = ((uint32_t *)(input + pos))[0];
           chunkSize = ((uint32_t *)(input + pos + 4))[0];
           pos += 8;
@@ -105,7 +109,7 @@ bool loadWAVSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_
     default: break;
     }
     
-    bytesRead += chunkSize + (chunkSize & 1);
+    bytesRead += 8 + chunkSize + (chunkSize & 1);
     pos = endOfChunk;
   }
 
@@ -114,6 +118,7 @@ bool loadWAVSample2(uint8_t *input, uint32_t filesize, moduleSample_t * s, int8_
     return false;
   
   // ---- READ "fmt " CHUNK ----
+  if ((fmtPtr + 18) > filesize) return false;
   audioFormat   = ((uint16_t *)(input + fmtPtr))[0];
   numChannels   = ((uint16_t *)(input + fmtPtr + 2))[0];
   sampleRate    = ((uint32_t *)(input + fmtPtr + 4))[0];

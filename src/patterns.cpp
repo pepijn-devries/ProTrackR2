@@ -6,7 +6,7 @@
 using namespace cpp11;
 
 [[cpp11::register]]
-SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
+SEXP cells_as_raw_(SEXP mod, int pattern, bool compact,
                    int row, int channel) {
   module_t *my_song = get_mod(mod);
 
@@ -18,13 +18,6 @@ SEXP cells_as_raw_(SEXP mod, int pattern, bool compact, bool as_pattern,
   int result_size;
   int cell_count = MOD_ROWS*PAULA_VOICES;
   int offset = 0;
-  if (!as_pattern) {
-    if (channel < 0 || channel > PAULA_VOICES ||
-        row < 0 || row > MOD_ROWS)
-      stop("Index out of range!");
-    offset = row*PAULA_VOICES + channel;
-    cell_count = 1;
-  }
   pat += offset;
   if (compact) result_size = cell_count*4; else result_size = cell_count*sizeof(note_t);
   writable::raws patdat((R_xlen_t)result_size);

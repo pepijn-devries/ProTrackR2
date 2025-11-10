@@ -29,17 +29,12 @@ pt2_cell <- function(pattern, i, j, ...) {
   if (is.na(i) || i < 0L || i > 63L || is.na(j) || j < 0L || j > 3L)
     stop("Index out of range")
   
-  if (is.raw(pattern)) {
-    compact <- attributes(pattern)$compact_notation
-    size    <- ifelse(compact, 4L, pt_cell_bytesize())
-    pattern <- unclass(pattern)
-    result  <- pattern[seq_len(size) + (i*4L + j) * size]
-    class(result) <- "pt2cell"
-    attributes(result)$compact_notation <- compact
-  } else {
-    result <- c(unclass(pattern), j = i, k = j)
-    class(result) <- "pt2cell"
-  }
+  compact <- attributes(pattern)$compact_notation
+  size    <- ifelse(compact, 4L, pt_cell_bytesize())
+  pattern <- unclass(pattern)
+  result  <- pattern[seq_len(size) + (i*4L + j) * size]
+  class(result) <- "pt2cell"
+  attributes(result)$compact_notation <- compact
   result
 }
 
@@ -94,6 +89,12 @@ as_pt2cell.character <- function(x, ...) {
 #' @export
 as_pt2celllist <- function(x, ...) {
   UseMethod("as_pt2celllist")
+}
+
+#' @method as_pt2celllist pt2celllist
+#' @export
+as_pt2celllist.pt2celllist <- function(x, ...) {
+  x
 }
 
 #' @method as_pt2celllist character

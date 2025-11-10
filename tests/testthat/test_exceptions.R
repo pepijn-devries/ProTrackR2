@@ -12,6 +12,18 @@ test_that("pt2_cell cannot be called on an unsupported type", {
   })
 })
 
+test_that("Malformed string cannot be coerced to pt2_cell", {
+  expect_error({
+    as_pt2cell("C1A10")
+  })
+})
+
+test_that("Cannot convert more than 1 element to pt2_cell", {
+  expect_error({
+    as_pt2cell(c("C101000", "C101000"))
+  })
+})
+
 test_that("pt2_cell indices cannot be out of range", {
   expect_error({
     pt2_cell(pt2_pattern(mod, 0L), 0L, 64L)
@@ -41,6 +53,12 @@ test_that("Internal check fails when mod is not of correct S3 class", {
 test_that("pt2_instrument cannot be called on an unsupported type", {
   expect_error({
     pt2_instrument(1L)
+  })
+})
+
+test_that("NA cannot be assigned to pt2_instrument", {
+  expect_error({
+    pt2_instrument(mod$patterns[[1]][1,1]) <- NA_integer_
   })
 })
 
@@ -132,5 +150,23 @@ test_that("pt2mod has no more than 2 elements", {
 test_that("Cannot add more than 100 patterns to a module", {
   expect_error({
     mod$patterns[[101]] <- pt2_new_pattern()
+  })
+})
+
+test_that("Cannot set looped state to more than one value", {
+  expect_error({
+    pt2_is_looped(mod$samples[[1]]) <- c(TRUE, TRUE)
+  })
+})
+
+test_that("You cannot assign more than 100 patterns to a module", {
+  expect_error({
+    mod$patterns <- mod$patterns[rep(1, times = 102L)]
+  })
+})
+
+test_that("You cannot select unknown elements from a module", {
+  expect_error({
+    mod[["foobar"]]
   })
 })
