@@ -188,13 +188,6 @@ extern "C" SEXP _ProTrackR2_mod_sample_info_(SEXP mod, SEXP idx) {
   END_CPP11
 }
 // samples.cpp
-integers mod_sample_as_int_(SEXP mod, int idx);
-extern "C" SEXP _ProTrackR2_mod_sample_as_int_(SEXP mod, SEXP idx) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(mod_sample_as_int_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(mod), cpp11::as_cpp<cpp11::decay_t<int>>(idx)));
-  END_CPP11
-}
-// samples.cpp
 logicals validate_sample_raw_(raws smp_data);
 extern "C" SEXP _ProTrackR2_validate_sample_raw_(SEXP smp_data) {
   BEGIN_CPP11
@@ -217,7 +210,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ProTrackR2_mod_length_",              (DL_FUNC) &_ProTrackR2_mod_length_,              1},
     {"_ProTrackR2_mod_name_",                (DL_FUNC) &_ProTrackR2_mod_name_,                1},
     {"_ProTrackR2_mod_pattab_",              (DL_FUNC) &_ProTrackR2_mod_pattab_,              1},
-    {"_ProTrackR2_mod_sample_as_int_",       (DL_FUNC) &_ProTrackR2_mod_sample_as_int_,       2},
     {"_ProTrackR2_mod_sample_as_raw_",       (DL_FUNC) &_ProTrackR2_mod_sample_as_raw_,       2},
     {"_ProTrackR2_mod_sample_info_",         (DL_FUNC) &_ProTrackR2_mod_sample_info_,         2},
     {"_ProTrackR2_mod_set_sample_",          (DL_FUNC) &_ProTrackR2_mod_set_sample_,          3},
