@@ -1,6 +1,6 @@
 # Changelog
 
-## ProTrackR2 v0.0.6.0015
+## ProTrackR2 v0.1.0
 
 - Implemented
   [`as_pt2cell()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_pt2cell.md)
