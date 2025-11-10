@@ -1,6 +1,6 @@
 # Changelog
 
-## ProTrackR2 v0.0.6.0012
+## ProTrackR2 v0.0.6.0014
 
 - Implemented
   [`as_pt2cell()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_pt2cell.md)
@@ -21,9 +21,11 @@
     [`pt2_loop_length()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
   - [`pt2_is_looped()`](https://pepijn-devries.github.io/ProTrackR2/reference/sample_properties.md)
   - `pt_sample_to_audio()`
+- Fixes in (amongst others):
+  - Selection and assignment operators
+  - Sample read and write functions
 - Added testthat workflow
 - Added codecov workflow
-- Fixes in (amongst others) selection and assignment operators
 
 ## ProTrackR2 v0.0.5
 

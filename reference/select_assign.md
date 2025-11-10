@@ -17,6 +17,9 @@ class objects.
 x$i <- value
 
 # S3 method for class 'pt2mod'
+x[[i]] <- value
+
+# S3 method for class 'pt2mod'
 x[[i, ...]]
 
 # S3 method for class 'pt2patlist'
@@ -33,6 +36,15 @@ x[i, ...]
 
 # S3 method for class 'pt2samplist'
 x[[i, ...]]
+
+# S3 method for class 'pt2samplist'
+x[[i]] <- value
+
+# S3 method for class 'pt2pat'
+x[[i, ...]]
+
+# S3 method for class 'pt2pat'
+x[[i]] <- value
 
 # S3 method for class 'pt2pat'
 x[i, j, ...]
