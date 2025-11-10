@@ -6,7 +6,7 @@
 [![R-CMD-check](https://github.com/pepijn-devries/ProTrackR2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pepijn-devries/ProTrackR2/actions/workflows/R-CMD-check.yaml)
 [![ProTrackR2 status
 badge](https://pepijn-devries.r-universe.dev/badges/ProTrackR2)](https://pepijn-devries.r-universe.dev/ProTrackR2)
-[![codecov](https://codecov.io/gh/pepijn-devries/ProTrackR2/graph/badge.svg?token=0ILPGKGB73)](https://codecov.io/gh/pepijn-devries/ProTrackR2)
+[![codecov](https://codecov.io/gh/pepijn-devries/ProTrackR2/graph/badge.svg?token=0ILPGKGB73)](https://app.codecov.io/gh/pepijn-devries/ProTrackR2)
 [![version](https://www.r-pkg.org/badges/version/ProTrackR2)](https://CRAN.R-project.org/package=ProTrackR2)
 ![cranlogs](https://cranlogs.r-pkg.org/badges/ProTrackR2)
 <!-- badges: end -->
