@@ -22,6 +22,7 @@ test_that("Writing raw samples will warn user", {
 })
 
 test_that("Reading sample works", {
+  skip_on_cran()
   skip_if_offline()
   expect_true({
     samp_raw <- pt2_read_sample(smpfile_raw)
