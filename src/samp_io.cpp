@@ -66,43 +66,56 @@ raws sample_file_format_(SEXP input, std::string file_type) {
     
     int32_t align = ((uint32_t)(file_size/2))*2;
     
+    uint32_t swapint;
     writable::raws output((R_xlen_t)align);
     uint8_t * buffer = (uint8_t *)RAW(as_sexp(output));
     memcpy(buffer, "FORM", 4);
     buffer += 4;
-    ((uint32_t *)buffer)[0] = SWAP32(file_size - 8);
+    swapint = SWAP32(file_size - 8);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     memcpy(buffer, "8SVXVHDR", 8);
     buffer += 8;
-    ((uint32_t *)buffer)[0] = SWAP32(20);
+    swapint = SWAP32(20);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     
     if (loopStart + loopLength > 2) { // loop enabled?
-      ((uint32_t *)buffer)[0] = SWAP32(loopStart);
+      swapint = SWAP32(loopStart);
+      memcpy(buffer, &swapint, sizeof(swapint));
       buffer += 4;
-      ((uint32_t *)buffer)[0] = SWAP32(loopLength);
+      swapint = SWAP32(loopLength);
+      memcpy(buffer, &swapint, sizeof(swapint));
       buffer += 4;
     } else {
-      ((uint32_t *)buffer)[0] = SWAP32(sampleLength);
+      swapint = SWAP32(sampleLength);
+      memcpy(buffer, &swapint, sizeof(swapint));
       buffer += 4;
-      ((uint32_t *)buffer)[0] = 0;
+      swapint = 0;
+      memcpy(buffer, &swapint, sizeof(swapint));
       buffer += 4;
     }
     
-    ((uint32_t *)buffer)[0] = 0;
+    swapint = 0;
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
-    ((uint16_t *)buffer)[0] = SWAP16(PLAYBACK_FREQ);
+    swapint = SWAP16(PLAYBACK_FREQ);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 2;
-    ((uint8_t *)buffer)[0] = 1;
+    swapint = 1;
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 1;
-    ((uint8_t *)buffer)[0] = 0;
+    swapint = 0;
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 1;
-    ((uint32_t *)buffer)[0] = SWAP32(volume * 1024);
+    swapint = SWAP32(volume * 1024);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     
     memcpy(buffer, "NAME", 4);
     buffer += 4;
-    ((uint32_t *)buffer)[0] = SWAP32(namelen);
+    swapint = SWAP32(namelen);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     memcpy(buffer, sampname.c_str(), namelen);
     buffer += namelen;
@@ -110,16 +123,17 @@ raws sample_file_format_(SEXP input, std::string file_type) {
       buffer[0] = 0;
       buffer++;
     }
-    
     memcpy(buffer, "ANNO", 4);
     buffer += 4;
-    ((uint32_t *)buffer)[0] = SWAP32(10);
+    swapint = SWAP32(10);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     memcpy(buffer, "ProTrackR2", 10);
     buffer += 10;
     memcpy(buffer, "BODY", 4);
     buffer += 4;
-    ((uint32_t *)buffer)[0] = SWAP32(sampleLength);
+    swapint = SWAP32(sampleLength);
+    memcpy(buffer, &swapint, sizeof(swapint));
     buffer += 4;
     memcpy(buffer, ibuffer, sampleLength);
     buffer += sampleLength;

@@ -17,10 +17,8 @@ set with the \code{compact} argument.}
 Returns a new clean \code{pt2pat} object.
 }
 \description{
-Creates a new ProTracker pattern, consisting of four channels and 64 rows.
-}
-\examples{
-pt2_new_pattern()
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Creates a new ProTracker pattern, consisting
+of four channels and 64 rows.
 }
 \author{
 Pepijn de Vries

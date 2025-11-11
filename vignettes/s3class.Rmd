@@ -244,7 +244,7 @@ A ProTracker pattern is represented by the `pt2pat` class. It is a `vector` of `
 that either represents the file structure of a pattern or its representation in memory used by
 the play back routine.
 
-A pattern can be initiated with `pt2_new_pattern()`. This produces a `raw` representation
+A pattern can be initiated with `pt2_pattern()`. This produces a `raw` representation
 of a pattern. Here the `logical` argument `compact` determines if the notation is compact (`TRUE`)
 as is the case in a file, or not (`FALSE`) as in memory. This is stored as an attribute to
 the object for its correct interpretation.

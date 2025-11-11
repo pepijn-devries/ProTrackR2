@@ -2,9 +2,9 @@
 % Please edit documentation in R/pattern.R
 \name{pt2_pattern}
 \alias{pt2_pattern}
-\title{Retrieve a pattern from a ProTracker module}
+\title{Create or retrieve a pattern from a ProTracker module}
 \usage{
-pt2_pattern(mod, i, ...)
+pt2_pattern(mod, i, ..., compact = TRUE)
 }
 \arguments{
 \item{mod}{A \code{pt2mod} class objects from which to retrieve a pattern table}
@@ -12,18 +12,24 @@ pt2_pattern(mod, i, ...)
 \item{i}{The index (\code{integer}) of the pattern. Note that the index starts at 0.}
 
 \item{...}{Ignored}
+
+\item{compact}{Should the pattern be formatted using a compact notation (as used for
+file storage), or a none-compact format as used by the player? This can be
+set with the \code{compact} argument.}
 }
 \value{
 A \code{pt2pat} object representing the pattern.
 }
 \description{
 Get a pattern table (sequence of notes and effects on each of the 4 channels) at
-a specific index from a ProTracker module.
+a specific index from a ProTracker module. If \code{mod} is missing, a new empty
+pattern is created.
 }
 \examples{
 mod <- pt2_read_mod(pt2_demo())
 
 pt2_pattern(mod, 0L)
+pt2_pattern()
 }
 \author{
 Pepijn de Vries
