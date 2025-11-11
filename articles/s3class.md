@@ -139,7 +139,7 @@ A ProTracker pattern is represented by the `pt2pat` class. It is a
 pattern or its representation in memory used by the play back routine.
 
 A pattern can be initiated with
-[`pt2_new_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.md).
+[`pt2_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_pattern.md).
 This produces a `raw` representation of a pattern. Here the `logical`
 argument `compact` determines if the notation is compact (`TRUE`) as is
 the case in a file, or not (`FALSE`) as in memory. This is stored as an

@@ -1,6 +1,16 @@
 # Changelog
 
+## ProTrackR2 v0.1.0.0001
+
+- Deprecated
+  [`pt2_new_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.md)
+  in favour of
+  [`pt2_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_pattern.md)
+- Fix for undefined behaviour
+
 ## ProTrackR2 v0.1.0
+
+CRAN release: 2025-11-11
 
 - Implemented
   [`as_pt2cell()`](https://pepijn-devries.github.io/ProTrackR2/reference/as_pt2cell.md)

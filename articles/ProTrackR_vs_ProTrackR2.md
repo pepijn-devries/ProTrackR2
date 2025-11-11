@@ -60,7 +60,7 @@ ProTrackR2 from ProTrackR, here is an overview of equivalent classes:
 
 [TABLE]
 
-These different class styles also have consequences for you workflow.
+These different class styles also have consequences for your workflow.
 Below are some examples of how to achieve similar operations using the
 different packages.
 

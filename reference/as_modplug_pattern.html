@@ -11,7 +11,7 @@ On Windows you can use writeClipboard() for this purpose."><meta property="og:im
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,72 @@ On Windows you can use <code>writeClipboard()</code> for this purpose.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">mod</span>    <span class="op">&lt;-</span> <span class="fu"><a href="mod_io.html">pt2_read_mod</a></span><span class="op">(</span><span class="fu"><a href="pt2_demo.html">pt2_demo</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">mp_pat</span> <span class="op">&lt;-</span> <span class="fu">as_modplug_pattern</span><span class="op">(</span><span class="fu"><a href="pt2_pattern.html">pt2_pattern</a></span><span class="op">(</span><span class="va">mod</span>, <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">as_modplug_pattern</span><span class="op">(</span><span class="fu"><a href="pt2_pattern.html">pt2_pattern</a></span><span class="op">(</span><span class="va">mod</span>, <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "ModPlug Tracker MOD"                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "|C-301...A08|C-302...C40|A#103...F06|A#204......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "|...01...A08|C-302...C30|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "|...01...A08|C-302......|........A01|C-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "|...........|C-302......|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "|...01...A08|C-302......|........120|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "|...........|A#204...C08|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "|...01...A08|C-302......|........220|D#304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "|...........|A#204...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "|...01...A08|C-302......|........A01|F-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "|...........|A#304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12] "|...01...A08|C-302......|........A01|D#304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "|...........|G-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14] "|G-301......|C-302......|........A01|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "|........A08|F-304...C08|...........|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "|F-301......|C-302......|...........|C-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "|........A08|A#204...C08|...........|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18] "|C-301...A08|C-302...C40|A#103...F06|A#204......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "|...01...A08|C-302...C30|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20] "|...01...A08|C-302......|........A01|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "|...........|C-302......|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "|...01...A08|C-302......|........120|F-204......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "|...........|A#204...C08|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24] "|...01...A08|C-302......|........220|G-204......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "|...........|A#204...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] "|...01...A08|C-302......|........A01|A#204......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "|...........|A#304...C08|........A01|........A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "|...01...A08|C-302......|........A01|..........."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "|...........|G-304...C08|........A01|........A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30] "|G-201......|C-302......|........A01|..........."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "|........A08|F-204...C08|...........|........A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32] "|A-201......|C-302......|...........|..........."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "|........A08|G-204...C08|...........|........A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34] "|E-301...A08|C-302...C40|D-203......|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "|...01...A08|C-302...C30|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "|...01...A08|C-302......|........A01|E-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "|...........|C-302......|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38] "|...01...A08|C-302......|........126|F#304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39] "|...........|D-304...C08|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40] "|...01...A08|C-302......|........226|G-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] "|...........|E-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42] "|...01...A08|C-302......|........A01|A-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] "|...........|D-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44] "|...01...A08|C-302......|........A01|G-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45] "|...........|D-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "|B-301......|C-302......|........A01|F#304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [47] "|........A08|D-304...C08|...........|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [48] "|A-301......|C-302......|...........|E-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49] "|........A08|E-204...C08|...........|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50] "|D-301...A08|C-302...C40|C-203......|C-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51] "|...01...A08|C-302...C30|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [52] "|...01...A08|C-302......|........A01|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [53] "|...........|C-302......|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [54] "|...01...A08|C-302......|........12B|E-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55] "|...........|G-304...C08|........A02|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56] "|...01...A08|C-302......|........22B|F-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57] "|...........|G-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [58] "|...01...A08|C-302......|........A01|G-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [59] "|...........|E-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [60] "|...01...A08|C-302......|........A01|F-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] "|...........|C-304...C08|........A01|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [62] "|A-301......|C-302......|........A01|E-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [63] "|........A08|G-304...C08|...........|........A02"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64] "|G-301......|F-304...C08|...........|D-304......"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [65] "|........A08|C-304...C08|...........|........A02"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

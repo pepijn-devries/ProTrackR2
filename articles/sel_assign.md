@@ -130,7 +130,7 @@ get an error, since it doesn’t exist. However, you can append a new
 pattern table at this position using the assign operator:
 
 ``` r
-mod$patterns[[5L]] <- pt2_new_pattern()
+mod$patterns[[5L]] <- pt2_pattern()
 ```
 
 This new pattern is also automatically added to the pattern sequence

@@ -43,14 +43,14 @@
 - [`pt2_new_mod()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_mod.md)
   : Create a new (empty) ProTracker module
 - [`pt2_new_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.md)
-  : Create a new ProTracker pattern
+  **\[deprecated\]** : Create a new ProTracker pattern
 - [`pt2_note()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note.md)
   [`` `pt2_note<-`() ``](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note.md)
   : Extract a note from a ProTracker module
 - [`pt2_note_to_period()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_note_to_period.md)
   : Get a corresponding period value from a note string
 - [`pt2_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_pattern.md)
-  : Retrieve a pattern from a ProTracker module
+  : Create or retrieve a pattern from a ProTracker module
 - [`pt2_render()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render.md)
   : Render ProTracker modules and other objects to a playable format
 - [`pt2_render_options()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_render_options.md)

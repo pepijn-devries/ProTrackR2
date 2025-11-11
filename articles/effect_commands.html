@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ProTrackR2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -544,7 +544,7 @@ examples are implemented below:</p>
 <span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">64</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"301"</span></span>
 <span>  <span class="fu"><a href="../reference/play.html">play</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_pattern.html">pt2_new_pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># reset pattern</span></span>
+<span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_pattern.html">pt2_pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># reset pattern</span></span>
 <span>  <span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
 <span>  <span class="co">## Vibrato:</span></span>
 <span>  <span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod_command</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"464"</span></span>
@@ -579,7 +579,7 @@ see what happens when you apply a volume slide in combination with
 setting the instrument number. The volume is reset each row of the
 pattern:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_new_pattern.html">pt2_new_pattern</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pt2_pattern.html">pt2_pattern</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"C-3 03 000"</span></span>
 <span><span class="co">## Slide the volume down in the entire track:</span></span>
 <span><span class="fu"><a href="../reference/pt2_command.html">pt2_command</a></span><span class="op">(</span><span class="va">mod</span><span class="op">$</span><span class="va">patterns</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"A08"</span></span>
