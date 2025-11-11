@@ -1,3 +1,8 @@
+ProTrackR2 v0.1.0.0001
+-------------
+
+ * Fix for undefined behaviour
+
 ProTrackR2 v0.1.0
 -------------
 
