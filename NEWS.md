@@ -1,6 +1,7 @@
 ProTrackR2 v0.1.0.0001
 -------------
 
+ * Deprecated `pt2_new_pattern()` in favour of `pt2_pattern()`
  * Fix for undefined behaviour
 
 ProTrackR2 v0.1.0

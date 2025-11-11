@@ -9,7 +9,7 @@
 #' @author Pepijn de Vries
 #' @examples
 #' mod    <- pt2_read_mod(pt2_demo())
-#' mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
+#' as_modplug_pattern(pt2_pattern(mod, 0L))
 #' @export
 as_modplug_pattern <- function(pattern, ...) {
   if (!inherits(pattern, "pt2pat"))

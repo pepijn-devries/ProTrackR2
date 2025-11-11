@@ -16,3 +16,6 @@ NULL
 
 #' @useDynLib ProTrackR2, .registration = TRUE
 NULL
+
+#' @importFrom lifecycle badge
+NULL

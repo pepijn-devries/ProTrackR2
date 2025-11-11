@@ -29,6 +29,12 @@ You can install the development version of ProTrackR2 from
 install.packages("ProTrackR2", repos = c("https://pepijn-devries.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
+Install the [CRAN](https://cran.r-project.org/) release with:
+
+``` r
+install.packages("ProTrackR2")
+```
+
 ## ProTracker2.3d clone
 
 <img src="https://content.pouet.net/files/screenshots/00050/00050055.png" alt="ProTracker 2.3a" align="right" />

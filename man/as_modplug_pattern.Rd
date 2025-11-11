@@ -21,7 +21,7 @@ On Windows you can use \code{writeClipboard()} for this purpose.
 }
 \examples{
 mod    <- pt2_read_mod(pt2_demo())
-mp_pat <- as_modplug_pattern(pt2_pattern(mod, 0L))
+as_modplug_pattern(pt2_pattern(mod, 0L))
 }
 \author{
 Pepijn de Vries

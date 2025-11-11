@@ -47,7 +47,8 @@ Collate:
 Depends:
     R (>= 4.1.0)
 Imports:
-    audio
+    audio,
+    lifecycle
 Suggests:
     av,
     cli,

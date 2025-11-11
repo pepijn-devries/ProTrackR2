@@ -130,7 +130,7 @@ If you attempt to get the fifth table (`mod$patterns[[5]]`), you will get an err
 However, you can append a new pattern table at this position using the assign operator:
 
 ```{r pat-assign}
-mod$patterns[[5L]] <- pt2_new_pattern()
+mod$patterns[[5L]] <- pt2_pattern()
 ```
 
 This new pattern is also automatically added to the pattern sequence table:

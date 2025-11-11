@@ -103,7 +103,7 @@ if (interactive()) {
   pt2_command(mod_command$patterns[[1]][2:64,1]) <- "301"
   play(mod_command)
   
-  mod_command$patterns[[1]] <- pt2_new_pattern() # reset pattern
+  mod_command$patterns[[1]] <- pt2_pattern() # reset pattern
   mod_command$patterns[[1]][1,1] <- "C-3 03 000"
   ## Vibrato:
   pt2_command(mod_command$patterns[[1]][,1]) <- "464"
@@ -139,7 +139,7 @@ when you apply a volume slide in combination with setting the instrument number.
 The volume is reset each row of the pattern:
 
 ```{r effect-instrument}
-mod$patterns[[1]] <- pt2_new_pattern()
+mod$patterns[[1]] <- pt2_pattern()
 mod$patterns[[1]][1,1] <- "C-3 03 000"
 ## Slide the volume down in the entire track:
 pt2_command(mod$patterns[[1]][,1]) <- "A08"
