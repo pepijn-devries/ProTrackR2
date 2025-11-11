@@ -80,7 +80,7 @@ If you are coming to ProTrackR2 from ProTrackR, here is an overview of equivalen
 | `ProTrackR::PTPattern()` | `pt2_pattern()`               | A pattern table                           |
 | `ProTrackR::PTSample()`  | `pt2_sample()`                | An audio sample                           |
 
-These different class styles also have consequences for you workflow. Below are some
+These different class styles also have consequences for your workflow. Below are some
 examples of how to achieve similar operations using the different packages.
 
 ```{r diffs, message=FALSE}
