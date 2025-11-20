@@ -53,4 +53,8 @@ mod <- pt2_read_mod(pt2_demo())
 
 pt2_duration(mod)
 #> Time difference of 69.12204 secs
+pt2_duration(mod, pt2_render_options(timing_mode = "cia"))
+#> Time difference of 69.12204 secs
+pt2_duration(mod, pt2_render_options(timing_mode = "vblank"))
+#> Time difference of 69.23006 secs
 ```

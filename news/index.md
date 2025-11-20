@@ -1,6 +1,6 @@
 # Changelog
 
-## ProTrackR2 v0.1.0.0001
+## ProTrackR2 v0.1.1
 
 - Deprecated
   [`pt2_new_pattern()`](https://pepijn-devries.github.io/ProTrackR2/reference/pt2_new_pattern.md)
