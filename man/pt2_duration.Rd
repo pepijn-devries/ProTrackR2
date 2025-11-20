@@ -31,6 +31,8 @@ module is calculated by this function.
 mod <- pt2_read_mod(pt2_demo())
 
 pt2_duration(mod)
+pt2_duration(mod, pt2_render_options(timing_mode = "cia"))
+pt2_duration(mod, pt2_render_options(timing_mode = "vblank"))
 }
 \author{
 Pepijn de Vries

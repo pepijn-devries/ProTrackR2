@@ -160,6 +160,8 @@ pt2_render_options <- function(...) {
 #' mod <- pt2_read_mod(pt2_demo())
 #' 
 #' pt2_duration(mod)
+#' pt2_duration(mod, pt2_render_options(timing_mode = "cia"))
+#' pt2_duration(mod, pt2_render_options(timing_mode = "vblank"))
 #' @export
 pt2_duration <- function(x, options = pt2_render_options(), position = 0L, ...) {
   dur <- mod_duration(x, options, as.integer(position)) |>
